@@ -17,7 +17,6 @@ const collections: CollectionSlug[] = [
   'posts',
   'forms',
   'form-submissions',
-  'search',
 ]
 const globals: GlobalSlug[] = ['header', 'footer']
 
@@ -56,9 +55,21 @@ export const seed = async ({
     ),
   )
 
-  await Promise.all(
-    collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
-  )
+  for (const collection of collections) {
+    try {
+      await payload.delete({
+        collection,
+        where: {},
+        req,
+        depth: 0,
+        context: {
+          disableRevalidate: true,
+        },
+      })
+    } catch (error) {
+      payload.logger.error(`Error deleting collection ${collection}: ${error}`)
+    }
+  }
 
   await Promise.all(
     collections
@@ -135,7 +146,7 @@ export const seed = async ({
             url: '/technology',
           },
         ],
-      },
+      } as any,
     }),
 
     payload.create({
@@ -148,7 +159,7 @@ export const seed = async ({
             url: '/news',
           },
         ],
-      },
+      } as any,
     }),
 
     payload.create({
@@ -161,7 +172,7 @@ export const seed = async ({
             url: '/finance',
           },
         ],
-      },
+      } as any,
     }),
     payload.create({
       collection: 'categories',
@@ -173,7 +184,7 @@ export const seed = async ({
             url: '/design',
           },
         ],
-      },
+      } as any,
     }),
 
     payload.create({
@@ -186,7 +197,7 @@ export const seed = async ({
             url: '/software',
           },
         ],
-      },
+      } as any,
     }),
 
     payload.create({
@@ -199,7 +210,7 @@ export const seed = async ({
             url: '/engineering',
           },
         ],
-      },
+      } as any,
     }),
   ])
 
