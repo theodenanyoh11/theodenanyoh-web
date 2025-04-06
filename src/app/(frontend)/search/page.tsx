@@ -1,4 +1,5 @@
 import type { Metadata } from 'next/types'
+import type { CollectionSlug } from 'payload'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
@@ -18,7 +19,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
-    collection: 'search',
+    collection: 'search' as CollectionSlug,
     depth: 1,
     limit: 12,
     select: {

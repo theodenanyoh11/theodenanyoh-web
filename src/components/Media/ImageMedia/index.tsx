@@ -42,9 +42,16 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    const cacheTag = resource.updatedAt
+    // const cacheTag = resource.updatedAt // Cache tag might not be needed/useful for S3 URLs
 
-    src = `${getClientSideURL()}${url}?${cacheTag}`
+    // Use the URL directly if it's an absolute URL (like S3)
+    if (url?.startsWith('http')) {
+      src = url
+    } else {
+      // Otherwise, construct the URL relative to the server
+      // This handles cases where the resource might be locally stored or needs prefixing
+      src = `${getClientSideURL()}${url}`
+    }
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)

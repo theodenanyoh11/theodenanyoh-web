@@ -4,6 +4,8 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { lexicalEditor, FixedToolbarFeature, HeadingFeature } from '@payloadcms/richtext-lexical'
+import { redirectsPlugin } from '@payloadcms/plugin-redirects'
+import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -19,6 +21,7 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { plugins } from '@/plugins/index'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -102,6 +105,30 @@ export default buildConfig({
         },
       },
     }),
+    redirectsPlugin({
+      collections: ['pages', 'posts'],
+      overrides: {
+        fields: ({ defaultFields }) => {
+          return defaultFields.map((field) => {
+            if ('name' in field && field.name === 'from' && field.type === 'text') {
+              return {
+                name: 'from',
+                type: 'text',
+                admin: {
+                  ...(field.admin || {}),
+                  description: 'You will need to rebuild the website when changing this field.',
+                },
+              }
+            }
+            return field
+          })
+        },
+        hooks: {
+          afterChange: [revalidateRedirects],
+        },
+      },
+    }),
+    ...plugins,
     s3Storage({
       collections: {
         media: {

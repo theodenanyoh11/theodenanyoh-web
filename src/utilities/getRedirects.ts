@@ -1,12 +1,13 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
+import type { CollectionSlug } from 'payload'
 
 export async function getRedirects(depth = 1) {
   const payload = await getPayload({ config: configPromise })
 
   const { docs: redirects } = await payload.find({
-    collection: 'redirects',
+    collection: 'redirects' as CollectionSlug,
     depth,
     limit: 0,
     pagination: false,
