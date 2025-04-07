@@ -15,7 +15,6 @@ interface HeaderClientProps {
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ headerData, siteSettingsData }) => {
-  console.log('HeaderClient: Received siteSettingsData:', siteSettingsData)
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -33,7 +32,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ headerData, siteSett
 
   // Extract the single logo (ensure it's the correct type)
   const logoResource = siteSettingsData?.logo as Media | null | undefined
-  console.log('HeaderClient: Extracted logoResource:', logoResource)
 
   return (
     <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>

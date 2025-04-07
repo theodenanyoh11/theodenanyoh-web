@@ -13,8 +13,6 @@ interface Props {
 export const Logo = (props: Props) => {
   const { loading: loadingFromProps, priority: priorityFromProps, className, logoResource } = props
 
-  console.log('Logo Component: Received logoResource:', logoResource)
-
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
 
