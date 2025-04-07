@@ -41,18 +41,24 @@ export const seed = async ({
 
   // clear the database
   await Promise.all(
-    globals.map((global) =>
-      payload.updateGlobal({
+    globals.map((global) => {
+      // Determine the data to reset based on the global slug
+      let resetData: Record<string, any> = {}
+      if (global === 'header' || global === 'footer') {
+        resetData = { navItems: [] }
+      }
+      // For other globals (like site-settings), reset with an empty object
+      // or define specific reset logic if needed.
+
+      return payload.updateGlobal({
         slug: global,
-        data: {
-          navItems: [],
-        },
+        data: resetData, // Use the determined reset data
         depth: 0,
         context: {
           disableRevalidate: true,
         },
-      }),
-    ),
+      })
+    }),
   )
 
   for (const collection of collections) {
