@@ -11,12 +11,12 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
   return (
     <div
       className={clsx(
-        'container grid grid-cols-1 gap-8 py-12',
+        'container grid grid-cols-1 gap-8 pt-6 pb-12',
         hasMedia && 'md:grid-cols-2 md:items-center',
       )}
     >
       {hasMedia && (
-        <div className="order-1">
+        <div className="order-2 md:order-1">
           <Media
             resource={media}
             priority
@@ -34,7 +34,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
       <div
         className={clsx(
           'flex flex-col justify-center',
-          hasMedia ? 'order-2 md:order-none' : 'order-1 col-span-full',
+          hasMedia ? 'order-1 md:order-none' : 'order-1 col-span-full',
         )}
       >
         {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
