@@ -26,9 +26,10 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           {Array.isArray(links) && links.length > 0 && (
             <ul className="flex md:justify-center gap-4">
               {links.map(({ link }, i) => {
+                const appearance = link.appearance || 'default'
                 return (
                   <li key={i}>
-                    <CMSLink {...link} />
+                    <CMSLink {...link} appearance={appearance} />
                   </li>
                 )
               })}

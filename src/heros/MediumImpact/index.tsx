@@ -42,9 +42,10 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
         {Array.isArray(links) && links.length > 0 && (
           <ul className="flex flex-wrap gap-4">
             {links.map(({ link }, i) => {
+              const appearance = link.appearance || 'default'
               return (
                 <li key={i}>
-                  <CMSLink {...link} />
+                  <CMSLink {...link} appearance={appearance} />
                 </li>
               )
             })}
