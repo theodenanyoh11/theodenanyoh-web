@@ -12,13 +12,15 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
-import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
-import { Users } from './collections/Users'
 import { Projects } from './collections/Projects/config'
 import { Technologies } from './collections/Technologies/config'
+import { Media } from './collections/Media'
+import { Categories } from './collections/Categories'
+import { Users } from './collections/Users'
+import { Skills } from './collections/Skills/config'
+import { Products } from './collections/Products/config'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { SiteSettings } from './globals/SiteSettings'
@@ -78,7 +80,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Projects, Technologies],
+  collections: [Pages, Posts, Media, Categories, Users, Projects, Technologies, Skills, Products],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, SiteSettings],
   plugins: [

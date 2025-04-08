@@ -1,13 +1,16 @@
 import React, { Fragment } from 'react'
 
-import type { Page } from '@/payload-types'
+import type { Page, FormBlock as FormBlockType } from '@/payload-types'
 
-import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
-import { ContentBlock } from '@/blocks/Content/Component'
-import { FormBlock } from '@/blocks/Form/Component'
-import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { FeaturedProjectsBlock } from '@/blocks/FeaturedProjects/Component'
+import { ArchiveBlock } from './ArchiveBlock/Component'
+import { CallToActionBlock } from './CallToAction/Component'
+import { ContentBlock } from './Content/Component'
+import { MediaBlock } from './MediaBlock/Component'
+import { FeaturedProjectsBlock } from './FeaturedProjects/Component'
+import { FormBlock } from './Form/Component'
+import { SkillBlockComponent } from './SkillBlock/Component'
+import { ProductBlockComponent } from './ProductBlock/Component'
+import { FeaturedPostsBlockComponent } from './FeaturedPostsBlock/Component'
 
 const blockComponents: {
   [key: string]: React.FC<any>
@@ -18,6 +21,9 @@ const blockComponents: {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   featuredProjects: FeaturedProjectsBlock,
+  skillBlock: SkillBlockComponent,
+  productBlock: ProductBlockComponent,
+  featuredPostsBlock: FeaturedPostsBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
@@ -37,13 +43,37 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
+              // Special handling for formBlock
+              if (blockType === 'formBlock') {
+                const { form, enableIntro, introContent } = block as FormBlockType
+                const formId = typeof form === 'object' ? form?.id : form
+                if (formId) {
+                  return (
+                    <div className="my-16" key={index}>
+                      <Block
+                        blockType={blockType}
+                        formId={formId}
+                        enableIntro={enableIntro}
+                        introContent={introContent}
+                        disableInnerContainer
+                      />
+                    </div>
+                  )
+                } else {
+                  console.warn('[RenderBlocks] FormBlock is missing a valid form ID.')
+                  return null
+                }
+              }
+
+              // Default rendering for other blocks
               return (
                 <div className="my-16" key={index}>
-                  <Block {...block} disableInnerContainer />
+                  <Block block={block} disableInnerContainer />
                 </div>
               )
             }
           }
+          // console.warn(`[RenderBlocks] No component found for blockType: ${blockType}`) // Keep commented out or remove
           return null
         })}
       </Fragment>

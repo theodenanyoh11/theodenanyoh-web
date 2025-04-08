@@ -25,7 +25,6 @@ interface SearchParams {
 
 // Define Props type reflecting Next.js 15 async page behavior
 type Props = {
-  params: Promise<{}>
   searchParams?: Promise<SearchParams>
 }
 

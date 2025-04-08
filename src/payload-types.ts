@@ -74,6 +74,8 @@ export interface Config {
     users: User;
     projects: Project;
     technologies: Technology;
+    skills: Skill;
+    products: Product;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -92,6 +94,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     technologies: TechnologiesSelect<false> | TechnologiesSelect<true>;
+    skills: SkillsSelect<false> | SkillsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -197,7 +201,17 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | FeaturedProjectsBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | FeaturedProjectsBlock
+    | SkillBlock
+    | ProductBlock
+    | FeaturedPostsBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -211,7 +225,6 @@ export interface Page {
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -248,6 +261,7 @@ export interface Post {
   };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
+  featured?: boolean | null;
   populatedAuthors?:
     | {
         id?: string | null;
@@ -431,7 +445,7 @@ export interface CallToActionBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'link') | null;
         };
         id?: string | null;
       }[]
@@ -747,6 +761,82 @@ export interface FeaturedProjectsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SkillBlock".
+ */
+export interface SkillBlock {
+  title?: string | null;
+  /**
+   * Select the skills you want to feature in the carousel.
+   */
+  skills: (number | Skill)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'skillBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skills".
+ */
+export interface Skill {
+  id: number;
+  title: string;
+  /**
+   * Select an icon to represent the skill.
+   */
+  icon: 'code' | 'design' | 'product' | 'marketing' | 'analytics' | 'leadership' | 'strategy' | 'fund-raising';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductBlock".
+ */
+export interface ProductBlock {
+  title?: string | null;
+  /**
+   * Select the products you want to feature.
+   */
+  products: (number | Product)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  name: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  /**
+   * Optional. Enter price in USD. Leave blank if not applicable.
+   */
+  price?: number | null;
+  comingSoon?: boolean | null;
+  image: number | Media;
+  summary?: string | null;
+  /**
+   * Optional link to purchase the product elsewhere.
+   */
+  externalUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPostsBlock".
+ */
+export interface FeaturedPostsBlock {
+  title?: string | null;
+  limit: number;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredPostsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
  */
 export interface Project {
@@ -1002,6 +1092,14 @@ export interface PayloadLockedDocument {
         value: number | Technology;
       } | null)
     | ({
+        relationTo: 'skills';
+        value: number | Skill;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -1100,6 +1198,9 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         featuredProjects?: T | FeaturedProjectsBlockSelect<T>;
+        skillBlock?: T | SkillBlockSelect<T>;
+        productBlock?: T | ProductBlockSelect<T>;
+        featuredPostsBlock?: T | FeaturedPostsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1113,7 +1214,6 @@ export interface PagesSelect<T extends boolean = true> {
   slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1211,6 +1311,36 @@ export interface FeaturedProjectsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SkillBlock_select".
+ */
+export interface SkillBlockSelect<T extends boolean = true> {
+  title?: T;
+  skills?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductBlock_select".
+ */
+export interface ProductBlockSelect<T extends boolean = true> {
+  title?: T;
+  products?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPostsBlock_select".
+ */
+export interface FeaturedPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  limit?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1228,6 +1358,7 @@ export interface PostsSelect<T extends boolean = true> {
       };
   publishedAt?: T;
   authors?: T;
+  featured?: T;
   populatedAuthors?:
     | T
     | {
@@ -1409,6 +1540,32 @@ export interface TechnologiesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skills_select".
+ */
+export interface SkillsSelect<T extends boolean = true> {
+  title?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  slugLock?: T;
+  price?: T;
+  comingSoon?: T;
+  image?: T;
+  summary?: T;
+  externalUrl?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1803,15 +1960,10 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
+    doc?: {
+      relationTo: 'posts';
+      value: number | Post;
+    } | null;
     global?: string | null;
     user?: (number | null) | User;
   };

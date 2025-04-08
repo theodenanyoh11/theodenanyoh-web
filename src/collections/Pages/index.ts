@@ -1,13 +1,16 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { anyone } from '../../access/anyone'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { FeaturedProjects } from '../../blocks/FeaturedProjects/config'
+import { SkillBlock } from '../../blocks/SkillBlock/config'
+import { ProductBlock } from '../../blocks/ProductBlock/config'
+import { FeaturedPostsBlock } from '../../blocks/FeaturedPostsBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -27,7 +30,7 @@ export const Pages: CollectionConfig<'pages'> = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: anyone,
     update: authenticated,
   },
   // This config controls what's populated by default when a page is referenced
@@ -76,7 +79,17 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, FeaturedProjects],
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                FeaturedProjects,
+                SkillBlock,
+                ProductBlock,
+                FeaturedPostsBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
@@ -128,6 +141,7 @@ export const Pages: CollectionConfig<'pages'> = {
     beforeChange: [populatePublishedAt],
     afterDelete: [revalidateDelete],
   },
+  /* Disabling versions temporarily
   versions: {
     drafts: {
       autosave: {
@@ -137,4 +151,5 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     maxPerDoc: 50,
   },
+  */
 }
