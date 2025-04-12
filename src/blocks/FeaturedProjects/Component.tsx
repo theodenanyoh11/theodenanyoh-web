@@ -2,7 +2,6 @@ import React from 'react'
 import { Page, Project } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import RichText from '@/components/RichText'
 
 // Import the client component
 import { FeaturedProjectsClient } from './Component.client'
