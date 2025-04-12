@@ -16,7 +16,7 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
     return null
   }
 
-  const { title: blockTitle, limit } = block
+  const { title: blockTitle } = block
   const payload = await getPayload({ config: configPromise })
 
   let featuredPosts: Post[] = []
@@ -34,7 +34,6 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
         // },
       },
       depth: 1, // Depth 1 for category, meta image etc. needed by Card
-      limit: limit || 3,
       sort: '-publishedAt', // Show most recent featured posts
       pagination: false,
     })

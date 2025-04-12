@@ -9,17 +9,5 @@ export const FeaturedPostsBlock: Block = {
       label: 'Optional Title',
       type: 'text',
     },
-    {
-      name: 'limit',
-      label: 'Number of Posts to Show',
-      type: 'number',
-      defaultValue: 3,
-      required: true,
-      min: 1,
-      max: 9, // Set a reasonable max limit
-      admin: {
-        step: 1,
-      },
-    },
   ],
 }

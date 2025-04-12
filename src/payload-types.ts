@@ -754,7 +754,6 @@ export interface Form {
  */
 export interface FeaturedProjectsBlock {
   title?: string | null;
-  limit?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'featuredProjects';
@@ -1305,7 +1304,6 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface FeaturedProjectsBlockSelect<T extends boolean = true> {
   title?: T;
-  limit?: T;
   id?: T;
   blockName?: T;
 }

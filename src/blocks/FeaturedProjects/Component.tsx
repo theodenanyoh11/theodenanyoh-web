@@ -14,7 +14,7 @@ export type FeaturedProjectsBlockProps = Extract<
 
 // This is the Server Component
 export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps> = async (props) => {
-  const { title, limit = 3 } = props
+  const { title } = props
 
   let projects: Project[] = []
 
@@ -33,7 +33,6 @@ export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps> = async
         // },
       },
       sort: '-startDate',
-      limit: limit ?? undefined,
     })
     projects = fetchedProjects.docs
   } catch (err) {
