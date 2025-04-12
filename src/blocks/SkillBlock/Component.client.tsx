@@ -70,7 +70,7 @@ export const SkillCarouselClient: React.FC<Props> = ({ skills = [] }) => {
             <CarouselItem key={skill.id} className="basis-1/4 md:basis-1/5 lg:basis-1/6">
               {' '}
               {/* Adjust basis for responsiveness */}
-              <div className="flex rounded-md aspect-square bg-muted items-center justify-center p-4 md:p-6">
+              <div className="flex rounded-md h-36 bg-muted items-center justify-center p-4 md:p-6">
                 {' '}
                 {/* Adjust padding */}
                 <div className="flex flex-col items-center gap-2">
