@@ -13,6 +13,11 @@ export const FeaturedProjects: Block = {
       label: 'Optional Title',
       type: 'text',
     },
+    {
+      name: 'richText',
+      label: 'Optional Rich Text Below Title',
+      type: 'richText',
+    },
     // Remove the limit field definition
     // Maybe add options later for sorting or filtering featured
   ],

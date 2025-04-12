@@ -9,5 +9,10 @@ export const FeaturedPostsBlock: Block = {
       label: 'Optional Title',
       type: 'text',
     },
+    {
+      name: 'richText',
+      label: 'Optional Rich Text Below Title',
+      type: 'richText',
+    },
   ],
 }

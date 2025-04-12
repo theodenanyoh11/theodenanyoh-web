@@ -3,6 +3,7 @@ import { type SkillBlock, type Skill } from '@/payload-types'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { SkillCarouselClient } from './Component.client'
+import RichText from '@/components/RichText'
 
 type Props = {
   block: SkillBlock | undefined | null
@@ -14,7 +15,7 @@ export const SkillBlockComponent: React.FC<Props> = async ({ block }) => {
     return null
   }
 
-  const { title: blockTitle, skills: skillRelation } = block
+  const { title: blockTitle, richText, skills: skillRelation } = block
   const payload = await getPayload({ config: configPromise })
 
   let fetchedSkills: Skill[] = []
@@ -54,9 +55,10 @@ export const SkillBlockComponent: React.FC<Props> = async ({ block }) => {
   return (
     <section className="py-12 md:py-16">
       <div className="container mx-auto">
-        {blockTitle && (
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">{blockTitle}</h2>
-        )}
+        <div className="mb-8 md:mb-12 text-left">
+          {blockTitle && <h2 className="text-3xl font-bold mb-4">{blockTitle}</h2>}
+          {richText && <RichText data={richText} enableGutter={false} />}
+        </div>
         <SkillCarouselClient skills={validSkills} />
       </div>
     </section>

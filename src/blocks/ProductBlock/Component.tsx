@@ -1,11 +1,12 @@
 import React from 'react'
-import { type ProductBlock, type Product } from '@/payload-types'
+import { ProductBlock as ProductBlockType, Product } from '@/payload-types'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { ProductCard } from '@/components/ProductCard' // Assuming ProductCard exists/will exist
+import { ProductCard } from '@/components/ProductCard'
+import RichText from '@/components/RichText'
 
 type Props = {
-  block: ProductBlock | undefined | null
+  block: ProductBlockType | undefined | null
 }
 
 export const ProductBlockComponent: React.FC<Props> = async ({ block }) => {
@@ -14,7 +15,7 @@ export const ProductBlockComponent: React.FC<Props> = async ({ block }) => {
     return null
   }
 
-  const { title: blockTitle, products: productRelation } = block
+  const { title: blockTitle, richText, products: productRelation } = block
   const payload = await getPayload({ config: configPromise })
 
   let fetchedProducts: Product[] = []
@@ -49,9 +50,10 @@ export const ProductBlockComponent: React.FC<Props> = async ({ block }) => {
   return (
     <section className="py-12 md:py-16">
       <div className="container mx-auto">
-        {blockTitle && (
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">{blockTitle}</h2>
-        )}
+        <div className="mb-8 md:mb-12 text-left">
+          {blockTitle && <h2 className="text-3xl font-bold mb-4">{blockTitle}</h2>}
+          {richText && <RichText data={richText} enableGutter={false} />}
+        </div>
         {hasProducts ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {fetchedProducts.map((product) => (

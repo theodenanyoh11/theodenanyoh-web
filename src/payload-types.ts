@@ -754,6 +754,21 @@ export interface Form {
  */
 export interface FeaturedProjectsBlock {
   title?: string | null;
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'featuredProjects';
@@ -764,6 +779,21 @@ export interface FeaturedProjectsBlock {
  */
 export interface SkillBlock {
   title?: string | null;
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Select the skills you want to feature in the carousel.
    */
@@ -792,6 +822,21 @@ export interface Skill {
  */
 export interface ProductBlock {
   title?: string | null;
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Select the products you want to feature.
    */
@@ -829,7 +874,21 @@ export interface Product {
  */
 export interface FeaturedPostsBlock {
   title?: string | null;
-  limit: number;
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'featuredPostsBlock';
@@ -1304,6 +1363,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface FeaturedProjectsBlockSelect<T extends boolean = true> {
   title?: T;
+  richText?: T;
   id?: T;
   blockName?: T;
 }
@@ -1313,6 +1373,7 @@ export interface FeaturedProjectsBlockSelect<T extends boolean = true> {
  */
 export interface SkillBlockSelect<T extends boolean = true> {
   title?: T;
+  richText?: T;
   skills?: T;
   id?: T;
   blockName?: T;
@@ -1323,6 +1384,7 @@ export interface SkillBlockSelect<T extends boolean = true> {
  */
 export interface ProductBlockSelect<T extends boolean = true> {
   title?: T;
+  richText?: T;
   products?: T;
   id?: T;
   blockName?: T;
@@ -1333,7 +1395,7 @@ export interface ProductBlockSelect<T extends boolean = true> {
  */
 export interface FeaturedPostsBlockSelect<T extends boolean = true> {
   title?: T;
-  limit?: T;
+  richText?: T;
   id?: T;
   blockName?: T;
 }

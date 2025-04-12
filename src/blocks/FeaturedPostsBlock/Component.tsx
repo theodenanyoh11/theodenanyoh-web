@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/Card' // Assuming Card can render Posts
+import RichText from '@/components/RichText' // Import RichText
 
 type Props = {
   block: FeaturedPostsBlockType | undefined | null
@@ -16,7 +17,7 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
     return null
   }
 
-  const { title: blockTitle } = block
+  const { title: blockTitle, richText } = block
   const payload = await getPayload({ config: configPromise })
 
   let featuredPosts: Post[] = []
@@ -47,9 +48,10 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
   return (
     <section className="py-12 md:py-16">
       <div className="container mx-auto">
-        {blockTitle && (
-          <h2 className="text-3xl font-bold text-center mb-8 md:mb-12">{blockTitle}</h2>
-        )}
+        <div className="mb-8 md:mb-12 text-left">
+          {blockTitle && <h2 className="text-3xl font-bold mb-4">{blockTitle}</h2>}
+          {richText && <RichText data={richText} enableGutter={false} />}
+        </div>
         {hasPosts ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-12">
             {featuredPosts.map((post) => (

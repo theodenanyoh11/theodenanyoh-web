@@ -2,6 +2,7 @@ import React from 'react'
 import { Page, Project } from '@/payload-types'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import RichText from '@/components/RichText'
 
 // Import the client component
 import { FeaturedProjectsClient } from './Component.client'
@@ -13,8 +14,11 @@ export type FeaturedProjectsBlockProps = Extract<
 >
 
 // This is the Server Component
-export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps> = async (props) => {
-  const { title } = props
+// Adjust props to expect a single 'block' prop
+export const FeaturedProjectsBlock: React.FC<{ block: FeaturedProjectsBlockProps }> = async ({
+  block,
+}) => {
+  const { title, richText } = block // Destructure title and richText from the block prop
 
   let projects: Project[] = []
 
@@ -41,6 +45,6 @@ export const FeaturedProjectsBlock: React.FC<FeaturedProjectsBlockProps> = async
     // return null;
   }
 
-  // Render the Client Component, passing the fetched data
-  return <FeaturedProjectsClient title={title} projects={projects} />
+  // Render the Client Component, passing the fetched data and richText
+  return <FeaturedProjectsClient title={title} richText={richText} projects={projects} />
 }

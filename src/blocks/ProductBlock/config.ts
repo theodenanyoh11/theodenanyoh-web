@@ -10,6 +10,11 @@ export const ProductBlock: Block = {
       type: 'text',
     },
     {
+      name: 'richText',
+      label: 'Optional Rich Text Below Title',
+      type: 'richText',
+    },
+    {
       name: 'products',
       label: 'Products to Display',
       type: 'relationship',

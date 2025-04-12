@@ -1,17 +1,19 @@
 'use client'
 
 import React from 'react'
-import { Project, Technology } from '@/payload-types'
+import { Project, Technology, FeaturedProjectsBlock } from '@/payload-types'
 import { Badge } from '@/components/ui/badge'
 import { Media } from '@/components/Media'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { ExternalLinkIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
+import RichText from '@/components/RichText'
 
 // Define the props expected by the Client Component
 interface FeaturedProjectsClientProps {
   title?: string | null
+  richText?: FeaturedProjectsBlock['richText']
   projects: Project[] // Expect projects to be passed in
 }
 
@@ -68,6 +70,7 @@ const cardVariants = {
 // This is the Client Component
 export const FeaturedProjectsClient: React.FC<FeaturedProjectsClientProps> = ({
   title,
+  richText,
   projects,
 }) => {
   const hasProjects = projects && projects.length > 0
@@ -75,8 +78,9 @@ export const FeaturedProjectsClient: React.FC<FeaturedProjectsClientProps> = ({
   return (
     <div className="py-8 md:py-16">
       <div className="container mx-auto">
-        <div className="mb-8 md:mb-12">
+        <div className="mb-8 md:mb-12 text-left">
           {title && <h2 className="text-3xl font-bold mb-4">{title}</h2>}
+          {richText && <RichText data={richText} enableGutter={false} />}
         </div>
 
         {hasProjects ? (
