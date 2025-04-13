@@ -54,10 +54,29 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
         </div>
         {hasPosts ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-12">
-            {featuredPosts.map((post) => (
-              // Assuming Card component can handle Post type
-              <Card key={post.id} doc={post} relationTo="posts" showCategories />
-            ))}
+            {featuredPosts.map((post) => {
+              const { slug, title, categories, meta } = post
+              const description = meta?.description
+              // Use type assertion to access potentially populated image
+              const image = (meta as any)?.image
+
+              // Ensure image is the correct type or null
+              const imageResource = typeof image === 'object' && image !== null ? image : null
+
+              const postHref = `/posts/${slug}`
+
+              return (
+                <Card
+                  key={post.id}
+                  title={title}
+                  description={description}
+                  image={imageResource}
+                  categories={categories}
+                  href={postHref}
+                  showCategories
+                />
+              )
+            })}
           </div>
         ) : (
           <p className="text-center text-muted-foreground mb-12">

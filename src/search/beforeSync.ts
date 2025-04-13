@@ -13,7 +13,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ originalDoc, searchDoc 
     meta: {
       ...meta,
       title: meta?.title || title,
-      image: meta?.image?.id || meta?.image,
+      image: typeof meta?.image === 'object' ? meta?.image?.id : meta?.image,
       description: meta?.description,
     },
     categories: [],

@@ -3,27 +3,29 @@ import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
-import type { Post } from '@/payload-types'
+import type { Media as MediaType, Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
-
-export const Card: React.FC<{
+interface CardProps {
   className?: string
-  doc?: CardPostData
-  relationTo?: 'posts'
+  title?: string | null
+  description?: string | null
+  image?: MediaType | null
+  categories?: Post['categories'] | null
+  href?: string | null
   showCategories?: boolean
-}> = (props) => {
-  const { className, doc, relationTo, showCategories } = props
+}
 
-  const { slug, categories, meta, title } = doc || {}
-  const { description, image: metaImage } = meta || {}
+export const Card: React.FC<CardProps> = (props) => {
+  const { className, title, description, image, categories, href, showCategories } = props
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = title
   const sanitizedDescription = description?.replace(/\s/g, ' ')
-  const href = `/${relationTo}/${slug}`
+  const metaImage = image
+
+  const defaultHref = '#'
 
   return (
     <article
@@ -33,7 +35,7 @@ export const Card: React.FC<{
       )}
     >
       <Link
-        href={href}
+        href={href || defaultHref}
         className="block flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-t-lg"
       >
         <div className="relative w-full h-48 overflow-hidden">
@@ -42,7 +44,7 @@ export const Card: React.FC<{
               No image available
             </div>
           )}
-          {metaImage && typeof metaImage !== 'string' && (
+          {metaImage && (
             <Media
               resource={metaImage}
               imgClassName="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -72,7 +74,7 @@ export const Card: React.FC<{
         {titleToUse && (
           <h3 className="text-lg font-semibold mb-1 order-2 leading-tight">
             <Link
-              href={href}
+              href={href || defaultHref}
               className="hover:underline focus:outline-none focus:ring-1 focus:ring-ring rounded"
             >
               {titleToUse}

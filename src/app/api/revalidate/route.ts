@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache'
+import { revalidateTag, revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
 // Exporting config segments for Next.js
@@ -55,39 +55,48 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // 3. Determine the tag to revalidate based on the collection
     let tagToRevalidate: string | null = null
-    if (collection === 'posts') {
+    let shouldRevalidateSitemap = false // Flag to revalidate sitemap
+
+    if (collection === 'pages') {
+      tagToRevalidate = 'pages'
+      shouldRevalidateSitemap = true
+    } else if (collection === 'posts') {
       tagToRevalidate = 'posts'
+      shouldRevalidateSitemap = true
     } else if (collection === 'projects') {
       tagToRevalidate = 'projects'
+      shouldRevalidateSitemap = true
+    } else if (collection === 'products') {
+      // Add products case
+      tagToRevalidate = 'products' // Assign a tag if needed elsewhere
+      shouldRevalidateSitemap = true
     }
     // Add more 'else if' for other collections as needed
 
-    if (!tagToRevalidate) {
+    let revalidatedTag = false
+    if (tagToRevalidate) {
+      console.log(
+        `Revalidating tag: ${tagToRevalidate} due to ${operation} on ${collection} id: ${doc.id}`,
+      )
+      revalidateTag(tagToRevalidate)
+      revalidatedTag = true
+    } else {
       console.log(
         `No specific tag configured for collection: ${collection}. Skipping tag revalidation.`,
       )
-      // Optionally revalidate a generic 'all' tag or specific paths if needed
-      // revalidatePath('/') // Example: revalidate homepage on any change
-      return NextResponse.json({ revalidated: false, message: 'No relevant tag found' })
     }
 
-    // 4. Perform revalidation
-    console.log(
-      `Revalidating tag: ${tagToRevalidate} due to ${operation} on ${collection} id: ${doc.id}`,
-    )
-    revalidateTag(tagToRevalidate)
+    // 5. Revalidate sitemap path if needed
+    let revalidatedSitemap = false
+    if (shouldRevalidateSitemap) {
+      console.log(
+        `Revalidating path: /sitemap.xml due to ${operation} on ${collection} id: ${doc.id}`,
+      )
+      revalidatePath('/sitemap.xml')
+      revalidatedSitemap = true
+    }
 
-    // Revalidate related paths explicitly if needed (e.g., list pages)
-    // if (tagToRevalidate === 'posts') {
-    //   revalidatePath('/posts')
-    //   revalidatePath(`/posts/${doc.slug}`) // Assuming slug exists
-    // }
-    // if (tagToRevalidate === 'projects') {
-    //   revalidatePath('/projects')
-    //   revalidatePath(`/projects/${doc.slug}`) // Assuming slug exists
-    // }
-
-    return NextResponse.json({ revalidated: true, now: Date.now() })
+    return NextResponse.json({ revalidatedTag, revalidatedSitemap, now: Date.now() })
   } catch (error: any) {
     console.error('Error processing revalidation webhook:', error)
     return NextResponse.json(

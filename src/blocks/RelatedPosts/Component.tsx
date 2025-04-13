@@ -1,15 +1,15 @@
-import clsx from 'clsx'
 import React from 'react'
+import clsx from 'clsx'
 import RichText from '@/components/RichText'
 
 import type { Post } from '@/payload-types'
 
-import { Card } from '../../components/Card'
+import { Card } from '@/components/Card'
 import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 export type RelatedPostsProps = {
   className?: string
-  docs?: Post[]
+  docs?: (string | Post)[]
   introContent?: SerializedEditorState
 }
 
@@ -24,7 +24,25 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
         {docs?.map((doc, index) => {
           if (typeof doc === 'string') return null
 
-          return <Card key={index} doc={doc} relationTo="posts" showCategories />
+          // Extract props for Card
+          const { slug, title, categories, meta } = doc
+          const description = meta?.description
+          // Use type assertion for image access, mirroring other components
+          const image = (meta as any)?.image
+          const imageResource = typeof image === 'object' && image !== null ? image : null
+          const postHref = `/posts/${slug}`
+
+          return (
+            <Card
+              key={index}
+              title={title}
+              description={description}
+              image={imageResource}
+              categories={categories}
+              href={postHref}
+              showCategories
+            />
+          )
         })}
       </div>
     </div>
