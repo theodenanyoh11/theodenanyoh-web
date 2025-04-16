@@ -43,8 +43,6 @@ export const Posts: CollectionConfig<'posts'> = {
     slug: true,
     categories: true,
     meta: {
-      // @ts-expect-error - Known type conflict with search plugin default fields
-      image: true,
       description: true,
     },
   },
