@@ -57,11 +57,11 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
             {featuredPosts.map((post) => {
               const { slug, title, categories, meta } = post
               const description = meta?.description
-              // Use type assertion to access potentially populated image
-              const image = (meta as any)?.image
 
-              // Ensure image is the correct type or null
-              const imageResource = typeof image === 'object' && image !== null ? image : null
+              // Reverting to type assertion as type generation didn't add meta.image to Post type
+              const imageFromMeta = (meta as any)?.image
+              const imageResource =
+                imageFromMeta && typeof imageFromMeta === 'object' ? imageFromMeta : null
 
               const postHref = `/posts/${slug}`
 
