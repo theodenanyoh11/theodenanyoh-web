@@ -39,9 +39,15 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/media'),
-    adminThumbnail: 'thumbnail',
+    // When using s3Storage adapter, staticDir should be removed
+    // staticDir: path.resolve(dirname, '../../public/media'),
+    adminThumbnail: ({ doc }) => {
+      const sizes = doc?.sizes as any
+      if (sizes?.thumbnail?.url) {
+        return sizes.thumbnail.url
+      }
+      return null
+    },
     focalPoint: true,
     imageSizes: [
       {
