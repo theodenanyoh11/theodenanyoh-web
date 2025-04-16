@@ -40,7 +40,9 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL: generateSEOURL,
     collections: ['pages', 'posts', 'projects'],
+    uploadsCollection: 'media',
     tabbedUI: true,
+    fields: ({ defaultFields }) => defaultFields,
   }),
   searchPlugin({
     collections: ['posts'],

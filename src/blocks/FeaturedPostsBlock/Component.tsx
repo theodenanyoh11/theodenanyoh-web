@@ -55,13 +55,11 @@ export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) =>
         {hasPosts ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-12">
             {featuredPosts.map((post) => {
-              const { slug, title, categories, meta } = post
+              const { slug, title, categories, meta, heroImage } = post
               const description = meta?.description
 
-              // Reverting to type assertion as type generation didn't add meta.image to Post type
-              const imageFromMeta = (meta as any)?.image
-              const imageResource =
-                imageFromMeta && typeof imageFromMeta === 'object' ? imageFromMeta : null
+              // Use heroImage if it's a populated object, otherwise null
+              const imageResource = heroImage && typeof heroImage === 'object' ? heroImage : null
 
               const postHref = `/posts/${slug}`
 
