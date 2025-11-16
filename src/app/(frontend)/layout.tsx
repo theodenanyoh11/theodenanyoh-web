@@ -32,47 +32,48 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-      
-<script
-  src="https://unpkg.com/@franklinhelp/sdk-website@0.1.0-alpha.6/dist/index.global.js"
-  async
-></script>
-
-
-<script>
-  (function() {
-    function initFranklinWidget() {
-      // Check if the function is available
-      if (typeof window.FranklinWidgetInit === 'function') {
-        console.log('[Franklin] Initializing widget...');
-        window.FranklinWidgetInit({
-          siteKey: "FRK_SITE_mi24l0kwknoyYZQ4gC1PPoTfNZThq5p2",
-          assistantId: "m577jcfq4wf7awbp4jz39e4fwn7vgype",
-          apiBaseUrl: "https://app.franklinhelp.com",
-          position: "bottom-right"
-        });
-        return true;
-      }
-      return false;
-    }
-    
-    // Try immediately
-    if (!initFranklinWidget()) {
-      // If not ready, wait and retry
-      let attempts = 0;
-      const maxAttempts = 50; // 5 seconds max
-      const interval = setInterval(function() {
-        attempts++;
-        if (initFranklinWidget() || attempts >= maxAttempts) {
-          clearInterval(interval);
-          if (attempts >= maxAttempts) {
-            console.error('[Franklin] Widget failed to load after 5 seconds');
-          }
-        }
-      }, 100);
-    }
-  })();
-</script>
+        <script
+          src="https://unpkg.com/@franklinhelp/sdk-website@0.1.0-alpha.6/dist/index.global.js"
+          async
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function initFranklinWidget() {
+                  // Check if the function is available
+                  if (typeof window.FranklinWidgetInit === 'function') {
+                    console.log('[Franklin] Initializing widget...');
+                    window.FranklinWidgetInit({
+                      siteKey: "FRK_SITE_mi24l0kwknoyYZQ4gC1PPoTfNZThq5p2",
+                      assistantId: "m577jcfq4wf7awbp4jz39e4fwn7vgype",
+                      apiBaseUrl: "https://app.franklinhelp.com",
+                      position: "bottom-right"
+                    });
+                    return true;
+                  }
+                  return false;
+                }
+                
+                // Try immediately
+                if (!initFranklinWidget()) {
+                  // If not ready, wait and retry
+                  let attempts = 0;
+                  const maxAttempts = 50; // 5 seconds max
+                  const interval = setInterval(function() {
+                    attempts++;
+                    if (initFranklinWidget() || attempts >= maxAttempts) {
+                      clearInterval(interval);
+                      if (attempts >= maxAttempts) {
+                        console.error('[Franklin] Widget failed to load after 5 seconds');
+                      }
+                    }
+                  }, 100);
+                }
+              })();
+            `,
+          }}
+        />
         {headScript && <HeadScript script={headScript} />}
       </head>
       <body>
