@@ -1967,6 +1967,10 @@ export interface Footer {
 export interface SiteSetting {
   id: number;
   logo: number | Media;
+  /**
+   * Add a script tag (e.g., <script>...</script>) that will be included in the <head> of your site. This can be used for analytics, chat widgets, or other third-party scripts.
+   */
+  headScript?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2023,6 +2027,7 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
+  headScript?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
