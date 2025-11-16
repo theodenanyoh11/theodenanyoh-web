@@ -33,44 +33,43 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         <script
-          src="https://unpkg.com/@franklinhelp/sdk-website@0.1.0-alpha.6/dist/index.global.js"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.__FRANKLIN_WIDGET_MANUAL_INIT__ = true;
+            `,
+          }}
+        />
+        <script
+          src="https://unpkg.com/@franklinhelp/sdk-website@0.1.0-alpha.7/dist/index.global.js"
           async
         />
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
-                function initFranklinWidget() {
-                  // Check if the function is available
-                  if (typeof window.FranklinWidgetInit === 'function') {
-                    console.log('[Franklin] Initializing widget...');
-                    window.FranklinWidgetInit({
-                      siteKey: "FRK_SITE_mi24l0kwknoyYZQ4gC1PPoTfNZThq5p2",
-                      assistantId: "m577jcfq4wf7awbp4jz39e4fwn7vgype",
-                      apiBaseUrl: "https://app.franklinhelp.com",
-                      position: "bottom-right"
-                    });
-                    return true;
+              function initFranklinWidget() {
+                if (window.FranklinWidgetInit) {
+                  window.FranklinWidgetInit({
+                    siteKey: "FRK_SITE_mi24l0kwknoyYZQ4gC1PPoTfNZThq5p2",
+                    assistantId: "m577jcfq4wf7awbp4jz39e4fwn7vgype",
+                    apiBaseUrl: "https://app.franklinhelp.com",
+                    position: "bottom-right"
+                  });
+                  return true;
+                }
+                return false;
+              }
+              
+              // Try immediately, then retry if needed
+              if (!initFranklinWidget()) {
+                let attempts = 0;
+                const maxAttempts = 50;
+                const interval = setInterval(function() {
+                  attempts++;
+                  if (initFranklinWidget() || attempts >= maxAttempts) {
+                    clearInterval(interval);
                   }
-                  return false;
-                }
-                
-                // Try immediately
-                if (!initFranklinWidget()) {
-                  // If not ready, wait and retry
-                  let attempts = 0;
-                  const maxAttempts = 50; // 5 seconds max
-                  const interval = setInterval(function() {
-                    attempts++;
-                    if (initFranklinWidget() || attempts >= maxAttempts) {
-                      clearInterval(interval);
-                      if (attempts >= maxAttempts) {
-                        console.error('[Franklin] Widget failed to load after 5 seconds');
-                      }
-                    }
-                  }, 100);
-                }
-              })();
+                }, 100);
+              }
             `,
           }}
         />
