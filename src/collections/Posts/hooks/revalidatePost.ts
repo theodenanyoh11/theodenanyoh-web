@@ -12,20 +12,36 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
   if (!context.disableRevalidate) {
     if (doc._status === 'published') {
       const path = `/posts/${doc.slug}`
+      const homePath = '/'
+      const postsListingPath = '/posts'
 
       payload.logger.info(`Revalidating post at path: ${path}`)
 
       revalidatePath(path)
+      // Ensure homepage and posts listing, which render featured / latest posts,
+      // are revalidated whenever a published post changes.
+      payload.logger.info(
+        `[Post Revalidate] Also revalidating homepage (${homePath}) and posts listing (${postsListingPath})`,
+      )
+      revalidatePath(homePath)
+      revalidatePath(postsListingPath)
       revalidateTag('posts-sitemap')
     }
 
     // If the post was previously published, we need to revalidate the old path
     if (previousDoc._status === 'published' && doc._status !== 'published') {
       const oldPath = `/posts/${previousDoc.slug}`
+      const homePath = '/'
+      const postsListingPath = '/posts'
 
       payload.logger.info(`Revalidating old post at path: ${oldPath}`)
 
       revalidatePath(oldPath)
+      payload.logger.info(
+        `[Post Revalidate] Also revalidating homepage (${homePath}) and posts listing (${postsListingPath}) due to unpublishing / status change`,
+      )
+      revalidatePath(homePath)
+      revalidatePath(postsListingPath)
       revalidateTag('posts-sitemap')
     }
   }
