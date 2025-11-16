@@ -32,13 +32,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-        <!-- Load the widget script -->
+      
 <script
   src="https://unpkg.com/@franklinhelp/sdk-website@0.1.0-alpha.6/dist/index.global.js"
   async
 ></script>
 
-<!-- Initialize manually - MUST be after the script tag -->
+
 <script>
   (function() {
     function initFranklinWidget() {
