@@ -21,5 +21,14 @@ export const SiteSettings: GlobalConfig = {
       relationTo: 'media', // Assuming your media collection slug is 'media'
       required: true,
     },
+    {
+      name: 'headScript',
+      label: 'Head Script',
+      type: 'textarea',
+      admin: {
+        description: 'Add a script tag (e.g., <script>...</script>) that will be included in the <head> of your site. This can be used for analytics, chat widgets, or other third-party scripts.',
+      },
+      required: false,
+    },
   ],
 }

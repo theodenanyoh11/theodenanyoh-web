@@ -16,9 +16,15 @@ import { PostHogProvider } from '@/providers/PostHogProvider'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { SiteSetting } from '@/payload-types'
+import { HeadScript } from '@/components/HeadScript/HeadScript'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const siteSettingsResult = await getCachedGlobal('site-settings', 2)()
+  const siteSettingsData = siteSettingsResult as SiteSetting
+  const headScript = siteSettingsData?.headScript || ''
 
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
@@ -26,6 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        {headScript && <HeadScript script={headScript} />}
       </head>
       <body>
         <PostHogProvider>
