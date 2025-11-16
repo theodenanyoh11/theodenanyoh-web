@@ -32,6 +32,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+
+        <Script
+          src="https://unpkg.com/@franklinhelp/sdk-website@latest/dist/index.global.js"
+          data-franklin-site-key="FRK_SITE_mi24l0kwknoyYZQ4gC1PPoTfNZThq5p2"
+          data-franklin-assistant-id="m577jcfq4wf7awbp4jz39e4fwn7vgype"
+          strategy="afterInteractive"
+        />
+
         {headScript && <HeadScript script={headScript} />}
       </head>
       <body>
