@@ -32,6 +32,60 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        {/* Set flag FIRST - before widget loads */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        window.__FRANKLIN_WIDGET_MANUAL_INIT__ = true;
+      `,
+          }}
+        />
+
+        {/* Load widget script */}
+        <script
+          src="https://unpkg.com/@franklinhelp/sdk-website@0.1.0-alpha.8/dist/index.global.js"
+          async
+        />
+
+        {/* Initialize widget - waits for script to load */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        (function() {
+          function initFranklinWidget() {
+            if (typeof window.FranklinWidgetInit === 'function') {
+              console.log('[Franklin] Initializing widget...');
+              window.FranklinWidgetInit({
+                siteKey: "FRK_SITE_mi24l0kwknoyYZQ4gC1PPoTfNZThq5p2",
+                assistantId: "m577jcfq4wf7awbp4jz39e4fwn7vgype",
+                apiBaseUrl: "https://app.franklinhelp.com",
+                position: "bottom-right"
+              });
+              return true;
+            }
+            return false;
+          }
+          
+          // Try immediately
+          if (!initFranklinWidget()) {
+            // Retry with exponential backoff
+            let attempts = 0;
+            const maxAttempts = 100; // 10 seconds max
+            const interval = setInterval(function() {
+              attempts++;
+              if (initFranklinWidget()) {
+                clearInterval(interval);
+              } else if (attempts >= maxAttempts) {
+                clearInterval(interval);
+                console.error('[Franklin] Widget failed to load after 10 seconds');
+              }
+            }, 100);
+          }
+        })();
+      `,
+          }}
+        />
+
         {headScript && <HeadScript script={headScript} />}
       </head>
       <body>
