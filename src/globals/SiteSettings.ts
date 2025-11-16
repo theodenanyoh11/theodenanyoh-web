@@ -26,7 +26,7 @@ export const SiteSettings: GlobalConfig = {
       label: 'Head Script',
       type: 'textarea',
       admin: {
-        description: 'Add a script tag (e.g., <script>...</script>) that will be included in the <head> of your site. This can be used for analytics, chat widgets, or other third-party scripts.',
+        description: 'Add script tags that will be included in your site. Supports multiple formats:\n- Multiple script tags: <script>...</script><script src="..."></script>\n- Next.js Script component: <Script src="..." strategy="afterInteractive" data-attr="value" />\n- Inline script content: console.log("hello");\n\nScripts are automatically placed in the correct location (head or body).',
       },
       required: false,
     },

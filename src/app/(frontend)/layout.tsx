@@ -18,7 +18,7 @@ import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { SiteSetting } from '@/payload-types'
-import { HeadScript } from '@/components/HeadScript/HeadScript'
+import { HeadScript, BodyScript } from '@/components/HeadScript/HeadScript'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -35,6 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {headScript && <HeadScript script={headScript} />}
       </head>
       <body>
+        {headScript && <BodyScript script={headScript} />}
         <PostHogProvider>
           <Providers>
             <AdminBar
