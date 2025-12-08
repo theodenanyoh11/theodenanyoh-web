@@ -72,6 +72,8 @@ const ProjectsPage = async ({ searchParams }: Props): Promise<JSX.Element> => {
   const whereClause: {
     or?: Array<{ name?: { contains: string }; summary?: { contains: string } }>
     technologies?: { in: string[] }
+    status?: { equals: ProjectStatus }
+    featured?: { equals: boolean }
   } = {
     // ...(isDraftMode ? {} : { _status: { equals: 'published' } }), // Keep commented if versioning is off
   }
