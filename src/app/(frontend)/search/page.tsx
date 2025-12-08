@@ -73,7 +73,21 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs} />
+        <CollectionArchive
+          posts={posts.docs.map((doc) => ({
+            ...doc,
+            title: doc.title ?? undefined,
+            slug: doc.slug ?? undefined,
+            categories: doc.categories ?? undefined,
+            meta: doc.meta
+              ? {
+                  ...doc.meta,
+                  title: doc.meta.title ?? undefined,
+                  description: doc.meta.description ?? undefined,
+                }
+              : undefined,
+          }))}
+        />
       ) : (
         <div className="container">No results found.</div>
       )}
