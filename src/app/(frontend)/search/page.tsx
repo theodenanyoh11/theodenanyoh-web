@@ -88,11 +88,21 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
                 image?: unknown
               } | null
             }
+            // Safely convert categories - check if it's an array
+            let categories: Post['categories'] = undefined
+            if (selectedDoc.categories) {
+              if (Array.isArray(selectedDoc.categories)) {
+                categories = selectedDoc.categories as Post['categories']
+              } else {
+                categories = undefined
+              }
+            }
+
             return {
               id: selectedDoc.id,
               title: selectedDoc.title ?? undefined,
               slug: selectedDoc.slug ?? undefined,
-              categories: (selectedDoc.categories as Post['categories']) ?? undefined,
+              categories,
               meta: selectedDoc.meta
                 ? {
                     ...selectedDoc.meta,

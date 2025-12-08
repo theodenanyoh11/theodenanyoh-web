@@ -5,17 +5,17 @@ import { getPayload } from 'payload'
 import { SkillCarouselClient } from './Component.client'
 import RichText from '@/components/RichText'
 
-type Props = {
-  block: SkillBlock | undefined | null
+type Props = SkillBlock & {
+  disableInnerContainer?: boolean
 }
 
-export const SkillBlockComponent: React.FC<Props> = async ({ block }) => {
-  if (!block) {
-    console.error('SkillBlockComponent received undefined block prop.')
+export const SkillBlockComponent: React.FC<Props> = async (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
     return null
   }
 
-  const { title: blockTitle, richText, skills: skillRelation } = block
+  const { title: blockTitle, richText, skills: skillRelation } = props
   const payload = await getPayload({ config: configPromise })
 
   let fetchedSkills: Skill[] = []

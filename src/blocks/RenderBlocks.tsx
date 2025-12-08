@@ -84,11 +84,24 @@ export const RenderBlocks: React.FC<{
               }
 
               // Default rendering for other blocks
-              return (
-                <div className="my-16" key={index}>
-                  <Block {...block} disableInnerContainer />
-                </div>
-              )
+              // Add error boundary to prevent build failures from malformed blocks
+              try {
+                if (!block || typeof block !== 'object') {
+                  console.warn(`[RenderBlocks] Block at index ${index} is invalid.`)
+                  return null
+                }
+                return (
+                  <div className="my-16" key={index}>
+                    <Block {...block} disableInnerContainer />
+                  </div>
+                )
+              } catch (error) {
+                console.error(
+                  `[RenderBlocks] Error rendering block ${blockType} at index ${index}:`,
+                  error,
+                )
+                return null
+              }
             }
           }
           // console.warn(`[RenderBlocks] No component found for blockType: ${blockType}`) // Keep commented out or remove
