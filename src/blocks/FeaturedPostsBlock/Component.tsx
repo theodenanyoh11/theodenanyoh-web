@@ -7,17 +7,17 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/Card' // Assuming Card can render Posts
 import RichText from '@/components/RichText' // Import RichText
 
-type Props = {
-  block: FeaturedPostsBlockType | undefined | null
+type Props = FeaturedPostsBlockType & {
+  disableInnerContainer?: boolean
 }
 
-export const FeaturedPostsBlockComponent: React.FC<Props> = async ({ block }) => {
-  if (!block) {
-    console.error('FeaturedPostsBlockComponent received undefined block prop.')
+export const FeaturedPostsBlockComponent: React.FC<Props> = async (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
     return null
   }
 
-  const { title: blockTitle, richText } = block
+  const { title: blockTitle, richText } = props
   const payload = await getPayload({ config: configPromise })
 
   let featuredPosts: Post[] = []

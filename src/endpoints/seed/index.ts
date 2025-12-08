@@ -43,7 +43,7 @@ export const seed = async ({
   await Promise.all(
     globals.map((global) => {
       // Determine the data to reset based on the global slug
-      let resetData: Record<string, any> = {}
+      let resetData: Record<string, unknown> = {}
       if (global === 'header' || global === 'footer') {
         resetData = { navItems: [] }
       }

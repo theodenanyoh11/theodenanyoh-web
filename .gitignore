@@ -2,14 +2,19 @@ build
 dist / media
 node_modules
 .DS_Store
-.env
 .next
 .vercel
+
+# Environment variables - never commit these
+.env
+.env*.local
+.env.local
+.env.development
+.env.production
+.env.test
 
 # Payload default media upload directory
 public/media/
 
 public/robots.txt
 public/sitemap*.xml
-
-.env.local

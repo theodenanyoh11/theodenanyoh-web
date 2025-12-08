@@ -97,10 +97,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     return NextResponse.json({ revalidatedTag, revalidatedSitemap, now: Date.now() })
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     console.error('Error processing revalidation webhook:', error)
     return NextResponse.json(
-      { error: 'Failed to process webhook', details: error.message },
+      { error: 'Failed to process webhook', details: errorMessage },
       { status: 500 },
     )
   }

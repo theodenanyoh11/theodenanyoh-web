@@ -18,13 +18,8 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
+// SEO fields are imported but not used directly in this config
+// They are handled by the seoPlugin in plugins/index.ts
 import { slugField } from '@/fields/slug'
 
 export const Posts: CollectionConfig<'posts'> = {

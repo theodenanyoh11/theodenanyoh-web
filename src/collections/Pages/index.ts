@@ -17,13 +17,8 @@ import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
+// SEO fields are imported but not used directly in this config
+// They are handled by the seoPlugin in plugins/index.ts
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',

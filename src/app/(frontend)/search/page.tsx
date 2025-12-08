@@ -1,5 +1,6 @@
 import type { Metadata } from 'next/types'
 import type { CollectionSlug } from 'payload'
+import type { Post } from '@/payload-types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
@@ -73,7 +74,45 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs} />
+        <CollectionArchive
+          posts={posts.docs.map((doc) => {
+            // Type assertion: we know these fields exist because we selected them
+            const selectedDoc = doc as {
+              id: number
+              title?: string | null
+              slug?: string | null
+              categories?: unknown
+              meta?: {
+                title?: string | null
+                description?: string | null
+                image?: unknown
+              } | null
+            }
+            // Safely convert categories - check if it's an array
+            let categories: Post['categories'] = undefined
+            if (selectedDoc.categories) {
+              if (Array.isArray(selectedDoc.categories)) {
+                categories = selectedDoc.categories as Post['categories']
+              } else {
+                categories = undefined
+              }
+            }
+
+            return {
+              id: selectedDoc.id,
+              title: selectedDoc.title ?? undefined,
+              slug: selectedDoc.slug ?? undefined,
+              categories,
+              meta: selectedDoc.meta
+                ? {
+                    ...selectedDoc.meta,
+                    title: selectedDoc.meta.title ?? undefined,
+                    description: selectedDoc.meta.description ?? undefined,
+                  }
+                : undefined,
+            } as Partial<Post>
+          })}
+        />
       ) : (
         <div className="container">No results found.</div>
       )}

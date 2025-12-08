@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import type { Page, FormBlock as FormBlockType } from '@/payload-types'
 
@@ -13,17 +13,35 @@ import { ProductBlockComponent } from './ProductBlock/Component'
 import { FeaturedPostsBlockComponent } from './FeaturedPostsBlock/Component'
 
 const blockComponents: {
-  [key: string]: React.FC<any>
+  [key: string]: React.FC<Record<string, unknown> & { disableInnerContainer?: boolean }>
 } = {
-  archive: ArchiveBlock,
-  content: ContentBlock,
-  cta: CallToActionBlock,
-  formBlock: FormBlock,
-  mediaBlock: MediaBlock,
-  featuredProjects: FeaturedProjectsBlock,
-  skillBlock: SkillBlockComponent,
-  productBlock: ProductBlockComponent,
-  featuredPostsBlock: FeaturedPostsBlockComponent,
+  archive: ArchiveBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  content: ContentBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  cta: CallToActionBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  formBlock: FormBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  mediaBlock: MediaBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  featuredProjects: FeaturedProjectsBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  skillBlock: SkillBlockComponent as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  productBlock: ProductBlockComponent as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  featuredPostsBlock: FeaturedPostsBlockComponent as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
 }
 
 export const RenderBlocks: React.FC<{
@@ -35,9 +53,20 @@ export const RenderBlocks: React.FC<{
 
   if (hasBlocks) {
     return (
-      <Fragment>
+      <>
         {blocks.map((block, index) => {
+          // Skip invalid blocks early
+          if (!block || typeof block !== 'object') {
+            console.warn(`[RenderBlocks] Block at index ${index} is invalid (null/undefined).`)
+            return null
+          }
+
           const { blockType } = block
+
+          if (!blockType || typeof blockType !== 'string') {
+            console.warn(`[RenderBlocks] Block at index ${index} is missing blockType.`)
+            return null
+          }
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
@@ -66,17 +95,30 @@ export const RenderBlocks: React.FC<{
               }
 
               // Default rendering for other blocks
-              return (
-                <div className="my-16" key={index}>
-                  <Block block={block} disableInnerContainer />
-                </div>
-              )
+              // Add error boundary to prevent build failures from malformed blocks
+              try {
+                if (!block || typeof block !== 'object') {
+                  console.warn(`[RenderBlocks] Block at index ${index} is invalid.`)
+                  return null
+                }
+                return (
+                  <div className="my-16" key={index}>
+                    <Block {...block} disableInnerContainer />
+                  </div>
+                )
+              } catch (error) {
+                console.error(
+                  `[RenderBlocks] Error rendering block ${blockType} at index ${index}:`,
+                  error,
+                )
+                return null
+              }
             }
           }
           // console.warn(`[RenderBlocks] No component found for blockType: ${blockType}`) // Keep commented out or remove
           return null
         })}
-      </Fragment>
+      </>
     )
   }
 

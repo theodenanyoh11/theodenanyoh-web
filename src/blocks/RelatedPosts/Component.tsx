@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import RichText from '@/components/RichText'
 
-import type { Post } from '@/payload-types'
+import type { Media, Post } from '@/payload-types'
 
 import { Card } from '@/components/Card'
 import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
@@ -28,8 +28,9 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
           const { slug, title, categories, meta } = doc
           const description = meta?.description
           // Use type assertion for image access, mirroring other components
-          const image = (meta as any)?.image
-          const imageResource = typeof image === 'object' && image !== null ? image : null
+          const image = (meta as { image?: unknown })?.image
+          const imageResource: Media | null | undefined =
+            typeof image === 'object' && image !== null ? (image as Media) : null
           const postHref = `/posts/${slug}`
 
           return (

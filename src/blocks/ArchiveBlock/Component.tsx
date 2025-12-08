@@ -10,8 +10,14 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
     id?: string
+    disableInnerContainer?: boolean
   }
 > = async (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
+    return null
+  }
+
   const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
 
   const limit = limitFromProps || 3

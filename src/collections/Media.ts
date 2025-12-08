@@ -12,7 +12,6 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 
 const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -42,7 +41,7 @@ export const Media: CollectionConfig = {
     // When using s3Storage adapter, staticDir should be removed
     // staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: ({ doc }) => {
-      const sizes = doc?.sizes as any
+      const sizes = doc?.sizes as { thumbnail?: { url?: string } } | undefined
       if (sizes?.thumbnail?.url) {
         return sizes.thumbnail.url
       }

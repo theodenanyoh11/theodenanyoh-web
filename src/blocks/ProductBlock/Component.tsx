@@ -5,17 +5,17 @@ import { getPayload } from 'payload'
 import { ProductCard } from '@/components/ProductCard'
 import RichText from '@/components/RichText'
 
-type Props = {
-  block: ProductBlockType | undefined | null
+type Props = ProductBlockType & {
+  disableInnerContainer?: boolean
 }
 
-export const ProductBlockComponent: React.FC<Props> = async ({ block }) => {
-  if (!block) {
-    console.error('ProductBlockComponent received undefined block prop.')
+export const ProductBlockComponent: React.FC<Props> = async (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
     return null
   }
 
-  const { title: blockTitle, richText, products: productRelation } = block
+  const { title: blockTitle, richText, products: productRelation } = props
   const payload = await getPayload({ config: configPromise })
 
   let fetchedProducts: Product[] = []
