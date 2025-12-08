@@ -55,7 +55,18 @@ export const RenderBlocks: React.FC<{
     return (
       <>
         {blocks.map((block, index) => {
+          // Skip invalid blocks early
+          if (!block || typeof block !== 'object') {
+            console.warn(`[RenderBlocks] Block at index ${index} is invalid (null/undefined).`)
+            return null
+          }
+
           const { blockType } = block
+
+          if (!blockType || typeof blockType !== 'string') {
+            console.warn(`[RenderBlocks] Block at index ${index} is missing blockType.`)
+            return null
+          }
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]

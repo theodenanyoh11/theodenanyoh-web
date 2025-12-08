@@ -19,8 +19,10 @@ export type FormBlockProps = {
 }
 
 export const FormBlock: React.FC<FormBlockProps> = (props) => {
-  const { enableIntro, formId, introContent } = props
+  // Extract formId safely for hooks
+  const formId = props?.formId
 
+  // All hooks must be called before any early returns
   const [form, setForm] = useState<FormType | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
@@ -38,6 +40,8 @@ export const FormBlock: React.FC<FormBlockProps> = (props) => {
 
   useEffect(() => {
     const fetchForm = async () => {
+      if (!formId) return
+
       setIsLoading(true)
       setError(undefined)
       try {
@@ -66,14 +70,12 @@ export const FormBlock: React.FC<FormBlockProps> = (props) => {
       }
     }
 
-    if (formId) {
-      void fetchForm()
-    }
+    void fetchForm()
   }, [formId, reset])
 
   const onSubmit = useCallback(
     (data: Record<string, unknown>) => {
-      if (!form) return
+      if (!form || !formId) return
 
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
@@ -129,6 +131,13 @@ export const FormBlock: React.FC<FormBlockProps> = (props) => {
     },
     [router, formId, form],
   )
+
+  // Handle undefined/null props gracefully after all hooks
+  if (!props || typeof props !== 'object' || !formId) {
+    return <div className="container">Form configuration is invalid.</div>
+  }
+
+  const { enableIntro, introContent } = props
 
   if (isLoading && !form) {
     return <div className="container">Loading Form...</div>

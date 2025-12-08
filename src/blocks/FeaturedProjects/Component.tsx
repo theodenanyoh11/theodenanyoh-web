@@ -13,11 +13,16 @@ export type FeaturedProjectsBlockProps = Extract<
 >
 
 // This is the Server Component
-// Adjust props to expect a single 'block' prop
-export const FeaturedProjectsBlock: React.FC<{ block: FeaturedProjectsBlockProps }> = async ({
-  block,
-}) => {
-  const { title, richText } = block // Destructure title and richText from the block prop
+// Accept spread props to match RenderBlocks pattern
+export const FeaturedProjectsBlock: React.FC<
+  FeaturedProjectsBlockProps & { disableInnerContainer?: boolean }
+> = async (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
+    return null
+  }
+
+  const { title, richText } = props // Destructure title and richText from props
 
   let projects: Project[] = []
 

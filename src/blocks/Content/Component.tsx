@@ -7,6 +7,11 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 import { CMSLink } from '../../components/Link'
 
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
+    return null
+  }
+
   const { columns } = props
 
   const colsSpanClasses = {

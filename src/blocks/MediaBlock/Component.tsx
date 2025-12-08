@@ -19,6 +19,11 @@ type Props = MediaBlockProps & {
 }
 
 export const MediaBlock: React.FC<Props> = (props) => {
+  // Handle undefined/null props gracefully
+  if (!props || typeof props !== 'object') {
+    return null
+  }
+
   const {
     captionClassName,
     className,
