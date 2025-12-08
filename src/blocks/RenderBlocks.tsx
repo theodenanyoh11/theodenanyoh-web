@@ -13,17 +13,35 @@ import { ProductBlockComponent } from './ProductBlock/Component'
 import { FeaturedPostsBlockComponent } from './FeaturedPostsBlock/Component'
 
 const blockComponents: {
-  [key: string]: React.FC<{ block: Page['layout'][0]; disableInnerContainer?: boolean }>
+  [key: string]: React.FC<Record<string, unknown> & { disableInnerContainer?: boolean }>
 } = {
-  archive: ArchiveBlock,
-  content: ContentBlock,
-  cta: CallToActionBlock,
-  formBlock: FormBlock,
-  mediaBlock: MediaBlock,
-  featuredProjects: FeaturedProjectsBlock,
-  skillBlock: SkillBlockComponent,
-  productBlock: ProductBlockComponent,
-  featuredPostsBlock: FeaturedPostsBlockComponent,
+  archive: ArchiveBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  content: ContentBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  cta: CallToActionBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  formBlock: FormBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  mediaBlock: MediaBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  featuredProjects: FeaturedProjectsBlock as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  skillBlock: SkillBlockComponent as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  productBlock: ProductBlockComponent as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
+  featuredPostsBlock: FeaturedPostsBlockComponent as unknown as React.FC<
+    Record<string, unknown> & { disableInnerContainer?: boolean }
+  >,
 }
 
 export const RenderBlocks: React.FC<{
@@ -68,7 +86,7 @@ export const RenderBlocks: React.FC<{
               // Default rendering for other blocks
               return (
                 <div className="my-16" key={index}>
-                  <Block block={block} disableInnerContainer />
+                  <Block {...block} disableInnerContainer />
                 </div>
               )
             }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import type { Post } from '@/payload-types'
+import type { Media, Post } from '@/payload-types'
 
 import { Card } from '@/components/Card'
 
@@ -34,7 +34,8 @@ export const CollectionArchive: React.FC<{
           const { slug, title, categories, meta } = docToRender
           const description = meta?.description
           const image = (meta as { image?: unknown })?.image
-          const imageResource = typeof image === 'object' && image !== null ? image : null
+          const imageResource: Media | null | undefined =
+            typeof image === 'object' && image !== null ? (image as Media) : null
           // Determine href based on whether it's a search result or direct post
           const postHref = isSearchResult ? `/posts/${slug}` : `/posts/${slug}` // Adjust if other collections are searchable
 

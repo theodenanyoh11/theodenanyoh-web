@@ -1,5 +1,6 @@
 import type { Metadata } from 'next/types'
 import type { CollectionSlug } from 'payload'
+import type { Post } from '@/payload-types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
@@ -74,19 +75,33 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
       {posts.totalDocs > 0 ? (
         <CollectionArchive
-          posts={posts.docs.map((doc) => ({
-            ...doc,
-            title: doc.title ?? undefined,
-            slug: doc.slug ?? undefined,
-            categories: doc.categories ?? undefined,
-            meta: doc.meta
-              ? {
-                  ...doc.meta,
-                  title: doc.meta.title ?? undefined,
-                  description: doc.meta.description ?? undefined,
-                }
-              : undefined,
-          }))}
+          posts={posts.docs.map((doc) => {
+            // Type assertion: we know these fields exist because we selected them
+            const selectedDoc = doc as {
+              id: number
+              title?: string | null
+              slug?: string | null
+              categories?: unknown
+              meta?: {
+                title?: string | null
+                description?: string | null
+                image?: unknown
+              } | null
+            }
+            return {
+              id: selectedDoc.id,
+              title: selectedDoc.title ?? undefined,
+              slug: selectedDoc.slug ?? undefined,
+              categories: (selectedDoc.categories as Post['categories']) ?? undefined,
+              meta: selectedDoc.meta
+                ? {
+                    ...selectedDoc.meta,
+                    title: selectedDoc.meta.title ?? undefined,
+                    description: selectedDoc.meta.description ?? undefined,
+                  }
+                : undefined,
+            } as Partial<Post>
+          })}
         />
       ) : (
         <div className="container">No results found.</div>
