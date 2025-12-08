@@ -69,7 +69,10 @@ const ProjectsPage = async ({ searchParams }: Props): Promise<JSX.Element> => {
   }
 
   // Construct the where clause for projects query
-  const whereClause: any = {
+  const whereClause: {
+    or?: Array<{ name?: { contains: string }; summary?: { contains: string } }>
+    technologies?: { in: string[] }
+  } = {
     // ...(isDraftMode ? {} : { _status: { equals: 'published' } }), // Keep commented if versioning is off
   }
   if (search) {

@@ -55,7 +55,7 @@ export const FormBlock: React.FC<FormBlockProps> = (props) => {
               }
               return acc
             },
-            {} as Record<string, any>,
+            {} as Record<string, string | number | boolean | null | undefined>,
           ),
         )
         setIsLoading(false)
@@ -160,8 +160,23 @@ export const FormBlock: React.FC<FormBlockProps> = (props) => {
             <form id={String(formId)} onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 last:mb-0">
                 {form.fields?.map((field, index) => {
-                  const FieldComponent: React.FC<any> =
-                    fields?.[field.blockType as keyof typeof fields]
+                  const FieldComponent:
+                    | React.FC<
+                        typeof field & {
+                          errors: Partial<Record<string, { message?: string }>>
+                          register: ReturnType<typeof useForm>['register']
+                          control: ReturnType<typeof useForm>['control']
+                        }
+                      >
+                    | undefined = fields?.[field.blockType as keyof typeof fields] as
+                    | React.FC<
+                        typeof field & {
+                          errors: Partial<Record<string, { message?: string }>>
+                          register: ReturnType<typeof useForm>['register']
+                          control: ReturnType<typeof useForm>['control']
+                        }
+                      >
+                    | undefined
                   if (FieldComponent) {
                     return (
                       <div className="mb-6 last:mb-0" key={index}>

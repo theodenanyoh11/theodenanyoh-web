@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import type { Page, FormBlock as FormBlockType } from '@/payload-types'
 
@@ -13,7 +13,7 @@ import { ProductBlockComponent } from './ProductBlock/Component'
 import { FeaturedPostsBlockComponent } from './FeaturedPostsBlock/Component'
 
 const blockComponents: {
-  [key: string]: React.FC<any>
+  [key: string]: React.FC<{ block: Page['layout'][0]; disableInnerContainer?: boolean }>
 } = {
   archive: ArchiveBlock,
   content: ContentBlock,
@@ -35,7 +35,7 @@ export const RenderBlocks: React.FC<{
 
   if (hasBlocks) {
     return (
-      <Fragment>
+      <>
         {blocks.map((block, index) => {
           const { blockType } = block
 
@@ -76,7 +76,7 @@ export const RenderBlocks: React.FC<{
           // console.warn(`[RenderBlocks] No component found for blockType: ${blockType}`) // Keep commented out or remove
           return null
         })}
-      </Fragment>
+      </>
     )
   }
 

@@ -28,7 +28,7 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
           const { slug, title, categories, meta } = doc
           const description = meta?.description
           // Use type assertion for image access, mirroring other components
-          const image = (meta as any)?.image
+          const image = (meta as { image?: unknown })?.image
           const imageResource = typeof image === 'object' && image !== null ? image : null
           const postHref = `/posts/${slug}`
 

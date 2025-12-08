@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
-// Import generated type after generation
-// import type { Project } from '@/payload-types' // Reverting type for now
+import type { Project } from '@/payload-types'
 
 import { slugField } from '../../fields/slug' // Using relative path
 import { anyone } from '../../access/anyone' // Using relative path
@@ -12,9 +11,9 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'status', 'startDate', 'featured'],
     group: 'Collections',
-    preview: (doc: any) => {
-      // Reverting to 'any' to satisfy GeneratePreviewURL type
-      return `${process.env.PAYLOAD_PUBLIC_SERVER_URL ?? ''}/projects/${doc.slug}`
+    preview: (doc: Partial<Project>) => {
+      const slug = typeof doc.slug === 'string' ? doc.slug : ''
+      return `${process.env.PAYLOAD_PUBLIC_SERVER_URL ?? ''}/projects/${slug}`
     },
   },
   /* // Temporarily disable versions for testing
