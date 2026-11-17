@@ -60,6 +60,11 @@ export type SeedProject = {
   sampleNote?: string
   sampleRows?: { text: string; on: boolean }[]
   url?: string
+  /**
+   * The project already exists on the live site with Theo's own name, summary
+   * and images. When it does, the seed only sets where it appears.
+   */
+  preserveCopy?: boolean
   role?: string
   year?: string
   platforms?: ('web' | 'ios' | 'android')[]
@@ -268,6 +273,7 @@ export const projects: SeedProject[] = [
   },
   {
     slug: 'creatorbox',
+    preserveCopy: true,
     name: 'CreatorBox',
     summary: 'A directory of software, hardware and services for content creators.',
     stage: 'retired',
@@ -276,8 +282,9 @@ export const projects: SeedProject[] = [
     tint: 'mist',
   },
   {
-    slug: 'stylebook',
-    name: 'StyleBook',
+    slug: 'stylebook-hq',
+    preserveCopy: true,
+    name: 'StyleBook HQ',
     summary: 'A voice agent that takes bookings for barbers and stylists.',
     stage: 'retired',
     statusLabel: 'Idea',
@@ -286,12 +293,22 @@ export const projects: SeedProject[] = [
   },
   {
     slug: 'built-in-africa',
+    preserveCopy: true,
     name: 'Built In Africa',
     summary: 'A talent network for companies hiring across Africa. It became AfroJobs.',
     stage: 'retired',
     statusLabel: 'MVP',
     year: '2024',
     tint: 'mist',
+  },
+  {
+    slug: 'krumalabs',
+    preserveCopy: true,
+    name: 'KrumaLabs',
+    summary: 'My product studio.',
+    stage: 'live',
+    tint: 'mist',
+    url: 'https://www.krumalabs.com',
   },
 ]
 
@@ -496,13 +513,14 @@ export const products = [
     priceLabel: 'Price on request',
   },
   {
-    slug: 'help-center-design-templates',
+    // Already on the live site as "My Design Templates". The seed leaves an
+    // existing one alone and only creates it where it is missing.
+    slug: 'my-design-templates',
+    preserve: true,
     kind: 'template' as const,
     name: 'Help center design templates',
     summary: 'Layouts for a help center your customers can use.',
-    // Planned, not yet for sale.
     comingSoon: true,
-    priceLabel: '',
   },
   {
     slug: 'ships-tee',

@@ -99,7 +99,33 @@ async function run() {
   payload.logger.info(`media: ${Object.keys(mediaIds).length}`)
 
   for (const project of projects) {
-    const { tileImage, logo, url, sections, ...rest } = project
+    const { tileImage, logo, url, sections, preserveCopy, ...rest } = project
+    const placement = {
+      stage: project.stage,
+      statusLabel: project.statusLabel ?? null,
+      year: project.year ?? null,
+      tint: project.tint,
+      // Only projects with a position here appear on the homepage.
+      homeOrder: project.homeOrder ?? null,
+      featured: Boolean(project.homeOrder),
+    }
+    if (preserveCopy) {
+      const existing = await payload.find({
+        collection: 'projects',
+        where: { slug: { equals: project.slug } },
+        limit: 1,
+        depth: 0,
+      })
+      if (existing.docs[0]) {
+        await payload.update({
+          collection: 'projects',
+          id: existing.docs[0].id,
+          data: placement,
+          context: { disableRevalidate: true },
+        })
+        continue
+      }
+    }
     await upsert(payload, 'projects', 'slug', project.slug, {
       ...rest,
       sections: (sections ?? []).map(({ image, ...section }) => ({
@@ -107,7 +133,7 @@ async function run() {
         image: image ? mediaIds[image] : null,
       })),
       status: project.stage === 'live' ? 'active' : 'in_progress',
-      featured: Boolean(project.homeOrder),
+      ...placement,
       tileImage: tileImage ? mediaIds[tileImage] : null,
       logo: logo ? mediaIds[logo] : null,
       projectLink: { label: 'Visit website', url: url ?? null },
@@ -127,7 +153,15 @@ async function run() {
   payload.logger.info(`experience: ${experience.length}`)
 
   for (const product of products) {
-    await upsert(payload, 'products', 'slug', product.slug, { ...product, slugLock: false })
+    const { preserve, ...data } = { preserve: false, ...product }
+    await upsert(
+      payload,
+      'products',
+      'slug',
+      product.slug,
+      { ...data, slugLock: false },
+      { createOnly: preserve },
+    )
   }
   payload.logger.info(`products: ${products.length}`)
 
