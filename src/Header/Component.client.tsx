@@ -1,46 +1,139 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-import type { Header, SiteSetting, Media } from '@/payload-types'
+import { Button } from '@/components/site/Button'
+import { contactHref, primaryNav } from '@/components/site/nav'
+import { Wordmark } from '@/components/site/Wordmark'
+import { cn } from '@/utilities/ui'
 
-import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
+const isCurrent = (pathname: string, href: string) =>
+  pathname === href || pathname.startsWith(`${href}/`)
 
-interface HeaderClientProps {
-  headerData: Header
-  siteSettingsData?: SiteSetting
-}
-
-export const HeaderClient: React.FC<HeaderClientProps> = ({ headerData, siteSettingsData }) => {
-  /* Storing the value in a useState to avoid hydration errors */
-  const [theme, setTheme] = useState<string | null>(null)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
+export const HeaderClient: React.FC = () => {
   const pathname = usePathname()
+  const [openOn, setOpenOn] = useState<string | null>(null)
+  // The menu belongs to the page it was opened on, so navigating closes it.
+  const open = openOn === pathname
+  const menuRef = useRef<HTMLDivElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+    if (!open) return
 
-  useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const toggle = toggleRef.current
+    menuRef.current?.querySelector<HTMLElement>('a')?.focus()
 
-  // Extract the single logo (ensure it's the correct type)
-  const logoResource = siteSettingsData?.logo as Media | null | undefined
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpenOn(null)
+        return
+      }
+      if (event.key !== 'Tab') return
+      // Keep focus inside the menu and its close button while it is open.
+      const focusable = [
+        toggle,
+        ...(menuRef.current?.querySelectorAll<HTMLElement>('a, button') ?? []),
+      ].filter(Boolean) as HTMLElement[]
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last?.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+      toggle?.focus()
+    }
+  }, [open])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" logoResource={logoResource} />
+    <header
+      className={cn('relative z-30 border-b', open ? 'border-body bg-ink' : 'border-rule bg-paper')}
+    >
+      <div className="site-container flex items-center justify-between py-4 lg:py-6">
+        <Link aria-label="Theo Denanyoh, home" href="/">
+          <Wordmark
+            className="text-[28px] leading-8 lg:text-[32px]"
+            tone={open ? 'paper' : 'ink'}
+          />
         </Link>
-        <HeaderNav data={headerData} />
+
+        <nav aria-label="Main" className="hidden items-center gap-9 lg:flex">
+          {primaryNav.map((item) => (
+            <Link
+              aria-current={isCurrent(pathname, item.href) ? 'page' : undefined}
+              className="text-[15px] font-medium leading-[18px] text-ink hover:text-cobalt aria-[current=page]:text-cobalt"
+              href={item.href}
+              key={item.href}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Button href={contactHref} variant="ink">
+            Get in touch
+          </Button>
+        </nav>
+
+        <button
+          aria-controls="site-menu"
+          aria-expanded={open}
+          className={cn(
+            'rounded-pill px-[18px] py-[10px] text-[15px] font-semibold leading-[18px] lg:hidden',
+            open ? 'bg-paper text-ink' : 'bg-ink text-paper',
+          )}
+          onClick={() => setOpenOn(open ? null : pathname)}
+          ref={toggleRef}
+          type="button"
+        >
+          {open ? 'Close' : 'Menu'}
+        </button>
       </div>
+
+      {open && (
+        <div
+          aria-label="Menu"
+          aria-modal="true"
+          className="fixed inset-x-0 bottom-0 top-[65px] flex flex-col justify-between overflow-y-auto bg-ink px-4 pb-8 pt-6 lg:hidden"
+          id="site-menu"
+          ref={menuRef}
+          role="dialog"
+        >
+          <nav aria-label="Main" className="flex flex-col">
+            {primaryNav.map((item) => (
+              <Link
+                aria-current={isCurrent(pathname, item.href) ? 'page' : undefined}
+                className="border-b border-body py-5 font-display text-[40px] font-extrabold leading-[44px] tracking-[-0.035em] text-paper aria-[current=page]:text-[#8FA0FF]"
+                href={item.href}
+                key={item.href}
+                onClick={() => setOpenOn(null)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <Button
+            className="mt-10 w-full"
+            href={contactHref}
+            onClick={() => setOpenOn(null)}
+            size="lg"
+            variant="primary"
+          >
+            Get in touch
+          </Button>
+        </div>
+      )}
     </header>
   )
 }

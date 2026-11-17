@@ -12,7 +12,13 @@ const redirects = async () => {
     source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
   }
 
-  const redirects = [internetExplorerRedirect]
+  // The redesign replaced these routes.
+  const redesignRedirects = [
+    { source: '/posts/page/:number', destination: '/posts', permanent: true },
+    { source: '/products', destination: '/shop', permanent: true },
+  ]
+
+  const redirects = [internetExplorerRedirect, ...redesignRedirects]
 
   return redirects
 }

@@ -193,6 +193,35 @@ export const Posts: CollectionConfig<'posts'> = {
         },
       ],
     },
+    {
+      name: 'kind',
+      type: 'select',
+      defaultValue: 'article',
+      options: [
+        { label: 'Article', value: 'article' },
+        { label: 'Video', value: 'video' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'videoUrl',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        condition: (data) => data?.kind === 'video',
+        description: 'YouTube or Vimeo link.',
+      },
+    },
+    {
+      name: 'duration',
+      type: 'text',
+      admin: { position: 'sidebar', description: 'For example "6 min".' },
+    },
+    {
+      name: 'excerpt',
+      type: 'textarea',
+      admin: { description: 'One or two sentences for lists and the homepage.' },
+    },
     ...slugField(),
   ],
   hooks: {

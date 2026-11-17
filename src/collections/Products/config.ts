@@ -44,7 +44,35 @@ export const Products: CollectionConfig = {
       label: 'Product Image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+    },
+    {
+      name: 'kind',
+      type: 'select',
+      defaultValue: 'template',
+      options: [
+        { label: 'Consulting (headline offer)', value: 'consulting' },
+        { label: 'Consulting engagement', value: 'engagement' },
+        { label: 'Template', value: 'template' },
+        { label: 'Merch', value: 'merch' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'term',
+      type: 'text',
+      admin: { description: 'For an engagement: its length, for example "Two weeks".' },
+    },
+    {
+      name: 'priceLabel',
+      type: 'text',
+      admin: {
+        description: 'Shown in place of the number, for example "From $29" or "Price on request".',
+      },
+    },
+    {
+      name: 'ctaLabel',
+      type: 'text',
+      admin: { description: 'Button or link text, for example "Book a 30 minute call".' },
     },
     {
       name: 'summary',

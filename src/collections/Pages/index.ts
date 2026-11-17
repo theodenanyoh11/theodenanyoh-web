@@ -11,6 +11,14 @@ import { FeaturedProjects } from '../../blocks/FeaturedProjects/config'
 import { SkillBlock } from '../../blocks/SkillBlock/config'
 import { ProductBlock } from '../../blocks/ProductBlock/config'
 import { FeaturedPostsBlock } from '../../blocks/FeaturedPostsBlock/config'
+import {
+  AudienceRoutesBlock,
+  ContentFeature,
+  HomeHero,
+  LogoMarqueeBlock,
+  ShopFeature,
+  WorkBento,
+} from '../../blocks/home-configs'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -86,6 +94,12 @@ export const Pages: CollectionConfig<'pages'> = {
                 SkillBlock,
                 ProductBlock,
                 FeaturedPostsBlock,
+                HomeHero,
+                LogoMarqueeBlock,
+                WorkBento,
+                ContentFeature,
+                ShopFeature,
+                AudienceRoutesBlock,
               ],
               required: true,
               admin: {

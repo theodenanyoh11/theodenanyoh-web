@@ -4,6 +4,7 @@ import type { Project } from '@/payload-types'
 import { slugField } from '../../fields/slug' // Using relative path
 import { anyone } from '../../access/anyone' // Using relative path
 import { authenticated } from '../../access/authenticated' // Corrected import name
+import { revalidateProjects } from './revalidate'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -26,6 +27,10 @@ export const Projects: CollectionConfig = {
     create: authenticated, // Use authenticated access
     update: authenticated, // Use authenticated access
     delete: authenticated, // Use authenticated access
+  },
+  hooks: {
+    afterChange: [revalidateProjects],
+    afterDelete: [revalidateProjects],
   },
   fields: [
     {
@@ -64,7 +69,6 @@ export const Projects: CollectionConfig = {
       name: 'startDate',
       label: 'Start Date',
       type: 'date',
-      required: true,
       admin: {
         date: {
           pickerAppearance: 'monthOnly',
@@ -90,7 +94,6 @@ export const Projects: CollectionConfig = {
       label: 'Main Image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
     },
     {
       name: 'gallery',
@@ -123,7 +126,6 @@ export const Projects: CollectionConfig = {
       name: 'description',
       label: 'Detailed Description',
       type: 'richText',
-      required: true,
     },
     {
       name: 'technologies',
@@ -152,7 +154,162 @@ export const Projects: CollectionConfig = {
           name: 'url',
           label: 'URL',
           type: 'text',
-          required: true,
+        },
+      ],
+    },
+    {
+      type: 'collapsible',
+      label: 'Tile (homepage and work index)',
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'stage',
+              type: 'select',
+              defaultValue: 'building',
+              options: [
+                { label: 'Live', value: 'live' },
+                { label: 'In build', value: 'building' },
+                { label: 'Private', value: 'private' },
+                { label: 'Retired', value: 'retired' },
+              ],
+              admin: {
+                description: 'Live shows a filled dot. Everything else shows a hollow dot.',
+              },
+            },
+            {
+              name: 'statusLabel',
+              type: 'text',
+              admin: { description: 'Text in the pill, for example "Live · Web, iOS, Android".' },
+            },
+          ],
+        },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'tint',
+              type: 'select',
+              defaultValue: 'mist',
+              options: [
+                'mint',
+                'rose',
+                'peach',
+                'sky',
+                'mist',
+                'cobalt-soft',
+                'gold',
+                'gold-soft',
+                'ink',
+              ],
+            },
+            {
+              name: 'tileSpan',
+              type: 'select',
+              defaultValue: '4',
+              options: [
+                { label: 'One third', value: '4' },
+                { label: 'Half', value: '6' },
+                { label: 'Two thirds', value: '8' },
+                { label: 'Full width', value: '12' },
+              ],
+            },
+            {
+              name: 'homeOrder',
+              type: 'number',
+              admin: {
+                description: 'Position on the homepage. Leave empty to keep it off the homepage.',
+              },
+            },
+          ],
+        },
+        { name: 'tileImage', type: 'upload', relationTo: 'media' },
+        { name: 'logo', type: 'upload', relationTo: 'media' },
+        { name: 'badge', type: 'text', admin: { description: 'Small label over the image.' } },
+        {
+          name: 'sampleNote',
+          type: 'text',
+          admin: {
+            description: 'Label above the sample rows, for example "Your rules · sample data".',
+          },
+        },
+        {
+          name: 'sampleRows',
+          type: 'array',
+          admin: {
+            description: 'Drawn rows shown when there is no tile image. Use sample data only.',
+          },
+          fields: [
+            { name: 'text', type: 'text', required: true },
+            { name: 'on', type: 'checkbox', defaultValue: true },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'collapsible',
+      label: 'Case study',
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'role', type: 'text' },
+            { name: 'year', type: 'text' },
+          ],
+        },
+        {
+          name: 'platforms',
+          type: 'select',
+          hasMany: true,
+          options: [
+            { label: 'Web', value: 'web' },
+            { label: 'iOS', value: 'ios' },
+            { label: 'Android', value: 'android' },
+          ],
+        },
+        {
+          name: 'headline',
+          type: 'text',
+          admin: { description: 'Page title. Defaults to the project name.' },
+        },
+        {
+          name: 'sections',
+          type: 'array',
+          admin: { description: 'For example: The problem, What I built, How I test it.' },
+          fields: [
+            { name: 'heading', type: 'text', required: true },
+            { name: 'lead', type: 'textarea', admin: { description: 'Larger opening paragraph.' } },
+            {
+              name: 'body',
+              type: 'textarea',
+              admin: { description: 'Leave a blank line between paragraphs.' },
+            },
+            {
+              name: 'cards',
+              type: 'array',
+              maxRows: 4,
+              fields: [
+                { name: 'title', type: 'text', required: true },
+                { name: 'body', type: 'textarea', required: true },
+              ],
+            },
+            { name: 'image', type: 'upload', relationTo: 'media' },
+            { name: 'caption', type: 'text' },
+          ],
+        },
+        {
+          name: 'takeaway',
+          type: 'textarea',
+          admin: { description: 'Shown in the "What this shows" card.' },
+        },
+        {
+          name: 'facts',
+          type: 'array',
+          fields: [
+            { name: 'label', type: 'text', required: true },
+            { name: 'value', type: 'text', required: true },
+          ],
         },
       ],
     },

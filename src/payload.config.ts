@@ -21,6 +21,7 @@ import { Categories } from './collections/Categories'
 import { Users } from './collections/Users'
 import { Skills } from './collections/Skills/config'
 import { Products } from './collections/Products/config'
+import { Experience } from './collections/Experience/config'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { SiteSettings } from './globals/SiteSettings'
@@ -81,7 +82,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Projects, Technologies, Skills, Products],
+  collections: [Pages, Posts, Media, Categories, Users, Projects, Technologies, Skills, Products, Experience],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, SiteSettings],
   plugins: [
