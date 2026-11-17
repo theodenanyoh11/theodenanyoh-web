@@ -17,6 +17,10 @@ const LOCK_KEY = 20261117
 
 export const applyPendingMigrations = async (payload: Payload): Promise<void> => {
   if (process.env.NODE_ENV !== 'production') return
+  // Vercel preview builds also run with NODE_ENV=production, and this project's
+  // previews use the same database as the live site. Only a production deploy
+  // (or a production server outside Vercel) may change the schema.
+  if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production') return
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const drizzle = (payload.db as any).drizzle
