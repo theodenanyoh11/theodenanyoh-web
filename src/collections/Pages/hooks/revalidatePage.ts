@@ -13,7 +13,7 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
     const path = doc.slug === 'home' ? '/' : `/${doc.slug}`
     payload.logger.info(`[Page Revalidate] Revalidating path: ${path}`)
     revalidatePath(path)
-    revalidateTag('pages-sitemap')
+    revalidateTag('pages-sitemap', { expire: 0 })
 
     if (previousDoc && previousDoc.slug && doc.slug !== previousDoc.slug) {
       const oldPath = previousDoc.slug === 'home' ? '/' : `/${previousDoc.slug}`
@@ -28,7 +28,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Page> = ({ doc, req: { 
   if (!context.disableRevalidate) {
     const path = doc?.slug === 'home' ? '/' : `/${doc?.slug}`
     revalidatePath(path)
-    revalidateTag('pages-sitemap')
+    revalidateTag('pages-sitemap', { expire: 0 })
   }
 
   return doc

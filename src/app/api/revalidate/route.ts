@@ -78,7 +78,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       console.log(
         `Revalidating tag: ${tagToRevalidate} due to ${operation} on ${collection} id: ${doc.id}`,
       )
-      revalidateTag(tagToRevalidate)
+      revalidateTag(tagToRevalidate, { expire: 0 })
       revalidatedTag = true
     } else {
       console.log(

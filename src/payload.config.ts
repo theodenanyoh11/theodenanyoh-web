@@ -27,6 +27,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { plugins } from '@/plugins/index'
+import { applyPendingMigrations } from './migrations/applyPending'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -135,6 +136,10 @@ export default buildConfig({
     }),
     ...plugins,
     s3Storage({
+      // Without S3_BUCKET (local development) uploads go to local disk.
+      // The plugin stays registered so the Media schema matches production.
+      enabled: Boolean(process.env.S3_BUCKET),
+      alwaysInsertFields: true,
       collections: {
         media: {
           prefix: 'media',
@@ -156,6 +161,8 @@ export default buildConfig({
       },
     }),
   ],
+  // Applies the additive migrations in src/migrations/applyPending.ts in production.
+  onInit: applyPendingMigrations,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
