@@ -27,6 +27,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { plugins } from '@/plugins/index'
+import { applyPendingMigrations } from './migrations/applyPending'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -160,6 +161,8 @@ export default buildConfig({
       },
     }),
   ],
+  // Applies the additive migrations in src/migrations/applyPending.ts in production.
+  onInit: applyPendingMigrations,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
