@@ -1,0 +1,235 @@
+{
+  "task_intent": "Redesign a personal website homepage for a product leader and founder",
+  "retrieved": "2026-11-15",
+  "platform": "web",
+  "type": "site section",
+  "coverage_limits": [
+    "Sixteen sections kept from eight section searches of five or six results each. This is a sample, not a survey of the library.",
+    "Five results returned a blank frame and were not used.",
+    "The 'bento grid presenting products or projects' query returned no true bento. The second query, 'features bento grid with cards of different sizes', returned feature grids, which are analogies for a project bento.",
+    "No personal website of an individual product leader appeared in the results. Hero references are company and agency pages.",
+    "All references are still images. Motion, hover and video behaviour were not observed.",
+    "Image files were downloaded successfully. The canonical Mobbin links were not opened to verify them."
+  ],
+  "references": [
+    {
+      "source_id": "3361ca06-fc0e-478a-ba20-7545fd461db6",
+      "product": "OpenSea",
+      "mobbin_url": "https://mobbin.com/sites/sections/3361ca06-fc0e-478a-ba20-7545fd461db6",
+      "local_image": "assets/opensea-video-hero.jpeg",
+      "query": "personal portfolio hero section with video intro",
+      "group": "Hero and video",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Short text column on the left, one large rounded video frame on the right. The founder is on camera, a caption is burned into the frame, and a small pill in the corner names the video."
+    },
+    {
+      "source_id": "22e47073-e617-48c3-8d2b-826872236efc",
+      "product": "ClickUp",
+      "mobbin_url": "https://mobbin.com/sites/sections/22e47073-e617-48c3-8d2b-826872236efc",
+      "local_image": "assets/clickup-video-hero.jpeg",
+      "query": "personal portfolio hero section with video intro",
+      "group": "Hero and video",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Two-line headline that ends in a full stop, a one-sentence subhead, and a round play button with a text label beside it. The media block sits to the right."
+    },
+    {
+      "source_id": "5e1e6047-eef1-417c-b42b-c7ab44205e35",
+      "product": "Kalstore",
+      "mobbin_url": "https://mobbin.com/sites/sections/5e1e6047-eef1-417c-b42b-c7ab44205e35",
+      "local_image": "assets/kalstore-founder.jpeg",
+      "query": "founder personal website hero with portrait photo and short bio",
+      "group": "Hero and video",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Two equal tiles side by side: a flat colour tile carrying a short founder bio in large type, and a portrait photo. Both have the same radius and height."
+    },
+    {
+      "source_id": "10928b8e-852d-4424-b248-8028e8ff92d5",
+      "product": "GitHub ReadME",
+      "mobbin_url": "https://mobbin.com/sites/sections/10928b8e-852d-4424-b248-8028e8ff92d5",
+      "local_image": "assets/github-readme-profile.jpeg",
+      "query": "founder personal website hero with portrait photo and short bio",
+      "group": "Hero and video",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Condensed heavy headline, a small mono caps line under it, then a plain first-person paragraph with a slim facts column on the right (location, link)."
+    },
+    {
+      "source_id": "05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+      "product": "Instrument",
+      "mobbin_url": "https://mobbin.com/sites/sections/05811dd7-a07a-41ae-9fa7-192b8eede1b1",
+      "local_image": "assets/instrument-work.jpeg",
+      "query": "agency selected work case studies section",
+      "group": "Work grid",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "A large tile about two thirds wide beside a narrower tile. Images fill the tiles edge to edge with a 16 to 20px radius, and the client name and one-line description sit under the image, not on top of it. Filter chips sit above the grid."
+    },
+    {
+      "source_id": "3bff67c0-a4b7-49bf-9a6c-efd3b6dec507",
+      "product": "Framer",
+      "mobbin_url": "https://mobbin.com/sites/sections/3bff67c0-a4b7-49bf-9a6c-efd3b6dec507",
+      "local_image": "assets/framer-colour-tiles.jpeg",
+      "query": "features bento grid with cards of different sizes",
+      "group": "Work grid",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Tiles in saturated flat colours (blue, violet, orange, pale grey) with the title and two lines of copy at the bottom-left and an object floating in the upper half."
+    },
+    {
+      "source_id": "4470dfca-a7ae-4a96-a9b4-a33395edbd07",
+      "product": "Loom",
+      "mobbin_url": "https://mobbin.com/sites/sections/4470dfca-a7ae-4a96-a9b4-a33395edbd07",
+      "local_image": "assets/loom-tinted-tiles.jpeg",
+      "query": "features bento grid with cards of different sizes",
+      "group": "Work grid",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Tiles with a very large radius in pale tints (blue, lilac, peach, mint). A product screenshot sits inside each tile on its own rounded card and a one-word label sits below it."
+    },
+    {
+      "source_id": "8e1d64b0-7c88-4989-b510-515186fc2b75",
+      "product": "Analogue Agency",
+      "mobbin_url": "https://mobbin.com/sites/sections/8e1d64b0-7c88-4989-b510-515186fc2b75",
+      "local_image": "assets/analogue-icon-row.jpeg",
+      "query": "agency selected work case studies section",
+      "group": "Work grid",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "A horizontal row of projects, each shown as a small app-icon square with the name and a four-word descriptor under it, separated by thin vertical rules."
+    },
+    {
+      "source_id": "ff78358e-49d9-4e34-bb81-4193ca3a6cc3",
+      "product": "COLLINS",
+      "mobbin_url": "https://mobbin.com/sites/sections/ff78358e-49d9-4e34-bb81-4193ca3a6cc3",
+      "local_image": "assets/collins-case-studies.jpeg",
+      "query": "agency selected work case studies section",
+      "group": "Work grid",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "A short intro and button on the left, then tall portrait cards that run off the right edge of the page to signal a horizontal scroll."
+    },
+    {
+      "source_id": "be4d8246-c2b7-4e06-b89d-501bb9fa4340",
+      "product": "Attio",
+      "mobbin_url": "https://mobbin.com/sites/sections/be4d8246-c2b7-4e06-b89d-501bb9fa4340",
+      "local_image": "assets/attio-logos.jpeg",
+      "query": "logo marquee section of companies",
+      "group": "Logo strip",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Twelve logos in two rows of six, all in solid black, evenly spaced, with no heading and generous space above and below."
+    },
+    {
+      "source_id": "a92a8f7d-1c37-4ae6-abc1-00eab8edc50e",
+      "product": "Lattice",
+      "mobbin_url": "https://mobbin.com/sites/sections/a92a8f7d-1c37-4ae6-abc1-00eab8edc50e",
+      "local_image": "assets/lattice-logos.jpeg",
+      "query": "logo marquee section of companies",
+      "group": "Logo strip",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "One row of eight logos in a muted grey on white. The strip is thin and quiet."
+    },
+    {
+      "source_id": "c12c53bc-7559-4071-a051-ae1ef2f9a8a7",
+      "product": "Givingli",
+      "mobbin_url": "https://mobbin.com/sites/sections/c12c53bc-7559-4071-a051-ae1ef2f9a8a7",
+      "local_image": "assets/givingli-logos.jpeg",
+      "query": "logo marquee section of companies",
+      "group": "Logo strip",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "A small centred caption above a single row of logos that is cut off at both edges, which shows the row is moving."
+    },
+    {
+      "source_id": "d5922e7b-ef05-4512-ab67-77774360b335",
+      "product": "Going",
+      "mobbin_url": "https://mobbin.com/sites/sections/d5922e7b-ef05-4512-ab67-77774360b335",
+      "local_image": "assets/going-video-articles.jpeg",
+      "query": "articles and videos content section",
+      "group": "Content",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "One wide featured card with a video thumbnail on the left and the title, date and a 'Watch' link on the right. Two smaller cards below pair a thumbnail with a title and a 'Read' link. A small tag sits above each title."
+    },
+    {
+      "source_id": "cb6028d0-a6a2-4cd6-8a2b-ce788fc7b67f",
+      "product": "ClickUp",
+      "mobbin_url": "https://mobbin.com/sites/sections/cb6028d0-a6a2-4cd6-8a2b-ce788fc7b67f",
+      "local_image": "assets/clickup-articles.jpeg",
+      "query": "articles and videos content section",
+      "group": "Content",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Three-column article grid with a cover image, a mono caps category in the accent colour, the title, then author and reading time. A dark subscribe tile takes one grid slot."
+    },
+    {
+      "source_id": "fdf9f7c7-623a-4ff0-b0d2-14c125bf0574",
+      "product": "Teachable",
+      "mobbin_url": "https://mobbin.com/sites/sections/fdf9f7c7-623a-4ff0-b0d2-14c125bf0574",
+      "local_image": "assets/teachable-downloads.jpeg",
+      "query": "creator shop section selling templates and digital products",
+      "group": "Shop",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "Three columns. Each product is a cover mock-up on a pale tinted square, then a title, two lines of description and an underlined text link."
+    },
+    {
+      "source_id": "b75b3388-6586-4abf-9a29-1f3d31853973",
+      "product": "Whop",
+      "mobbin_url": "https://mobbin.com/sites/sections/b75b3388-6586-4abf-9a29-1f3d31853973",
+      "local_image": "assets/whop-bento.jpeg",
+      "query": "creator shop section selling templates and digital products",
+      "group": "Shop",
+      "inspected_state": "single section still",
+      "image_retrieved": true,
+      "link_verified": false,
+      "observation": "A dark bento: one full-width tile on top and two half-width tiles below, each with a small coloured label, a heading, two lines and a button."
+    }
+  ],
+  "discarded_blank_previews": [
+    {
+      "product": "Metalab",
+      "source_id": "3e24cd34-ebbc-457e-84c6-33f869130747",
+      "mobbin_url": "https://mobbin.com/sites/sections/3e24cd34-ebbc-457e-84c6-33f869130747"
+    },
+    {
+      "product": "Buro",
+      "source_id": "6a6fe0b5-88df-4114-b06a-7647bc81a445",
+      "mobbin_url": "https://mobbin.com/sites/sections/6a6fe0b5-88df-4114-b06a-7647bc81a445"
+    },
+    {
+      "product": "Vucko",
+      "source_id": "03cfd319-c1ea-4020-91e8-07809a9ff0d2",
+      "mobbin_url": "https://mobbin.com/sites/sections/03cfd319-c1ea-4020-91e8-07809a9ff0d2"
+    },
+    {
+      "product": "OFF+BRAND",
+      "source_id": "851e3996-4679-4653-aae6-3b345cab2aba",
+      "mobbin_url": "https://mobbin.com/sites/sections/851e3996-4679-4653-aae6-3b345cab2aba"
+    },
+    {
+      "product": "Palmer Dinnerware",
+      "source_id": "fc9350ab-c91b-40c0-aa6d-3f05444217cd",
+      "mobbin_url": "https://mobbin.com/sites/sections/fc9350ab-c91b-40c0-aa6d-3f05444217cd"
+    }
+  ]
+}
