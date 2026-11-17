@@ -6,7 +6,7 @@ import { revalidateTag } from 'next/cache'
 export const revalidateSiteSettings = ({ doc, req }: { doc: any; req: any }) => {
   // Check if the request originates from the admin panel API to avoid infinite loops
   if (req?.path?.includes('/api/globals/site-settings')) {
-    revalidateTag(`global_site-settings`)
+    revalidateTag(`global_site-settings`, { expire: 0 })
   }
   return doc // Return the document to continue the hook chain
 }
