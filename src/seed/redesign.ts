@@ -196,9 +196,20 @@ async function run() {
       { blockType: 'text', name: 'company', label: 'Company or project', width: 100 },
       { blockType: 'textarea', name: 'message', label: 'Message', required: true, width: 100 },
     ],
-    // No notification email is set. Submissions are kept under Form Submissions
-    // in the admin panel. Add an address under the form's Emails tab to be notified.
-    emails: [],
+    // The address that gets new messages is private, so it is not in this
+    // file. Set CONTACT_NOTIFY_EMAIL when running the seed, or add the address
+    // under the form's Emails tab in the admin panel. Without either,
+    // submissions are only kept under Form Submissions.
+    emails: process.env.CONTACT_NOTIFY_EMAIL
+      ? [
+          {
+            emailTo: process.env.CONTACT_NOTIFY_EMAIL,
+            replyTo: '{{email}}',
+            subject: 'Website: {{reason}}',
+            message: paragraph('{{name}} ({{email}}), {{company}}: {{message}}'),
+          },
+        ]
+      : [],
   })
 
   // The homepage is a CMS page. Set its layout to the six redesign sections.

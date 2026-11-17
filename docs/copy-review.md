@@ -14,14 +14,10 @@ Lines taken from your resume, your current site or the Paper design are not list
 | 4 | Engagement 1 | **Product review call** · One hour · Bring a roadmap, a prototype or a pricing page. Leave with a written list of what I would change first. · Price on request | |
 | 5 | Engagement 2 | **Prototype sprint** · Two weeks · A clickable, working first version of your idea, designed and built by me, ready to show customers. · Price on request | |
 | 6 | Engagement 3 | **Fractional product lead** · Ongoing · A few hours a week of product leadership for a team that is not ready for a full-time hire. · Price on request | |
-| 7 | Template | **Help center design templates** · Layouts for a help center your customers can use. · From $29 | |
+| 7 | Template | **Help center design templates** · Layouts for a help center your customers can use. · Coming soon | |
 | 8 | Merch | **The "ships." tee** · For people who finish things. More on the way. · Coming soon | |
 
-Questions for this section:
-
-- Do you offer all three engagements? Delete any you do not.
-- Is "From $29" a real price? If the templates are not for sale yet, I will mark them "Coming soon".
-- Does the tee exist? If not, I will remove the merch tile until there is something to sell.
+Settled on 17 November 2026: all three engagements are offered, and the templates and the tee are both planned and marked "Coming soon" with no price.
 
 ## Project one-liners (homepage tiles, Work page)
 
@@ -69,14 +65,14 @@ Lines 24 to 28 are your resume figures in the softened form you asked for. Check
 | 29 | Under the heading | I read every message myself and reply within two working days. Or skip the form and book a call. | |
 | 30 | After sending | Thank you. I read every message myself and will reply within two working days. | |
 
-Is two working days a promise you want to make?
+Settled on 17 November 2026: the promise stays, and new messages are emailed to a private address.
 
 ## Images
 
 | # | Where | Current | What I need |
 |---|---|---|---|
 | 31 | Homepage hero and About | Your GitHub avatar, 460 pixels wide. It looks soft at this size | A portrait at least 1600 pixels on the short side |
-| 32 | Cleanly tile and case study | A dashboard screenshot with the older in-app logo | A current screenshot of the web dashboard and the phone app, or a demo login so I can capture them |
+| 32 | Cleanly tile and case study | Replaced on 17 November 2026 with the current jobs view, captured from the demo account | Nothing, unless you prefer a different screen |
 | 33 | DirectoryHub tile | Replaced on 17 November 2026 with the Maker's Shelf template from directoryhub.app | Nothing, unless you prefer a different screen |
 | 34 | Social share image | Still the Payload template image | Tell me if you want one made from the hero |
 

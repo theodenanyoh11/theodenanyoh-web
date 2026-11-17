@@ -20,7 +20,11 @@ export const media = {
   afrojobsLogo: ['logos/afrojobs.png', 'AfroJobs'],
   founderhubosLogo: ['logos/founderhubos.svg', 'FounderHubOS'],
   helpcenterLogo: ['logos/helpcenter-design.svg', 'helpcenter.design'],
-  cleanlyTile: ['tiles/cleanly-product-stage.png', 'Cleanly scheduling screens on web and phone'],
+  // Captured from a demo account on 17 November 2026.
+  cleanlyTile: [
+    'tiles/cleanly-jobs-2026.png',
+    "Cleanly's jobs view, with crews and times for the day",
+  ],
   tillyTile: ['tiles/tilly-morning-brief.png', 'Tilly morning brief on a phone'],
   // From directoryhub.app, November 2026: a directory built with the product.
   directoryhubTile: [
@@ -469,7 +473,7 @@ export const products = [
     summary: 'For founders who need a product lead before they can hire one.',
     ctaLabel: 'Book a call',
   },
-  // PLACEHOLDER: the three engagements and their prices need Theo's review.
+  // Theo confirmed all three engagements on 17 November 2026. Prices are on request.
   {
     slug: 'product-review-call',
     kind: 'engagement' as const,
@@ -502,12 +506,15 @@ export const products = [
     kind: 'template' as const,
     name: 'Help center design templates',
     summary: 'Layouts for a help center your customers can use.',
-    priceLabel: 'From $29', // PLACEHOLDER
+    // Planned, not yet for sale.
+    comingSoon: true,
+    priceLabel: '',
   },
   {
     slug: 'ships-tee',
     kind: 'merch' as const,
-    name: 'The "ships." tee', // PLACEHOLDER
+    // Planned, not yet for sale.
+    name: 'The "ships." tee',
     summary: 'For people who finish things. More on the way.',
     comingSoon: true,
   },
