@@ -9,6 +9,10 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    // Next 16 only serves qualities on this list. ImageMedia asks for 100.
+    qualities: [75, 100],
+    // Local uploads are served from localhost, which Next 16 blocks by default.
+    dangerouslyAllowLocalIP: process.env.NODE_ENV !== 'production',
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
