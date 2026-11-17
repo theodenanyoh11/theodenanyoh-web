@@ -7,7 +7,8 @@ export const assets = 'docs/design/assets'
 
 export const media = {
   // key: [file, alt]
-  portrait: ['photos/theo-github-avatar.jpg', 'Theo Denanyoh'], // PLACEHOLDER: low resolution
+  // Supplied by Theo on 17 November 2026. 653 pixels wide, so it is a little soft at hero size.
+  portrait: ['photos/theo-portrait-brick.jpg', 'Theo Denanyoh'],
   signature: ['photos/theo-signature.svg', "Theo's signature"],
   paycor: ['logos/paycor.svg', 'Paycor'],
   paychex: ['logos/paychex.svg', 'Paychex'],
@@ -92,7 +93,7 @@ export const projects: SeedProject[] = [
     role: 'Founder, product, design and engineering',
     year: '2024 to now',
     platforms: ['web', 'ios', 'android'],
-    // PLACEHOLDER: case study text needs Theo's review.
+    // Reviewed by Theo on 17 November 2026.
     headline: 'Cleanly: the operating system for cleaning businesses',
     sections: [
       {
@@ -113,7 +114,7 @@ export const projects: SeedProject[] = [
       },
       {
         heading: 'How I test it',
-        body: 'Every release runs inside my own company first. If a cleaner cannot finish a check-in on a real job, it does not ship. That loop is the reason the product is opinionated about small teams.',
+        body: 'I use it in my own cleaning company every week, and that shapes what ships.',
         image: 'tgTile',
         caption: "A finished job at TG Cleaning, Cleanly's first customer.",
       },
@@ -125,7 +126,7 @@ export const projects: SeedProject[] = [
       { label: 'Platforms', value: 'Web, iOS, Android' },
       { label: 'Languages', value: 'English, Spanish, Portuguese' },
       { label: 'Stack', value: 'Next.js, Convex, Expo' },
-      { label: 'Built for', value: 'Teams of 2 to 15 cleaners' },
+      { label: 'Built for', value: 'Commercial cleaning crews' },
     ],
   },
   {
@@ -208,7 +209,7 @@ export const projects: SeedProject[] = [
   {
     slug: 'oliver',
     name: 'Oliver',
-    summary: 'A private family AI for the kitchen wall.', // PLACEHOLDER
+    summary: 'A shared family assistant for schedules, lists and reminders.',
     stage: 'building',
     statusLabel: 'Prototype',
     tint: 'mist',
@@ -218,7 +219,7 @@ export const projects: SeedProject[] = [
   {
     slug: 'helpcenter-design',
     name: 'helpcenter.design',
-    summary: 'Help centers worth copying.', // PLACEHOLDER
+    summary: 'Help centers worth copying.',
     stage: 'building',
     statusLabel: 'Brand done',
     tint: 'gold-soft',
@@ -239,7 +240,7 @@ export const projects: SeedProject[] = [
   {
     slug: 'afrojobs',
     name: 'AfroJobs',
-    summary: 'Tech and startup jobs across Africa.', // PLACEHOLDER
+    summary: 'Tech and startup jobs for people of color.',
     stage: 'live',
     tint: 'mint',
     logo: 'afrojobsLogo',
@@ -255,13 +256,6 @@ export const projects: SeedProject[] = [
     logo: 'founderhubosLogo',
     url: 'https://founderhubos.com',
     platforms: ['web'],
-  },
-  {
-    slug: 'famgraph',
-    name: 'FamGraph',
-    summary: 'In build. Details soon.', // PLACEHOLDER
-    stage: 'building',
-    tint: 'peach',
   },
   {
     slug: 'beacon',
@@ -338,7 +332,7 @@ export const experience: {
     role: 'Senior Technical Product Manager',
     company: 'Paycor',
     logo: 'paychex',
-    startDate: '2018-01-01', // PLACEHOLDER: exact dates
+    startDate: '2018-01-01', // Shown as "Earlier at Paycor". Theo chose not to show dates.
     period: 'Earlier at Paycor',
     location: 'Cincinnati, Ohio',
     outcomes: [
