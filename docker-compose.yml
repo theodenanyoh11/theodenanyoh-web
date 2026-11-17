@@ -1,31 +1,16 @@
-version: '3'
-
+# Local Postgres for development. Start with: docker compose up -d
+# Then set DATABASE_URI=postgres://postgres:postgres@127.0.0.1:5432/theodenanyoh_web_dev
 services:
-  payload:
-    image: node:18-alpine
+  postgres:
+    image: postgres:16
     ports:
-      - '3000:3000'
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: theodenanyoh_web_dev
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - mongo
-    env_file:
-      - .env
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
-    volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  data:
-  node_modules:
+  pgdata:

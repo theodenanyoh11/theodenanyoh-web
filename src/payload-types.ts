@@ -296,7 +296,6 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1446,7 +1445,6 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1968,7 +1966,12 @@ export interface SiteSetting {
   id: number;
   logo: number | Media;
   /**
-   * Add a script tag (e.g., <script>...</script>) that will be included in the <head> of your site. This can be used for analytics, chat widgets, or other third-party scripts.
+   * Add script tags that will be included in your site. Supports multiple formats:
+   * - Multiple script tags: <script>...</script><script src="..."></script>
+   * - Next.js Script component: <Script src="..." strategy="afterInteractive" data-attr="value" />
+   * - Inline script content: console.log("hello");
+   *
+   * Scripts are automatically placed in the correct location (head or body).
    */
   headScript?: string | null;
   updatedAt?: string | null;
