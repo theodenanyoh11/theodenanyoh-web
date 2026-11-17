@@ -26,7 +26,7 @@ export const ShopFeatureBlockComponent: React.FC<ShopFeatureBlock> = async ({ ey
       <SectionHeader eyebrow={eyebrow} title={title || 'Take something with you'} />
       {consulting && <ConsultingBanner product={consulting} settings={settings} />}
       {others.length > 0 && (
-        <div className="grid gap-4 lg:grid-cols-2 lg:gap-5">
+        <div className="grid gap-4 md:grid-cols-2 lg:gap-5">
           {others.map((product) => (
             <OfferCard key={product.id} product={product} settings={settings} />
           ))}

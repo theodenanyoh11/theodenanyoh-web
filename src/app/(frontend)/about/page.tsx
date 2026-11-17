@@ -26,7 +26,7 @@ export default async function AboutPage() {
 
   return (
     <article>
-      <header className="site-container flex flex-col gap-10 pt-12 lg:flex-row lg:gap-16 lg:pt-[88px]">
+      <header className="site-container flex flex-col gap-10 pt-12 md:flex-row lg:gap-16 lg:pt-[88px]">
         <div className="flex flex-1 flex-col justify-between gap-8">
           <div className="flex flex-col gap-5">
             <Eyebrow>About</Eyebrow>
@@ -51,7 +51,7 @@ export default async function AboutPage() {
           )}
         </div>
         {portrait && (
-          <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-tile bg-mist lg:h-[640px] lg:w-[520px]">
+          <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-tile bg-mist md:w-[320px] lg:h-[640px] lg:w-[520px]">
             <Media
               fill
               htmlElement={null}

@@ -51,7 +51,7 @@ export const ContentFeatureBlockComponent: React.FC<ContentFeatureBlock> = async
       {video && <FeaturedVideo post={video} />}
 
       {articles.length > 0 && (
-        <div className="grid gap-8 lg:grid-cols-3 lg:gap-5">
+        <div className="grid gap-8 md:grid-cols-3 md:gap-5">
           {articles.map((post) => (
             <ArticleRow key={post.id} post={post} />
           ))}

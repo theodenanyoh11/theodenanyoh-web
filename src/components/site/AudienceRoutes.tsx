@@ -36,13 +36,13 @@ export const AudienceRoutes: React.FC<{ title?: string | null; routes?: Audience
       <Heading as="h2" className="text-paper" stop={false}>
         {title || 'What brings you here?'}
       </Heading>
-      <ul className="grid border-t border-body lg:grid-cols-3">
+      <ul className="grid border-t border-body md:grid-cols-3">
         {routes.map((route, i) => (
           <li
             className={
-              'flex flex-col gap-4 border-body py-8 lg:py-0 lg:pt-8 ' +
-              (i > 0 ? 'border-t lg:border-l lg:border-t-0 lg:pl-8 ' : '') +
-              (i < routes.length - 1 ? 'lg:pr-8' : '')
+              'flex flex-col gap-4 border-body py-8 md:py-0 md:pt-8 ' +
+              (i > 0 ? 'border-t md:border-l md:border-t-0 md:pl-6 lg:pl-8 ' : '') +
+              (i < routes.length - 1 ? 'md:pr-6 lg:pr-8' : '')
             }
             key={i}
           >

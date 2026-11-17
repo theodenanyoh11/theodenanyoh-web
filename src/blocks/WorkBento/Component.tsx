@@ -49,7 +49,7 @@ export const WorkBentoBlockComponent: React.FC<WorkBentoBlock> = async ({ eyebro
   return (
     <section className="site-container flex flex-col gap-8 pt-[72px] lg:pt-28">
       <SectionHeader eyebrow={eyebrow} title={title || 'Things I designed, built and launched'} />
-      <div className="grid gap-4 lg:grid-cols-12 lg:gap-5">
+      <div className="grid grid-flow-dense gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5">
         {tiles.map((project, i) => (
           <ProjectTile
             key={project.id}

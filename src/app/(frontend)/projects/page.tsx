@@ -95,7 +95,7 @@ export default async function WorkPage({ searchParams }: Props) {
       </nav>
 
       {current.length > 0 && (
-        <section className="site-container grid gap-4 lg:grid-cols-12 lg:gap-5">
+        <section className="site-container grid grid-flow-dense gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5">
           {current.map((project, i) => (
             <ProjectTile
               key={project.id}

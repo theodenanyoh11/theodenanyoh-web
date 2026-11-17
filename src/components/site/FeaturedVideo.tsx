@@ -18,10 +18,10 @@ export const FeaturedVideo: React.FC<{ post: Post; as?: 'h2' | 'h3' }> = ({
 
   return (
     <Link
-      className="group flex flex-col gap-6 rounded-tile bg-mist p-5 lg:flex-row lg:gap-8 lg:p-6"
+      className="group flex flex-col gap-6 rounded-tile bg-mist p-5 md:flex-row lg:gap-8 lg:p-6"
       href={`/posts/${video.slug}`}
     >
-      <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-media bg-gold-soft lg:w-[640px]">
+      <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-media bg-gold-soft md:w-[360px] lg:w-[640px]">
         {poster ? (
           <Media
             fill

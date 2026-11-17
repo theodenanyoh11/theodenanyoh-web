@@ -247,7 +247,7 @@ export default async function ProjectPage({ params }: Args) {
         </div>
       </div>
 
-      <div className="site-container grid gap-4 py-[72px] lg:grid-cols-2 lg:gap-5 lg:py-32">
+      <div className="site-container grid gap-4 py-[72px] md:grid-cols-2 lg:gap-5 lg:py-32">
         {next && (
           <Link
             className={cn(

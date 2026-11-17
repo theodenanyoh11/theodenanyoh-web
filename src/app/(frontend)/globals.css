@@ -53,6 +53,14 @@
     --error: 357 83% 95%;
   }
 
+  /* Tablet */
+  @media (min-width: 768px) {
+    :root {
+      --gutter: 40px;
+      --section: 96px;
+    }
+  }
+
   @media (min-width: 1024px) {
     :root {
       --gutter: 64px;

@@ -22,7 +22,11 @@ export const media = {
   helpcenterLogo: ['logos/helpcenter-design.svg', 'helpcenter.design'],
   cleanlyTile: ['tiles/cleanly-product-stage.png', 'Cleanly scheduling screens on web and phone'],
   tillyTile: ['tiles/tilly-morning-brief.png', 'Tilly morning brief on a phone'],
-  directoryhubTile: ['tiles/directoryhub-ui.png', 'DirectoryHub directory builder'],
+  // From directoryhub.app, November 2026: a directory built with the product.
+  directoryhubTile: [
+    'tiles/directoryhub-makers-shelf.jpg',
+    "Maker's Shelf, a directory site built with DirectoryHub",
+  ],
   chimepostTile: ['tiles/chimepost-calendar.png', 'Chimepost content calendar'],
   tgTile: ['tiles/tg-finished-room.jpg', 'A finished room cleaned by TG Cleaning'],
   packerboxTile: ['tiles/packerbox-hero.png', 'PackerBox reusable moving boxes'],

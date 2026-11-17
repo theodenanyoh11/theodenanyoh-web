@@ -168,7 +168,7 @@ export default async function ExperiencePage() {
       {(page?.habits?.length ?? 0) > 0 && (
         <section className="site-container flex flex-col gap-8 pt-[72px] lg:pt-32">
           <SectionHeader eyebrow="How I lead" title="Three habits I bring to a team" />
-          <ul className="grid gap-4 lg:grid-cols-3 lg:gap-5">
+          <ul className="grid gap-4 md:grid-cols-3 lg:gap-5">
             {page!.habits!.map((habit, i) => (
               <li
                 className="flex flex-col gap-3 rounded-tile bg-mist p-6 lg:p-8"

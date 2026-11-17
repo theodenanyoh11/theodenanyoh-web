@@ -94,10 +94,10 @@ export default async function WritingPage({ searchParams }: Props) {
                   key={post.id}
                 >
                   <Link
-                    className="group flex flex-col gap-5 py-8 lg:flex-row lg:items-center lg:gap-8"
+                    className="group flex flex-col gap-5 py-8 md:flex-row md:items-center md:gap-8"
                     href={`/posts/${post.slug}`}
                   >
-                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-media bg-cobalt-soft lg:h-[176px] lg:w-[280px]">
+                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-media bg-cobalt-soft md:w-[240px] lg:aspect-auto lg:h-[176px] lg:w-[280px]">
                       {image ? (
                         <Media
                           fill
@@ -121,7 +121,7 @@ export default async function WritingPage({ searchParams }: Props) {
                       </h2>
                       {post.excerpt && <p className="type-body max-w-[720px]">{post.excerpt}</p>}
                     </div>
-                    <p className="shrink-0 text-[15px] leading-[18px] text-muted-foreground lg:w-[120px] lg:text-right">
+                    <p className="shrink-0 text-[15px] leading-[18px] text-muted-foreground md:w-[90px] md:text-right lg:w-[120px]">
                       {postMeta(post)}
                     </p>
                   </Link>

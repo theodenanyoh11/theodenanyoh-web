@@ -25,10 +25,11 @@ const tintClass: Record<Tint, string> = {
 }
 
 const spanClass = {
+  // Two columns on tablets: wide tiles take the full row.
   4: 'lg:col-span-4',
   6: 'lg:col-span-6',
-  8: 'lg:col-span-8',
-  12: 'lg:col-span-12',
+  8: 'md:col-span-2 lg:col-span-8',
+  12: 'md:col-span-2 lg:col-span-12',
 } as const
 
 export type ProjectTileData = {
@@ -77,7 +78,12 @@ export const ProjectTile: React.FC<{
       href={href}
     >
       {hasImage && (
-        <div className="relative aspect-[4/3] min-h-0 overflow-hidden rounded-media bg-paper lg:aspect-auto lg:flex-1">
+        <div
+          className={cn(
+            'relative aspect-[4/3] min-h-0 overflow-hidden rounded-media bg-paper lg:aspect-auto lg:flex-1',
+            large && 'md:aspect-[2/1]',
+          )}
+        >
           <Media
             fill
             htmlElement={null}

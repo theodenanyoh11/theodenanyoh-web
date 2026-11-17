@@ -36,7 +36,7 @@ export const HomeHeroBlockComponent: React.FC<HomeHeroBlock> = async ({
   const { lines, lastLineStart, accent } = splitHeadline(hero?.headline || fallback.headline)
 
   return (
-    <section className="site-container flex flex-col gap-10 pb-[72px] pt-12 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:pt-[88px]">
+    <section className="site-container flex flex-col gap-10 pb-[72px] pt-12 md:flex-row md:items-end md:justify-between lg:gap-16 lg:pt-[88px]">
       <div className="flex max-w-[800px] flex-col gap-6 lg:gap-8">
         <Eyebrow>{hero?.eyebrow || fallback.eyebrow}</Eyebrow>
         <h1 className="type-h1">
@@ -78,7 +78,7 @@ export const HomeHeroBlockComponent: React.FC<HomeHeroBlock> = async ({
       </div>
 
       {portrait && (
-        <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-tile bg-ink lg:h-[560px] lg:w-[448px]">
+        <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-tile bg-ink md:w-[300px] lg:h-[560px] lg:w-[448px]">
           <Media
             fill
             htmlElement={null}

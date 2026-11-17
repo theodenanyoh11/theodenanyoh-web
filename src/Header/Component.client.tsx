@@ -66,7 +66,11 @@ export const HeaderClient: React.FC = () => {
 
   return (
     <header
-      className={cn('relative z-30 border-b', open ? 'border-body bg-ink' : 'border-rule bg-paper')}
+      className={cn(
+        // Sticky below desktop, so the menu button is always in reach on a phone.
+        'sticky top-0 z-30 border-b lg:relative',
+        open ? 'border-body bg-ink' : 'border-rule bg-paper',
+      )}
     >
       <div className="site-container flex items-center justify-between py-4 lg:py-6">
         <Link aria-label="Theo Denanyoh, home" href="/">

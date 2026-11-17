@@ -207,6 +207,11 @@ async function run() {
     slug: 'home',
     slugLock: false,
     hero: { type: 'none' },
+    meta: {
+      title: 'Product leader and founder',
+      description:
+        'Theo Denanyoh leads product teams by day and designs, builds and launches his own software, including Cleanly, Tilly and DirectoryHub.',
+    },
     layout: [
       { blockType: 'homeHero' },
       { blockType: 'logoMarquee' },

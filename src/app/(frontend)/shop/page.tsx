@@ -48,7 +48,7 @@ export default async function ShopPage() {
         <section aria-label="Consulting" className="site-container flex flex-col gap-4 lg:gap-5">
           {consulting && <ConsultingBanner as="h2" product={consulting} settings={settings} />}
           {engagements.length > 0 && (
-            <ul className="grid gap-4 lg:grid-cols-3 lg:gap-5">
+            <ul className="grid gap-4 md:grid-cols-3 lg:gap-5">
               {engagements.map((product) => (
                 <li
                   className="flex flex-col justify-between gap-8 rounded-tile bg-mist p-6 lg:p-8"
@@ -77,7 +77,7 @@ export default async function ShopPage() {
       {goods.length > 0 && (
         <section className="site-container flex flex-col gap-8 pt-[72px] lg:pt-24">
           <Heading as="h2">Templates and merch</Heading>
-          <div className="grid gap-4 lg:grid-cols-2 lg:gap-5">
+          <div className="grid gap-4 md:grid-cols-2 lg:gap-5">
             {goods.map((product) => (
               <OfferCard key={product.id} product={product} settings={settings} />
             ))}
