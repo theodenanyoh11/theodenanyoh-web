@@ -50,8 +50,14 @@ export const HeaderClient: React.FC = () => {
       }
     }
 
+    // The menu only exists below the desktop breakpoint. Close it if the window grows.
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const onWiden = () => desktop.matches && setOpenOn(null)
+    desktop.addEventListener('change', onWiden)
+
     document.addEventListener('keydown', onKeyDown)
     return () => {
+      desktop.removeEventListener('change', onWiden)
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', onKeyDown)
       toggle?.focus()
@@ -103,12 +109,9 @@ export const HeaderClient: React.FC = () => {
 
       {open && (
         <div
-          aria-label="Menu"
-          aria-modal="true"
-          className="fixed inset-x-0 bottom-0 top-[65px] flex flex-col justify-between overflow-y-auto bg-ink px-4 pb-8 pt-6 lg:hidden"
+          className="absolute inset-x-0 top-full flex h-[calc(100dvh-100%)] flex-col justify-between overflow-y-auto bg-ink px-4 pb-8 pt-6 lg:hidden"
           id="site-menu"
           ref={menuRef}
-          role="dialog"
         >
           <nav aria-label="Main" className="flex flex-col">
             {primaryNav.map((item) => (

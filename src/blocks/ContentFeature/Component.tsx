@@ -21,6 +21,7 @@ export const ContentFeatureBlockComponent: React.FC<ContentFeatureBlock> = async
       sort: '-publishedAt',
       depth: 1,
       limit: 1,
+      overrideAccess: false,
     }),
     payload.find({
       collection: 'posts',
@@ -28,6 +29,7 @@ export const ContentFeatureBlockComponent: React.FC<ContentFeatureBlock> = async
       sort: '-publishedAt',
       depth: 1,
       limit: 3,
+      overrideAccess: false,
     }),
   ])
 

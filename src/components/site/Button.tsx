@@ -5,6 +5,16 @@ import { cn } from '@/utilities/ui'
 
 type Variant = 'primary' | 'ink' | 'secondary' | 'onInk' | 'onCobalt'
 
+/**
+ * Site paths start with / or #. Anything else is an outside address, and one
+ * typed without a scheme ("www.example.com") gets https added.
+ */
+export const resolveHref = (href: string): { href: string; external: boolean } => {
+  if (href.startsWith('/') || href.startsWith('#')) return { href, external: false }
+  if (/^[a-z][a-z0-9+.-]*:/i.test(href)) return { href, external: true }
+  return { href: `https://${href}`, external: true }
+}
+
 const variants: Record<Variant, string> = {
   primary: 'bg-cobalt text-paper hover:bg-[#1630e0]',
   ink: 'bg-ink text-paper hover:bg-[#242424]',
@@ -44,8 +54,8 @@ export const Button: React.FC<Props> = ({
   )
 
   if (typeof rest.href === 'string') {
-    const { href, ...anchorProps } = rest
-    const external = /^(https?:|mailto:|tel:)/.test(href)
+    const { href: rawHref, ...anchorProps } = rest
+    const { href, external } = resolveHref(rawHref)
     if (external) {
       return (
         <a className={classes} href={href} {...anchorProps}>
@@ -72,12 +82,13 @@ export const TextLink: React.FC<{
   href: string
   className?: string
   children: React.ReactNode
-}> = ({ href, className, children }) => {
+}> = ({ href: rawHref, className, children }) => {
+  const { href, external } = resolveHref(rawHref)
   const classes = cn(
     'font-semibold text-ink underline decoration-1 underline-offset-4 hover:text-cobalt',
     className,
   )
-  return /^(https?:|mailto:|tel:)/.test(href) ? (
+  return external ? (
     <a className={classes} href={href}>
       {children}
     </a>

@@ -8,6 +8,16 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 // release keeps working after it runs.
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
+  -- Remember whether this is the first run, before any column is added.
+  DO $$ BEGIN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_schema = 'public' AND table_name = 'projects' AND column_name = 'stage'
+    ) THEN
+      PERFORM set_config('redesign.first_run', '1', false);
+    END IF;
+  END $$;
+
    DO $$ BEGIN
     CREATE TYPE "public"."enum_posts_kind" AS ENUM('article', 'video');
   EXCEPTION WHEN duplicate_object THEN null;
@@ -433,7 +443,26 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_experience_id_idx" ON "payload_locked_documents_rels" USING btree ("experience_id");
   CREATE INDEX IF NOT EXISTS "site_settings_hero_hero_portrait_idx" ON "site_settings" USING btree ("hero_portrait_id");
   CREATE INDEX IF NOT EXISTS "site_settings_about_about_portrait_idx" ON "site_settings" USING btree ("about_portrait_id");
-  CREATE INDEX IF NOT EXISTS "site_settings_about_about_signature_idx" ON "site_settings" USING btree ("about_signature_id");`)
+  CREATE INDEX IF NOT EXISTS "site_settings_about_about_signature_idx" ON "site_settings" USING btree ("about_signature_id");
+
+  -- On the first run only, carry existing projects over to the new fields:
+  -- the old status becomes the stage, and featured projects get a homepage position.
+  DO $$ BEGIN
+    IF current_setting('redesign.first_run', true) = '1' THEN
+      UPDATE "projects" SET "stage" = (CASE "status"::text
+        WHEN 'active' THEN 'live'
+        WHEN 'closed' THEN 'retired'
+        ELSE 'building' END)::"enum_projects_stage";
+      UPDATE "projects" p SET "home_order" = o.position
+        FROM (
+          SELECT "id", row_number() OVER (ORDER BY "created_at") AS position
+          FROM "projects" WHERE "featured" = true
+        ) o
+        WHERE p."id" = o."id";
+      PERFORM set_config('redesign.first_run', '0', false);
+    END IF;
+  END $$;
+  `)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {

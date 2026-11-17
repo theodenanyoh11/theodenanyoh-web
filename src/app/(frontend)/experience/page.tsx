@@ -128,6 +128,11 @@ export default async function ExperiencePage() {
                 </div>
                 <div className="flex flex-1 flex-col gap-[14px]">
                   <h2 className="type-h3">{role.role}</h2>
+                  {role.companyNote && (
+                    <p className="text-[15px] leading-[18px] text-muted-foreground">
+                      {role.company}, {role.companyNote}
+                    </p>
+                  )}
                   {role.summary && <p className="type-body max-w-[680px]">{role.summary}</p>}
                   {(role.outcomes?.length ?? 0) > 0 && (
                     <ul className="flex max-w-[680px] flex-col gap-2">

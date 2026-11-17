@@ -27,6 +27,9 @@ export default async function ShopPage() {
   const engagements = products.filter((p) => p.kind === 'engagement')
   const goods = products.filter((p) => p.kind !== 'consulting' && p.kind !== 'engagement')
 
+  // Keeps the heading order valid when there is no headline consulting offer above.
+  const EngagementHeading = consulting ? 'h3' : 'h2'
+
   return (
     <article>
       <header className="site-container flex flex-col gap-6 pb-10 pt-12 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:pb-14 lg:pt-[88px]">
@@ -55,7 +58,7 @@ export default async function ShopPage() {
                     {product.term && (
                       <p className="type-label text-muted-foreground">{product.term}</p>
                     )}
-                    <h3 className="type-h3">{product.name}</h3>
+                    <EngagementHeading className="type-h3">{product.name}</EngagementHeading>
                     {product.summary && <p className="type-body">{product.summary}</p>}
                   </div>
                   <TextLink

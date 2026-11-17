@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 export type ContactField = {
   name: string
@@ -23,6 +23,13 @@ export const ContactForm: React.FC<{
   fallbackEmail?: string | null
 }> = ({ formId, fields, submitLabel, fallbackEmail }) => {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  const doneRef = useRef<HTMLDivElement>(null)
+
+  // Move focus to the confirmation, since the form it was in is gone.
+  useEffect(() => {
+    if (state === 'sent') doneRef.current?.focus()
+  }, [state])
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -48,7 +55,12 @@ export const ContactForm: React.FC<{
 
   if (state === 'sent') {
     return (
-      <div className="flex flex-col gap-3 rounded-tile bg-mist p-6 lg:p-8" role="status">
+      <div
+        className="flex flex-col gap-3 rounded-tile bg-mist p-6 lg:p-8"
+        ref={doneRef}
+        role="status"
+        tabIndex={-1}
+      >
         <p className="type-h3">Thank you.</p>
         <p className="type-body">
           I read every message myself and will reply within two working days.

@@ -28,11 +28,23 @@ export const WorkBentoBlockComponent: React.FC<WorkBentoBlock> = async ({ eyebro
     }),
   ])
 
+  // Until projects are given a homepage position, show the first few by name.
+  if (!tiles.length) {
+    const fallback = await payload.find({
+      collection: 'projects',
+      where: { stage: { not_equals: 'retired' } },
+      sort: 'name',
+      depth: 1,
+      limit: 6,
+    })
+    tiles.push(...fallback.docs)
+    others.splice(0)
+  }
   if (!tiles.length) return null
 
   // The first row is taller when it opens with a wide tile.
   const tallCount = tileSpan(tiles[0]!) >= 8 ? 2 : 0
-  const total = tiles.length + totalDocs
+  const total = others.length ? tiles.length + totalDocs : totalDocs
 
   return (
     <section className="site-container flex flex-col gap-8 pt-[72px] lg:pt-28">

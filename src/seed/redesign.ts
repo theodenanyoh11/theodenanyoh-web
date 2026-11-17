@@ -223,7 +223,9 @@ async function run() {
     _status: 'published',
   })
 
-  payload.logger.info('Redesign content loaded.')
+  payload.logger.info(
+    'Redesign content loaded. Restart or redeploy the site to refresh cached pages.',
+  )
   process.exit(0)
 }
 

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   description: 'Get in touch with Theo Denanyoh about a role, a partnership or a project.',
 }
 
+// The form is edited in the admin panel, so refresh this page every ten minutes.
+export const revalidate = 600
+
 const prompts = [
   {
     title: 'Hiring a product leader',
@@ -90,7 +93,11 @@ export default async function ContactPage() {
         ) : (
           // No form is set up yet. Offer email so the page never dead-ends.
           <div className="flex flex-col items-start gap-5 rounded-tile bg-mist p-6 lg:p-8">
-            <p className="type-h3">Email is the fastest way to reach me.</p>
+            <p className="type-h3">
+              {email
+                ? 'Email is the fastest way to reach me.'
+                : 'The form is being set up. Use the links on this page.'}
+            </p>
             {email && (
               <Button href={`mailto:${email}`} size="lg">
                 Email {email}

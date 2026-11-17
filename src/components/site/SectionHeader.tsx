@@ -22,20 +22,3 @@ export const SectionHeader: React.FC<{
     {action && <div className="shrink-0">{action}</div>}
   </div>
 )
-
-/** Page title block for inner pages. One per page, holds the H1. */
-export const PageHeader: React.FC<{
-  eyebrow?: string | null
-  title: string
-  intro?: React.ReactNode
-  children?: React.ReactNode
-}> = ({ eyebrow, title, intro, children }) => (
-  <header className="site-container pb-10 pt-12 lg:pb-16 lg:pt-[88px]">
-    <div className="flex max-w-[960px] flex-col gap-6">
-      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <Heading as="h1">{title.replace(/\.$/, '')}</Heading>
-      {intro && <p className="type-lead max-w-[680px] text-body">{intro}</p>}
-      {children}
-    </div>
-  </header>
-)

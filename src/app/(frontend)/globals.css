@@ -94,11 +94,6 @@
     padding-inline: var(--gutter);
   }
 
-  /* Vertical rhythm between page sections. */
-  .section {
-    padding-block: calc(var(--section) / 2);
-  }
-
   /* Type scale. Phone sizes first, desktop sizes from 1024px. */
   .type-h1,
   .type-h1-page,
@@ -141,10 +136,6 @@
   .type-body {
     font-size: 17px;
     line-height: 26px;
-  }
-  .type-small {
-    font-size: 15px;
-    line-height: 22px;
   }
   .type-label {
     font-size: 14px;

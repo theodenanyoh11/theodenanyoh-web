@@ -160,7 +160,7 @@ export default async function ProjectPage({ params }: Args) {
       <div className="site-container flex flex-col gap-12 pt-12 lg:flex-row lg:gap-24 lg:pt-24">
         {/* On phones the facts come first, as in the phone design. */}
         <aside className="order-first flex flex-col gap-8 lg:order-last lg:flex-1">
-          {facts.length > 0 && (
+          {(facts.length > 0 || url) && (
             <dl className="border-t-2 border-ink">
               {facts.map((fact, i) => (
                 <div className="flex justify-between gap-6 border-b border-rule py-4" key={i}>
