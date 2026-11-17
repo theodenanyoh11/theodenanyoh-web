@@ -9,6 +9,7 @@ export const toTileData = (project: Project): ProjectTileData => ({
   summary: project.summary,
   tint: project.tint,
   image: project.tileImage ?? project.mainImage,
+  logo: project.logo,
   stage: project.stage,
   statusLabel: project.statusLabel,
   badge: project.badge,

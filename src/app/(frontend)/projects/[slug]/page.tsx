@@ -145,6 +145,8 @@ export default async function ProjectPage({ params }: Args) {
             <div className="relative aspect-[16/10] overflow-hidden rounded-media bg-paper lg:aspect-[2/1]">
               <Media
                 fill
+                htmlElement={null}
+                pictureClassName="absolute inset-0"
                 imgClassName="object-cover object-top"
                 priority
                 resource={lead}
@@ -195,17 +197,18 @@ export default async function ProjectPage({ params }: Args) {
               <section className="flex flex-col gap-4" key={section.id ?? i}>
                 <Heading as="h2">{section.heading.replace(/\.$/, '')}</Heading>
                 {section.lead && <p className="type-lead">{section.lead}</p>}
-                {section.body
-                  ?.split(/\n\s*\n/)
-                  .map((text, j) => (
-                    <p className="text-[17px] leading-7" key={j}>
-                      {text}
-                    </p>
-                  ))}
+                {section.body?.split(/\n\s*\n/).map((text, j) => (
+                  <p className="text-[17px] leading-7" key={j}>
+                    {text}
+                  </p>
+                ))}
                 {(section.cards?.length ?? 0) > 0 && (
                   <div className="grid gap-4 pt-2 sm:grid-cols-2 lg:gap-5">
                     {section.cards!.map((card, j) => (
-                      <div className="flex flex-col gap-2 rounded-tile bg-mist p-6" key={card.id ?? j}>
+                      <div
+                        className="flex flex-col gap-2 rounded-tile bg-mist p-6"
+                        key={card.id ?? j}
+                      >
                         <h3 className="type-h4">{card.title}</h3>
                         <p className="text-[16px] leading-6">{card.body}</p>
                       </div>
@@ -217,6 +220,8 @@ export default async function ProjectPage({ params }: Args) {
                     <div className="relative aspect-[2/1] overflow-hidden rounded-tile">
                       <Media
                         fill
+                        htmlElement={null}
+                        pictureClassName="absolute inset-0"
                         imgClassName="object-cover"
                         resource={image}
                         size="(min-width: 1024px) 720px, 100vw"
@@ -257,7 +262,12 @@ export default async function ProjectPage({ params }: Args) {
               <span className="text-[16px] leading-6 text-body">{next.summary}</span>
             </span>
             <svg aria-hidden="true" className="shrink-0" height="40" viewBox="0 0 40 40" width="40">
-              <path d="M6 20 H34 M22 8 L34 20 L22 32" fill="none" stroke="#0A0A0A" strokeWidth="4" />
+              <path
+                d="M6 20 H34 M22 8 L34 20 L22 32"
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="4"
+              />
             </svg>
           </Link>
         )}

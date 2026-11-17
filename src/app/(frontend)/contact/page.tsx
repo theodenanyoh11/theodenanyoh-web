@@ -68,43 +68,18 @@ export default async function ContactPage() {
   })
 
   return (
-    <article className="site-container flex flex-col gap-12 pb-[72px] pt-12 lg:flex-row lg:gap-24 lg:pb-32 lg:pt-[88px]">
-      <div className="flex flex-1 flex-col gap-8">
-        <div className="flex flex-col gap-5">
-          <Eyebrow>Contact</Eyebrow>
-          <Heading as="h1">Tell me what you are working on</Heading>
-          <p className="type-lead max-w-[520px]">
-            I read every message myself and reply within two working days.
-          </p>
-        </div>
-        {/* On phones the form comes before the prompts, as in the phone design. */}
-        <ul className="order-last border-t-2 border-ink lg:order-none">
-          {prompts.map((prompt) => (
-            <li className="flex flex-col gap-[6px] border-b border-rule py-6" key={prompt.title}>
-              <h2 className="type-h4">{prompt.title}</h2>
-              <p className="type-body">{prompt.body}</p>
-            </li>
-          ))}
-        </ul>
-        <ul className="order-last flex flex-wrap gap-x-8 gap-y-3 lg:order-none">
-          {email && (
-            <li>
-              <TextLink className="text-[17px] leading-[22px]" href={`mailto:${email}`}>
-                {email}
-              </TextLink>
-            </li>
-          )}
-          {(settings?.social ?? []).map((item) => (
-            <li key={item.url}>
-              <TextLink className="text-[17px] leading-[22px]" href={item.url}>
-                {item.label}
-              </TextLink>
-            </li>
-          ))}
-        </ul>
+    // Source order is heading, form, prompts. That is the phone order. On
+    // desktop the form moves to a right column that spans both rows.
+    <article className="site-container grid gap-10 pb-[72px] pt-12 lg:grid-cols-[1fr_600px] lg:gap-x-24 lg:gap-y-8 lg:pb-32 lg:pt-[88px]">
+      <div className="flex flex-col gap-5">
+        <Eyebrow>Contact</Eyebrow>
+        <Heading as="h1">Tell me what you are working on</Heading>
+        <p className="type-lead max-w-[520px]">
+          I read every message myself and reply within two working days.
+        </p>
       </div>
 
-      <div className="w-full shrink-0 self-start lg:w-[600px]">
+      <div className="self-start lg:col-start-2 lg:row-span-2 lg:row-start-1">
         {form && fields.length > 0 ? (
           <ContactForm
             fallbackEmail={email}
@@ -123,6 +98,33 @@ export default async function ContactPage() {
             )}
           </div>
         )}
+      </div>
+
+      <div className="flex flex-col gap-8 lg:col-start-1">
+        <ul className="border-t-2 border-ink">
+          {prompts.map((prompt) => (
+            <li className="flex flex-col gap-[6px] border-b border-rule py-6" key={prompt.title}>
+              <h2 className="type-h4">{prompt.title}</h2>
+              <p className="type-body">{prompt.body}</p>
+            </li>
+          ))}
+        </ul>
+        <ul className="flex flex-wrap gap-x-8 gap-y-3">
+          {email && (
+            <li>
+              <TextLink className="text-[17px] leading-[22px]" href={`mailto:${email}`}>
+                {email}
+              </TextLink>
+            </li>
+          )}
+          {(settings?.social ?? []).map((item) => (
+            <li key={item.url}>
+              <TextLink className="text-[17px] leading-[22px]" href={item.url}>
+                {item.label}
+              </TextLink>
+            </li>
+          ))}
+        </ul>
       </div>
     </article>
   )

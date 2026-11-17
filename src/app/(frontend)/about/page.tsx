@@ -13,7 +13,8 @@ import { cn } from '@/utilities/ui'
 
 export const metadata: Metadata = {
   title: 'About | Theo Denanyoh',
-  description: 'Theo Denanyoh is a product leader and founder. Born in Accra, building in Columbus.',
+  description:
+    'Theo Denanyoh is a product leader and founder. Born in Accra, building in Columbus.',
 }
 
 export default async function AboutPage() {
@@ -36,9 +37,14 @@ export default async function AboutPage() {
             // The fact list is a desktop detail. The phone layout leaves it out.
             <dl className="hidden max-w-[640px] border-t-2 border-ink lg:block">
               {about!.facts!.map((fact, i) => (
-                <div className="flex justify-between gap-6 border-b border-rule py-4" key={fact.id ?? i}>
+                <div
+                  className="flex justify-between gap-6 border-b border-rule py-4"
+                  key={fact.id ?? i}
+                >
                   <dt className="text-[15px] leading-[18px] text-muted-foreground">{fact.label}</dt>
-                  <dd className="text-[17px] font-semibold leading-[22px] text-ink">{fact.value}</dd>
+                  <dd className="text-[17px] font-semibold leading-[22px] text-ink">
+                    {fact.value}
+                  </dd>
                 </div>
               ))}
             </dl>
@@ -48,6 +54,8 @@ export default async function AboutPage() {
           <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-tile bg-mist lg:h-[640px] lg:w-[520px]">
             <Media
               fill
+              htmlElement={null}
+              pictureClassName="absolute inset-0"
               imgClassName="object-cover"
               priority
               resource={portrait}

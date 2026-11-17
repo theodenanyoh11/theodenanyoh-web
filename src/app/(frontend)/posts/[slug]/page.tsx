@@ -16,6 +16,7 @@ import { Heading } from '@/components/site/Heading'
 import { VideoEmbed } from '@/components/site/VideoEmbed'
 import { getServerSideURL } from '@/utilities/getURL'
 import Link from 'next/link'
+import { cn } from '@/utilities/ui'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
@@ -108,6 +109,8 @@ export default async function Post({ params: paramsPromise }: Args) {
             <div className="relative aspect-[16/10] overflow-hidden rounded-tile bg-mist lg:aspect-[9/4]">
               <Media
                 fill
+                htmlElement={null}
+                pictureClassName="absolute inset-0"
                 imgClassName="object-cover"
                 priority
                 resource={heroImage}
@@ -145,7 +148,12 @@ export default async function Post({ params: paramsPromise }: Args) {
         </div>
       </div>
 
-      <section className="site-container flex flex-col gap-8 pb-[72px] pt-[72px] lg:pb-32 lg:pt-32">
+      <section
+        className={cn(
+          'site-container flex flex-col gap-8 pb-[72px] lg:pb-32',
+          related.length > 0 && 'pt-[72px] lg:pt-32',
+        )}
+      >
         {related.length > 0 && (
           <>
             <Heading as="h2">Keep reading</Heading>

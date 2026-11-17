@@ -17,7 +17,9 @@ export const ShopFeatureBlockComponent: React.FC<ShopFeatureBlock> = async ({ ey
 
   if (!products.length) return null
   const consulting = products.find((p) => p.kind === 'consulting')
-  const others = products.filter((p) => p.kind !== 'consulting' && p.kind !== 'engagement').slice(0, 2)
+  const others = products
+    .filter((p) => p.kind !== 'consulting' && p.kind !== 'engagement')
+    .slice(0, 2)
 
   return (
     <section className="site-container flex flex-col gap-8 py-[72px] lg:py-32">

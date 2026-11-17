@@ -51,7 +51,10 @@ export default async function WorkPage({ searchParams }: Props) {
     sort: ['homeOrder', 'name'],
   })
 
-  const ordered = [...all.filter((p) => p.homeOrder != null), ...all.filter((p) => p.homeOrder == null)]
+  const ordered = [
+    ...all.filter((p) => p.homeOrder != null),
+    ...all.filter((p) => p.homeOrder == null),
+  ]
   const current = ordered.filter((p) => p.stage !== 'retired' && matches(p, active))
   const archive = ordered.filter((p) => p.stage === 'retired' && matches(p, active))
   const count = (key: FilterKey) => all.filter((p) => matches(p, key)).length

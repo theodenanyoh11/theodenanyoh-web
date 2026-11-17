@@ -101,6 +101,8 @@ export default async function WritingPage({ searchParams }: Props) {
                       {image ? (
                         <Media
                           fill
+                          htmlElement={null}
+                          pictureClassName="absolute inset-0"
                           imgClassName="object-cover"
                           resource={image}
                           size="(min-width: 1024px) 280px, 100vw"

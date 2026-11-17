@@ -25,12 +25,14 @@ export const FeaturedVideo: React.FC<{ post: Post; as?: 'h2' | 'h3' }> = ({
         {poster ? (
           <Media
             fill
+            htmlElement={null}
+            pictureClassName="absolute inset-0"
             imgClassName="object-cover"
             resource={poster}
             size="(min-width: 1024px) 640px, 100vw"
           />
         ) : (
-          <p className="flex size-full items-center p-8 font-display text-[32px] font-extrabold leading-9 tracking-[-0.03em] text-ink lg:text-[40px] lg:leading-[44px]">
+          <p className="flex size-full items-start p-5 pb-20 font-display text-[24px] font-extrabold leading-7 tracking-[-0.03em] text-ink lg:items-center lg:p-8 lg:pb-8 lg:text-[40px] lg:leading-[44px]">
             {video.title}
           </p>
         )}

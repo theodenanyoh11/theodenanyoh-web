@@ -81,6 +81,8 @@ export const HomeHeroBlockComponent: React.FC<HomeHeroBlock> = async ({
         <div className="relative aspect-[4/5] w-full shrink-0 overflow-hidden rounded-tile bg-ink lg:h-[560px] lg:w-[448px]">
           <Media
             fill
+            htmlElement={null}
+            pictureClassName="absolute inset-0"
             imgClassName="object-cover"
             priority
             resource={portrait}

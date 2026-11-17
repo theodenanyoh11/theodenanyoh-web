@@ -4,6 +4,7 @@ import React from 'react'
 import type { Media as MediaType } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { cn } from '@/utilities/ui'
 
 import { StatusPill, type Stage } from './StatusPill'
@@ -36,6 +37,8 @@ export type ProjectTileData = {
   summary?: string | null
   tint?: Tint | null
   image?: MediaType | number | null
+  /** Shown in the media area when there is no image. */
+  logo?: MediaType | number | null
   stage?: Stage | null
   statusLabel?: string | null
   /** Small label over the image, for example "Not software". */
@@ -61,6 +64,7 @@ export const ProjectTile: React.FC<{
   const large = span === 8 || span === 12
   const hasImage = Boolean(image && typeof image === 'object')
   const hasRows = !hasImage && Boolean(sampleRows?.length)
+  const logo = project.logo && typeof project.logo === 'object' ? project.logo : null
 
   return (
     <Link
@@ -76,6 +80,8 @@ export const ProjectTile: React.FC<{
         <div className="relative aspect-[4/3] min-h-0 overflow-hidden rounded-media bg-paper lg:aspect-auto lg:flex-1">
           <Media
             fill
+            htmlElement={null}
+            pictureClassName="absolute inset-0"
             imgClassName="object-cover object-top"
             priority={priority}
             resource={image}
@@ -117,7 +123,25 @@ export const ProjectTile: React.FC<{
         </div>
       )}
 
-      {!hasImage && !hasRows && <div className="hidden flex-1 lg:block" />}
+      {!hasImage && !hasRows && (
+        <div className="hidden min-h-0 flex-1 items-center justify-center rounded-media bg-paper/60 lg:flex">
+          {logo?.url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              alt=""
+              className="max-h-12 w-auto max-w-[60%] object-contain"
+              height={logo.height ?? 48}
+              loading="lazy"
+              src={getMediaUrl(logo.url)}
+              width={logo.width ?? 160}
+            />
+          ) : (
+            <span className="font-display text-[40px] font-extrabold leading-none tracking-[-0.04em] text-ink/15">
+              {name}
+            </span>
+          )}
+        </div>
+      )}
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-4">

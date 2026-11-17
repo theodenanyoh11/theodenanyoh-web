@@ -16,7 +16,8 @@ import { cn } from '@/utilities/ui'
 
 export const metadata: Metadata = {
   title: 'Experience | Theo Denanyoh',
-  description: 'Theo Denanyoh has worked in product for over ten years, from analyst to group lead.',
+  description:
+    'Theo Denanyoh has worked in product for over ten years, from analyst to group lead.',
 }
 
 const year = (date: string) => new Date(date).getUTCFullYear()
@@ -82,7 +83,9 @@ export default async function ExperiencePage() {
             )}
             {resumeUrl && (
               <Button
-                className={cn(!videoUrl ? '' : 'border border-ink bg-transparent text-ink hover:bg-mist')}
+                className={cn(
+                  !videoUrl ? '' : 'border border-ink bg-transparent text-ink hover:bg-mist',
+                )}
                 href={resumeUrl}
                 rel="noopener"
                 size="lg"
@@ -140,7 +143,10 @@ export default async function ExperiencePage() {
                     </ul>
                   )}
                   {role.link?.href && role.link.label && (
-                    <TextLink className="self-start text-[17px] leading-[22px]" href={role.link.href}>
+                    <TextLink
+                      className="self-start text-[17px] leading-[22px]"
+                      href={role.link.href}
+                    >
                       {role.link.label}
                     </TextLink>
                   )}
@@ -159,7 +165,10 @@ export default async function ExperiencePage() {
           <SectionHeader eyebrow="How I lead" title="Three habits I bring to a team" />
           <ul className="grid gap-4 lg:grid-cols-3 lg:gap-5">
             {page!.habits!.map((habit, i) => (
-              <li className="flex flex-col gap-3 rounded-tile bg-mist p-6 lg:p-8" key={habit.id ?? i}>
+              <li
+                className="flex flex-col gap-3 rounded-tile bg-mist p-6 lg:p-8"
+                key={habit.id ?? i}
+              >
                 <h3 className="type-h4">{habit.title}</h3>
                 <p className="type-body">{habit.body}</p>
               </li>
@@ -187,7 +196,10 @@ const CompanyMark: React.FC<{
     // eslint-disable-next-line @next/next/no-img-element
     <img
       alt={company}
-      className={cn('w-auto object-contain object-right', small ? 'h-6 max-w-[120px]' : 'h-8 max-w-[220px]')}
+      className={cn(
+        'w-auto object-contain object-right',
+        small ? 'h-6 max-w-[120px]' : 'h-8 max-w-[220px]',
+      )}
       height={logo.height ?? 32}
       src={getMediaUrl(logo.url)}
       width={logo.width ?? 120}
