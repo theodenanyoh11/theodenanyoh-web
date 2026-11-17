@@ -53,10 +53,11 @@ export const applyPendingMigrations = async (payload: Payload): Promise<void> =>
         payload.logger.info(`Applied migration ${migration.name}`)
       })
     } catch (err) {
-      // Stop at the first failure so later migrations never run out of order.
-      // The transaction has rolled back, and the next start will try again.
+      // The transaction has rolled back. Fail loudly: on Vercel this fails the
+      // build, so the previous deployment stays live instead of new code going
+      // out against an old schema.
       payload.logger.error({ err, msg: `Migration ${migration.name} failed and was rolled back` })
-      return
+      throw err
     }
   }
 }
