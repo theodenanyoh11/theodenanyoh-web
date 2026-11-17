@@ -1,7 +1,7 @@
 # theodenanyoh.com redesign and upgrade: design
 
 Date: 17 November 2026
-Status: draft, awaiting Theo's review
+Status: built. PR 10 (upgrade) and PR 11 (redesign) are open for review
 Design source: Paper file "theodenanyoh.com · 2026 Redesign" (https://app.paper.design/file/01M7H13138PYHQJACRY12TTE9T)
 Research: `docs/design/research/2026-11-15-homepage-redesign/report.md`
 
