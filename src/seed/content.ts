@@ -389,9 +389,10 @@ export const site = {
       'I lead product teams in HR software by day. On nights and weekends I design, build and launch my own software, including Cleanly, Tilly and DirectoryHub.',
   },
   videoResume: { url: '', duration: '1:30' },
-  contactEmail: 'hello@theodenanyoh.com', // PLACEHOLDER: confirm the address
+  // No public email. People book a call or use the contact form.
+  contactEmail: null,
   resumeUrl: 'https://drive.google.com/file/d/1LdStBPJzC_n_f5OmxWgmlG-Hbbp71_YQ/view',
-  bookingUrl: '', // PLACEHOLDER: booking link for "Book a 30 minute call"
+  bookingUrl: 'https://app.trytilly.com/theo',
   social: [
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/theodenanyoh' },
     { label: 'GitHub', url: 'https://github.com/theodenanyoh11' },
@@ -462,7 +463,7 @@ export const products = [
     kind: 'consulting' as const,
     name: 'Product strategy or a working build, by the hour or by the project.',
     summary: 'For founders who need a product lead before they can hire one.',
-    ctaLabel: 'Book a 30 minute call', // PLACEHOLDER
+    ctaLabel: 'Book a call',
   },
   // PLACEHOLDER: the three engagements and their prices need Theo's review.
   {

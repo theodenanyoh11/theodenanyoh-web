@@ -2,6 +2,7 @@ import { sql } from '@payloadcms/db-postgres'
 import { createLocalReq, type Payload } from 'payload'
 
 import * as payload393 from './20261117_090000_payload_3_93'
+import * as redesign from './20261117_143501_redesign'
 
 // Migrations the site applies by itself when it starts in production.
 //
@@ -10,7 +11,10 @@ import * as payload393 from './20261117_090000_payload_3_93'
 // the 2025 migrations if they were never recorded. Both are possible here.
 //
 // Only migrations that are additive and safe to run twice belong in this list.
-const automatic = [{ name: '20261117_090000_payload_3_93', up: payload393.up }]
+const automatic = [
+  { name: '20261117_090000_payload_3_93', up: payload393.up },
+  { name: '20261117_143501_redesign', up: redesign.up },
+]
 
 // Any fixed number works. It only has to be the same in every instance.
 const LOCK_KEY = 20261117

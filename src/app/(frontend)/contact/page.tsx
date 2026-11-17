@@ -50,6 +50,8 @@ export default async function ContactPage() {
 
   const form = forms[0]
   const email = settings?.contactEmail
+  const bookingUrl = settings?.bookingUrl
+  const resumeUrl = settings?.resumeUrl
   const fields: ContactField[] = (form?.fields ?? []).flatMap((field) => {
     if (!(supported as readonly string[]).includes(field.blockType)) return []
     if (!('name' in field) || !field.name) return []
@@ -85,22 +87,20 @@ export default async function ContactPage() {
       <div className="self-start lg:col-start-2 lg:row-span-2 lg:row-start-1">
         {form && fields.length > 0 ? (
           <ContactForm
-            fallbackEmail={email}
+            fallbackUrl={bookingUrl}
             fields={fields}
             formId={form.id}
             submitLabel={form.submitButtonLabel || 'Send message'}
           />
         ) : (
-          // No form is set up yet. Offer email so the page never dead-ends.
+          // No form is set up yet. Offer the booking link so the page never dead-ends.
           <div className="flex flex-col items-start gap-5 rounded-tile bg-mist p-6 lg:p-8">
             <p className="type-h3">
-              {email
-                ? 'Email is the fastest way to reach me.'
-                : 'The form is being set up. Use the links on this page.'}
+              {bookingUrl ? 'The quickest way to reach me is a call.' : 'The form is being set up.'}
             </p>
-            {email && (
-              <Button href={`mailto:${email}`} size="lg">
-                Email {email}
+            {bookingUrl && (
+              <Button href={bookingUrl} size="lg">
+                Book a call
               </Button>
             )}
           </div>
@@ -117,10 +117,24 @@ export default async function ContactPage() {
           ))}
         </ul>
         <ul className="flex flex-wrap gap-x-8 gap-y-3">
+          {bookingUrl && (
+            <li>
+              <TextLink className="text-[17px] leading-[22px]" href={bookingUrl}>
+                Book a call
+              </TextLink>
+            </li>
+          )}
           {email && (
             <li>
               <TextLink className="text-[17px] leading-[22px]" href={`mailto:${email}`}>
                 {email}
+              </TextLink>
+            </li>
+          )}
+          {resumeUrl && (
+            <li>
+              <TextLink className="text-[17px] leading-[22px]" href={resumeUrl}>
+                Resume (PDF)
               </TextLink>
             </li>
           )}

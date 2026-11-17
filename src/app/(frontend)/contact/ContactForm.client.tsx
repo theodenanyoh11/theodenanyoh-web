@@ -20,8 +20,8 @@ export const ContactForm: React.FC<{
   formId: number | string
   fields: ContactField[]
   submitLabel: string
-  fallbackEmail?: string | null
-}> = ({ formId, fields, submitLabel, fallbackEmail }) => {
+  fallbackUrl?: string | null
+}> = ({ formId, fields, submitLabel, fallbackUrl }) => {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const doneRef = useRef<HTMLDivElement>(null)
@@ -137,11 +137,11 @@ export const ContactForm: React.FC<{
       {state === 'error' && (
         <p className="col-span-2 text-[15px] leading-[22px] text-[#B42318]" role="alert">
           The message did not send. Please try again
-          {fallbackEmail ? (
+          {fallbackUrl ? (
             <>
-              , or email{' '}
-              <a className="underline" href={`mailto:${fallbackEmail}`}>
-                {fallbackEmail}
+              , or{' '}
+              <a className="underline" href={fallbackUrl}>
+                book a call
               </a>
             </>
           ) : null}

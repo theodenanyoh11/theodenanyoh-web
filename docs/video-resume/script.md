@@ -93,6 +93,7 @@ Six beats. Times are a guide. Read it aloud once before recording and cut any li
 ### A. Synthesia avatar
 
 - Use only a personal avatar made from Theo's own footage, with his cloned voice. A stock avatar does not meet the "looks exactly like me" bar.
+- The Synthesia account has no personal avatar yet (checked 17 November 2026). Record one first: in Synthesia, create a personal avatar from a few minutes of webcam or studio footage, and clone the voice in the same flow. The draft can be made once both show as ready.
 - Beats 1, 3, 5 and 6 are avatar on camera. Beats 2 and 4 are text cards and screen recordings with the cloned voice over them.
 - Check three things in the draft: how the voice says "Denanyoh", "Tilly" and "KrumaLabs"; whether the hands and blinks look natural in beat 1; and whether the smile at the end reads as real.
 - Good for: fast edits when a product or a number changes.

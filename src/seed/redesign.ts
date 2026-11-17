@@ -196,14 +196,9 @@ async function run() {
       { blockType: 'text', name: 'company', label: 'Company or project', width: 100 },
       { blockType: 'textarea', name: 'message', label: 'Message', required: true, width: 100 },
     ],
-    emails: [
-      {
-        emailTo: site.contactEmail,
-        replyTo: '{{email}}',
-        subject: 'Website: {{reason}}',
-        message: paragraph('{{name}} ({{email}}), {{company}}: {{message}}'),
-      },
-    ],
+    // No notification email is set. Submissions are kept under Form Submissions
+    // in the admin panel. Add an address under the form's Emails tab to be notified.
+    emails: [],
   })
 
   // The homepage is a CMS page. Set its layout to the six redesign sections.

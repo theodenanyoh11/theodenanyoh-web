@@ -15,6 +15,7 @@ export async function Footer() {
       item?.label && item?.url ? [{ label: item.label, url: item.url }] : [],
     ),
     ...(settings?.resumeUrl ? [{ label: 'Resume', url: settings.resumeUrl }] : []),
+    ...(settings?.bookingUrl ? [{ label: 'Book a call', url: settings.bookingUrl }] : []),
     ...(settings?.contactEmail
       ? [{ label: settings.contactEmail, url: `mailto:${settings.contactEmail}` }]
       : []),
