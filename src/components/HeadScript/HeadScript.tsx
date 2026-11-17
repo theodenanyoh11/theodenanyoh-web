@@ -52,7 +52,7 @@ function parseScripts(script: string): ParsedScript[] {
   // Parse Next.js Script components (handles both self-closing and with content)
   const nextScriptSelfClosingRegex = /<Script\s*([^>]*)\s*\/>/gis
   const nextScriptWithContentRegex = /<Script\s*([^>]*)>(.*?)<\/Script>/gis
-  
+
   let match
   while ((match = nextScriptSelfClosingRegex.exec(trimmedScript)) !== null) {
     const attributes = match[1] || ''
@@ -165,14 +165,7 @@ function renderScript(parsed: ParsedScript, index: number, location: 'head' | 'b
     // External script (with src) - use Next.js Script
     if (parsed.type === 'external' && parsed.src) {
       const { src, attributes } = parsed
-      return (
-        <Script
-          key={key}
-          src={src}
-          strategy="beforeInteractive"
-          {...attributes}
-        />
-      )
+      return <Script key={key} src={src} strategy="beforeInteractive" {...attributes} />
     }
 
     // Inline script - use Next.js Script
@@ -214,7 +207,7 @@ function renderScript(parsed: ParsedScript, index: number, location: 'head' | 'b
  * - Next.js Script component syntax (rendered in body)
  * - Inline scripts and external scripts
  * - Data attributes (data-*)
- * 
+ *
  * Users can paste:
  * - Multiple script tags: <script>...</script><script src="..."></script>
  * - Next.js Script: <Script src="..." strategy="afterInteractive" />
@@ -226,11 +219,7 @@ export function HeadScript({ script }: HeadScriptProps) {
   const parsedScripts = parseScripts(script)
   const headScripts = parsedScripts.filter((s) => !shouldRenderInBody(s))
 
-  return (
-    <>
-      {headScripts.map((parsed, index) => renderScript(parsed, index, 'head'))}
-    </>
-  )
+  return <>{headScripts.map((parsed, index) => renderScript(parsed, index, 'head'))}</>
 }
 
 /**
@@ -243,9 +232,5 @@ export function BodyScript({ script }: HeadScriptProps) {
   const parsedScripts = parseScripts(script)
   const bodyScripts = parsedScripts.filter((s) => shouldRenderInBody(s))
 
-  return (
-    <>
-      {bodyScripts.map((parsed, index) => renderScript(parsed, index, 'body'))}
-    </>
-  )
+  return <>{bodyScripts.map((parsed, index) => renderScript(parsed, index, 'body'))}</>
 }

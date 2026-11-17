@@ -15,6 +15,7 @@
     "lint:fix": "eslint . --fix",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
+    "seed:redesign": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/redesign.ts",
     "smoke": "node scripts/smoke.mjs",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },

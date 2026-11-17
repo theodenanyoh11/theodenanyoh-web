@@ -53,6 +53,9 @@ export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { 
     const path = `/posts/${doc?.slug}`
 
     revalidatePath(path)
+    // The homepage and the writing index list posts too.
+    revalidatePath('/')
+    revalidatePath('/posts')
     revalidateTag('posts-sitemap', { expire: 0 })
   }
 

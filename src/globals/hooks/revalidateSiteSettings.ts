@@ -1,12 +1,12 @@
-// import type { AfterChangeHook, PayloadRequest } from 'payload/types'
-// import type { SiteSetting } from '../../payload-types'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import type { GlobalAfterChangeHook } from 'payload'
 
-// Explicitly type parameters as any to satisfy noImplicitAny
-export const revalidateSiteSettings = ({ doc, req }: { doc: any; req: any }) => {
-  // Check if the request originates from the admin panel API to avoid infinite loops
-  if (req?.path?.includes('/api/globals/site-settings')) {
-    revalidateTag(`global_site-settings`, { expire: 0 })
+// Site Settings feed the hero, logo strip, footer, About, Experience and
+// Contact, so a change refreshes every page.
+export const revalidateSiteSettings: GlobalAfterChangeHook = ({ doc, req: { context } }) => {
+  if (!context.disableRevalidate) {
+    revalidateTag('global_site-settings', { expire: 0 })
+    revalidatePath('/', 'layout')
   }
-  return doc // Return the document to continue the hook chain
+  return doc
 }

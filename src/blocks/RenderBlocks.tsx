@@ -11,6 +11,24 @@ import { FormBlock } from './Form/Component'
 import { SkillBlockComponent } from './SkillBlock/Component'
 import { ProductBlockComponent } from './ProductBlock/Component'
 import { FeaturedPostsBlockComponent } from './FeaturedPostsBlock/Component'
+import { HomeHeroBlockComponent } from './HomeHero/Component'
+import { LogoMarqueeBlockComponent } from './LogoMarqueeBlock/Component'
+import { WorkBentoBlockComponent } from './WorkBento/Component'
+import { ContentFeatureBlockComponent } from './ContentFeature/Component'
+import { ShopFeatureBlockComponent } from './ShopFeature/Component'
+import { AudienceRoutesBlockComponent } from './AudienceRoutesBlock/Component'
+
+type AnyBlock = React.FC<Record<string, unknown> & { disableInnerContainer?: boolean }>
+
+// Redesign sections set their own spacing and width, so they render without the legacy wrapper.
+const sectionComponents: { [key: string]: AnyBlock } = {
+  homeHero: HomeHeroBlockComponent as unknown as AnyBlock,
+  logoMarquee: LogoMarqueeBlockComponent as unknown as AnyBlock,
+  workBento: WorkBentoBlockComponent as unknown as AnyBlock,
+  contentFeature: ContentFeatureBlockComponent as unknown as AnyBlock,
+  shopFeature: ShopFeatureBlockComponent as unknown as AnyBlock,
+  audienceRoutes: AudienceRoutesBlockComponent as unknown as AnyBlock,
+}
 
 const blockComponents: {
   [key: string]: React.FC<Record<string, unknown> & { disableInnerContainer?: boolean }>
@@ -66,6 +84,11 @@ export const RenderBlocks: React.FC<{
           if (!blockType || typeof blockType !== 'string') {
             console.warn(`[RenderBlocks] Block at index ${index} is missing blockType.`)
             return null
+          }
+
+          if (blockType in sectionComponents) {
+            const Section = sectionComponents[blockType]!
+            return <Section key={index} {...block} />
           }
 
           if (blockType && blockType in blockComponents) {

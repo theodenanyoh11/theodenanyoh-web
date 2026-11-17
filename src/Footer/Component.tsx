@@ -1,40 +1,52 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import Link from 'next/link'
 import React from 'react'
 
-import type { Footer, SiteSetting, Media } from '@/payload-types'
+import type { SiteSetting } from '@/payload-types'
 
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
-import { CMSLink } from '@/components/Link'
-import { Logo } from '@/components/Logo/Logo'
+import { Wordmark } from '@/components/site/Wordmark'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+
+type FooterLink = { label: string; url: string }
 
 export async function Footer() {
-  const [footerResult, siteSettingsResult] = await Promise.all([
-    getCachedGlobal('footer', 1)(),
-    getCachedGlobal('site-settings', 2)(),
-  ])
+  const settings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting | null
 
-  const footerData = footerResult as Footer
-  const siteSettingsData = siteSettingsResult as SiteSetting
-
-  const navItems = footerData?.navItems || []
-  const logoResource = siteSettingsData?.logo as Media | null | undefined
+  const links: FooterLink[] = [
+    ...(settings?.social ?? []).flatMap((item) =>
+      item?.label && item?.url ? [{ label: item.label, url: item.url }] : [],
+    ),
+    ...(settings?.resumeUrl ? [{ label: 'Resume', url: settings.resumeUrl }] : []),
+    ...(settings?.bookingUrl ? [{ label: 'Book a call', url: settings.bookingUrl }] : []),
+    ...(settings?.contactEmail
+      ? [{ label: settings.contactEmail, url: `mailto:${settings.contactEmail}` }]
+      : []),
+  ]
 
   return (
-    <footer className="mt-auto border-t border-border dark:bg-card text-foreground dark:text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo logoResource={logoResource} />
-        </Link>
-
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-foreground dark:text-white" key={i} {...link} />
-            })}
-          </nav>
+    <footer className="mt-auto border-t border-body bg-ink">
+      <div className="site-container flex flex-col gap-10 pb-12 pt-14 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-3">
+          <Wordmark
+            className="text-[88px] leading-[76px] lg:text-[120px] lg:leading-[100px]"
+            tone="paper"
+          />
+          <p className="text-[15px] leading-[18px] text-[#C8C8C8]">
+            Theo Denanyoh · Columbus, Ohio · Born in Accra
+          </p>
         </div>
+        {links.length > 0 && (
+          <ul className="flex flex-wrap gap-x-8 gap-y-4">
+            {links.map((link) => (
+              <li key={link.url}>
+                <a
+                  className="text-[15px] font-medium leading-[18px] text-paper hover:text-[#8FA0FF]"
+                  href={link.url}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </footer>
   )

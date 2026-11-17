@@ -64,9 +64,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
+  // The closing block sits flush against the footer, so it needs no bottom padding.
+  const flushBottom = layout?.at(-1)?.blockType === 'audienceRoutes'
 
   return (
-    <article className="pb-24">
+    <article className={flushBottom ? undefined : 'pb-24'}>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />

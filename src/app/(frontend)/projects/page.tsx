@@ -1,165 +1,146 @@
-import React, { JSX } from 'react'
-import { Metadata } from 'next'
-import { draftMode } from 'next/headers'
-
-import { Technology } from '@/payload-types'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getPayload } from 'payload'
-import { ProjectCard } from './ProjectCard' // Corrected path
-import { ProjectFilters } from './ProjectFilters.client' // Corrected path
-import { PaginationControls } from '@/components/PaginationControls' // Assuming this path is correct
+import React from 'react'
+
+import type { Project } from '@/payload-types'
+
+import { AudienceRoutes } from '@/components/site/AudienceRoutes'
+import { Eyebrow, Heading } from '@/components/site/Heading'
+import { ProjectTile } from '@/components/site/ProjectTile'
+import { tileSpan, toTileData } from '@/components/site/projectTileData'
+import { cn } from '@/utilities/ui'
 
 export const metadata: Metadata = {
-  title: 'Projects',
-  description: 'Explore a collection of projects.',
+  title: 'Work | Theo Denanyoh',
+  description: 'Products and businesses Theo Denanyoh has designed, built and launched.',
 }
 
-// Define expected search parameters
-interface SearchParams {
-  search?: string
-  technologies?: string // Comma-separated slugs
-  status?: string // e.g., 'active', 'idea'
-  featured?: string // 'true'
-  page?: string
-}
+const filters = [
+  { key: 'all', label: 'All' },
+  { key: 'live', label: 'Live' },
+  { key: 'building', label: 'In build' },
+  { key: 'archive', label: 'Archive' },
+] as const
 
-// Define Props type reflecting Next.js 15 async page behavior
-type Props = {
-  searchParams?: Promise<SearchParams>
-}
+type FilterKey = (typeof filters)[number]['key']
 
-// Default projects per page
-const PROJECTS_PER_PAGE = 9
+const matches = (project: Project, filter: FilterKey) =>
+  filter === 'all' ||
+  (filter === 'archive' ? project.stage === 'retired' : project.stage === filter)
 
-// Define valid status values for type safety
-const validStatuses = ['idea', 'in_progress', 'active', 'closed'] as const
-type ProjectStatus = (typeof validStatuses)[number]
+const numberWords = [
+  'No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+  'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen',
+  'Nineteen', 'Twenty',
+] // prettier-ignore
 
-// Use Props type and await searchParams
-const ProjectsPage = async ({ searchParams }: Props): Promise<JSX.Element> => {
-  const resolvedSearchParams = (await searchParams) || {} // Await and provide default
-  const { isEnabled: isDraftMode } = await draftMode() // Correctly await draftMode
+type Props = { searchParams?: Promise<{ show?: string }> }
+
+export default async function WorkPage({ searchParams }: Props) {
+  const { show } = (await searchParams) ?? {}
+  const active: FilterKey = filters.some((f) => f.key === show) ? (show as FilterKey) : 'all'
+
   const payload = await getPayload({ config: configPromise })
+  const { docs: all } = await payload.find({
+    collection: 'projects',
+    depth: 1,
+    limit: 100,
+    // Homepage order first, then the rest by name.
+    sort: ['homeOrder', 'name'],
+  })
 
-  const page = parseInt(resolvedSearchParams.page || '1', 10)
-  const search = resolvedSearchParams.search
-  const technologySlugs = resolvedSearchParams.technologies?.split(',').filter(Boolean) || []
-  const status = resolvedSearchParams.status as ProjectStatus | undefined
-  const featured = resolvedSearchParams.featured === 'true' // Convert to boolean
-
-  let technologyIDs: string[] = []
-
-  // Fetch Technology IDs based on slugs if provided
-  if (technologySlugs.length > 0) {
-    try {
-      const fetchedTechs = await payload.find({
-        collection: 'technologies',
-        depth: 0,
-        limit: 100, // Assume max 100 techs for filter
-        where: {
-          slug: { in: technologySlugs }, // Assuming technologies have slugs
-          // If using names: name: { in: technologyNames }
-        },
-        pagination: false,
-      })
-      technologyIDs = fetchedTechs.docs.map((doc) => String(doc.id)) // Convert ID to string
-    } catch (error) {
-      console.error('Error fetching technology IDs for filter:', error)
-    }
-  }
-
-  // Construct the where clause for projects query
-  const whereClause: {
-    or?: Array<{ name?: { contains: string }; summary?: { contains: string } }>
-    technologies?: { in: string[] }
-    status?: { equals: ProjectStatus }
-    featured?: { equals: boolean }
-  } = {
-    // ...(isDraftMode ? {} : { _status: { equals: 'published' } }), // Keep commented if versioning is off
-  }
-  if (search) {
-    whereClause.or = [{ name: { contains: search } }, { summary: { contains: search } }]
-  }
-  if (technologyIDs.length > 0) {
-    whereClause.technologies = { in: technologyIDs }
-  }
-  // Add status filter if valid status is provided
-  if (status && validStatuses.includes(status)) {
-    whereClause.status = { equals: status }
-  }
-  // Add featured filter if requested
-  if (featured) {
-    whereClause.featured = { equals: true }
-  }
-
-  let projectsData
-  try {
-    projectsData = await payload.find({
-      collection: 'projects',
-      depth: 2, // Need depth for image, technologies etc.
-      page,
-      limit: PROJECTS_PER_PAGE,
-      where: whereClause,
-      sort: '-startDate', // Or '-createdAt' or other default sort
-      draft: isDraftMode,
-    })
-  } catch (error) {
-    console.error('Error fetching projects:', error)
-    // Handle error display if needed
-    projectsData = { docs: [], totalPages: 0, totalDocs: 0 }
-  }
-
-  // Fetch all technologies for the filter options
-  let allTechnologies: Technology[] = []
-  try {
-    const techResult = await payload.find({
-      collection: 'technologies',
-      depth: 0,
-      limit: 100,
-      pagination: false,
-      sort: 'name',
-    })
-    allTechnologies = techResult.docs
-  } catch (error) {
-    console.error('Error fetching all technologies:', error)
-  }
+  const ordered = [
+    ...all.filter((p) => p.homeOrder != null),
+    ...all.filter((p) => p.homeOrder == null),
+  ]
+  const current = ordered.filter((p) => p.stage !== 'retired' && matches(p, active))
+  const archive = ordered.filter((p) => p.stage === 'retired' && matches(p, active))
+  const count = (key: FilterKey) => all.filter((p) => matches(p, key)).length
 
   return (
-    <div className="py-10 md:py-16">
-      <div className="container mx-auto">
-        <header className="mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold">Projects</h1>
-          {/* Optional intro text */}
-        </header>
+    <article>
+      <header className="site-container flex flex-col gap-6 pb-10 pt-12 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:pb-14 lg:pt-[88px]">
+        <div className="flex flex-col gap-5">
+          <Eyebrow>Work</Eyebrow>
+          <Heading as="h1" className="max-w-[760px]">
+            Everything I have built
+          </Heading>
+        </div>
+        <p className="type-lead max-w-[440px] shrink-0">
+          {numberWords[all.length] ?? all.length} products and businesses, from live apps with
+          paying customers to prototypes on my desk. I designed and built each one.
+        </p>
+      </header>
 
-        {/* Filters - Client Component */}
-        <ProjectFilters
-          allTechnologies={allTechnologies}
-          currentSearch={search}
-          currentTechnologies={technologySlugs}
-          currentStatus={status} // Pass current status
-          currentFeatured={featured} // Pass current featured flag
-        />
+      <nav aria-label="Filter projects" className="site-container pb-8">
+        <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:px-0">
+          {filters.map((filter) => (
+            <li className="shrink-0" key={filter.key}>
+              <Link
+                aria-current={filter.key === active ? 'true' : undefined}
+                className={cn(
+                  'block rounded-pill px-[18px] py-[10px] text-[15px] font-semibold leading-[18px]',
+                  filter.key === active ? 'bg-ink text-paper' : 'bg-mist text-ink hover:bg-rule',
+                )}
+                href={filter.key === 'all' ? '/projects' : `/projects?show=${filter.key}`}
+                scroll={false}
+              >
+                {filter.label} {count(filter.key)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-        {/* Project List */}
-        {projectsData.docs.length > 0 ? (
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            {projectsData.docs.map((project) => (
-              // Use a dedicated card component for better organization
-              <ProjectCard key={project.id} project={project} />
-            ))}
+      {current.length > 0 && (
+        <section className="site-container grid grid-flow-dense gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5">
+          {current.map((project, i) => (
+            <ProjectTile
+              key={project.id}
+              priority={i === 0}
+              project={toTileData(project)}
+              span={tileSpan(project)}
+              tall={i < 2 && tileSpan(current[0]!) >= 8}
+            />
+          ))}
+        </section>
+      )}
+
+      {archive.length > 0 && (
+        <section className="site-container pb-[72px] pt-[72px] lg:pb-32 lg:pt-24">
+          <div className="flex flex-col gap-4 pb-8">
+            <Eyebrow>Archive</Eyebrow>
+            <Heading as="h2">Earlier experiments</Heading>
           </div>
-        ) : (
-          <p className="mt-8 text-center text-muted-foreground">
-            No projects found matching your criteria.
-          </p>
-        )}
+          <ul>
+            {archive.map((project, i) => (
+              <li
+                className={cn(
+                  'flex flex-col gap-2 py-6 lg:flex-row lg:items-center lg:gap-8',
+                  i === 0 ? 'border-t-2 border-ink' : 'border-t border-rule',
+                  i === archive.length - 1 && 'border-b border-b-rule',
+                )}
+                key={project.id}
+              >
+                <h3 className="type-h4 shrink-0 lg:w-[280px]">{project.name}</h3>
+                <p className="type-body flex-1">{project.summary}</p>
+                <p className="shrink-0 text-[15px] leading-[18px] text-muted-foreground lg:w-[140px] lg:text-right">
+                  {[project.year, project.statusLabel].filter(Boolean).join(' · ')}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-        {/* Pagination */}
-        <PaginationControls currentPage={page} totalPages={projectsData.totalPages} />
-      </div>
-    </div>
+      {!current.length && !archive.length && (
+        <p className="site-container type-lead pb-24">Nothing here yet.</p>
+      )}
+
+      {!archive.length && <div className="pb-[72px] lg:pb-32" />}
+      <AudienceRoutes />
+    </article>
   )
 }
-
-export default ProjectsPage

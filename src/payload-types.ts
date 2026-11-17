@@ -76,6 +76,7 @@ export interface Config {
     technologies: Technology;
     skills: Skill;
     products: Product;
+    experience: Experience;
     forms: Form;
     'form-submissions': FormSubmission;
     redirects: Redirect;
@@ -97,6 +98,7 @@ export interface Config {
     technologies: TechnologiesSelect<false> | TechnologiesSelect<true>;
     skills: SkillsSelect<false> | SkillsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    experience: ExperienceSelect<false> | ExperienceSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -215,6 +217,12 @@ export interface Page {
     | SkillBlock
     | ProductBlock
     | FeaturedPostsBlock
+    | HomeHeroBlock
+    | LogoMarqueeBlock
+    | WorkBentoBlock
+    | ContentFeatureBlock
+    | ShopFeatureBlock
+    | AudienceRoutesBlock
   )[];
   meta?: {
     title?: string | null;
@@ -272,6 +280,19 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
+  kind?: ('article' | 'video') | null;
+  /**
+   * YouTube or Vimeo link.
+   */
+  videoUrl?: string | null;
+  /**
+   * For example "6 min".
+   */
+  duration?: string | null;
+  /**
+   * One or two sentences for lists and the homepage.
+   */
+  excerpt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -864,7 +885,20 @@ export interface Product {
    */
   price?: number | null;
   comingSoon?: boolean | null;
-  image: number | Media;
+  image?: (number | null) | Media;
+  kind?: ('consulting' | 'engagement' | 'template' | 'merch') | null;
+  /**
+   * For an engagement: its length, for example "Two weeks".
+   */
+  term?: string | null;
+  /**
+   * Shown in place of the number, for example "From $29" or "Price on request".
+   */
+  priceLabel?: string | null;
+  /**
+   * Button or link text, for example "Book a 30 minute call".
+   */
+  ctaLabel?: string | null;
   summary?: string | null;
   /**
    * Optional link to purchase the product elsewhere.
@@ -900,6 +934,79 @@ export interface FeaturedPostsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HomeHeroBlock".
+ */
+export interface HomeHeroBlock {
+  /**
+   * Copy and video come from Site Settings. This is the play button text.
+   */
+  videoLabel?: string | null;
+  workLabel?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoMarqueeBlock".
+ */
+export interface LogoMarqueeBlock {
+  /**
+   * Logos come from Site Settings.
+   */
+  label?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'logoMarquee';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkBentoBlock".
+ */
+export interface WorkBentoBlock {
+  eyebrow?: string | null;
+  /**
+   * Tiles are the projects that have a homepage position.
+   */
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'workBento';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentFeatureBlock".
+ */
+export interface ContentFeatureBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contentFeature';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ShopFeatureBlock".
+ */
+export interface ShopFeatureBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'shopFeature';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AudienceRoutesBlock".
+ */
+export interface AudienceRoutesBlock {
+  title?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'audienceRoutes';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
  */
 export interface Project {
@@ -907,9 +1014,9 @@ export interface Project {
   name: string;
   status: 'idea' | 'in_progress' | 'active' | 'closed';
   featured?: boolean | null;
-  startDate: string;
+  startDate?: string | null;
   endDate?: string | null;
-  mainImage: number | Media;
+  mainImage?: (number | null) | Media;
   gallery?:
     | {
         image: number | Media;
@@ -917,7 +1024,7 @@ export interface Project {
       }[]
     | null;
   summary: string;
-  description: {
+  description?: {
     root: {
       type: string;
       children: {
@@ -931,12 +1038,90 @@ export interface Project {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   technologies?: (number | Technology)[] | null;
   projectLink: {
     label: string;
-    url: string;
+    url?: string | null;
   };
+  /**
+   * Live shows a filled dot. Everything else shows a hollow dot.
+   */
+  stage?: ('live' | 'building' | 'private' | 'retired') | null;
+  /**
+   * Text in the pill, for example "Live · Web, iOS, Android".
+   */
+  statusLabel?: string | null;
+  tint?: ('mint' | 'rose' | 'peach' | 'sky' | 'mist' | 'cobalt-soft' | 'gold' | 'gold-soft' | 'ink') | null;
+  tileSpan?: ('4' | '6' | '8' | '12') | null;
+  /**
+   * Position on the homepage. Leave empty to keep it off the homepage.
+   */
+  homeOrder?: number | null;
+  tileImage?: (number | null) | Media;
+  logo?: (number | null) | Media;
+  /**
+   * Small label over the image.
+   */
+  badge?: string | null;
+  /**
+   * Label above the sample rows, for example "Your rules · sample data".
+   */
+  sampleNote?: string | null;
+  /**
+   * Drawn rows shown when there is no tile image. Use sample data only.
+   */
+  sampleRows?:
+    | {
+        text: string;
+        on?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  role?: string | null;
+  year?: string | null;
+  platforms?: ('web' | 'ios' | 'android')[] | null;
+  /**
+   * Page title. Defaults to the project name.
+   */
+  headline?: string | null;
+  /**
+   * For example: The problem, What I built, How I test it.
+   */
+  sections?:
+    | {
+        heading: string;
+        /**
+         * Larger opening paragraph.
+         */
+        lead?: string | null;
+        /**
+         * Leave a blank line between paragraphs.
+         */
+        body?: string | null;
+        cards?:
+          | {
+              title: string;
+              body: string;
+              id?: string | null;
+            }[]
+          | null;
+        image?: (number | null) | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Shown in the "What this shows" card.
+   */
+  takeaway?: string | null;
+  facts?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
   slug?: string | null;
   slugLock?: boolean | null;
   meta?: {
@@ -959,6 +1144,48 @@ export interface Technology {
   name: string;
   slug?: string | null;
   slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience".
+ */
+export interface Experience {
+  id: number;
+  role: string;
+  company: string;
+  /**
+   * Shown after the company name, for example "a Paychex company".
+   */
+  companyNote?: string | null;
+  logo?: (number | null) | Media;
+  startDate: string;
+  endDate?: string | null;
+  current?: boolean | null;
+  /**
+   * Replaces the dates when set, for example "Earlier at Paycor".
+   */
+  period?: string | null;
+  location?: string | null;
+  summary?: string | null;
+  /**
+   * One result per row. Keep figures in the softened form.
+   */
+  outcomes?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  link?: {
+    label?: string | null;
+    href?: string | null;
+  };
+  /**
+   * Lower numbers appear first.
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1188,6 +1415,10 @@ export interface PayloadLockedDocument {
         value: number | Product;
       } | null)
     | ({
+        relationTo: 'experience';
+        value: number | Experience;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -1285,6 +1516,12 @@ export interface PagesSelect<T extends boolean = true> {
         skillBlock?: T | SkillBlockSelect<T>;
         productBlock?: T | ProductBlockSelect<T>;
         featuredPostsBlock?: T | FeaturedPostsBlockSelect<T>;
+        homeHero?: T | HomeHeroBlockSelect<T>;
+        logoMarquee?: T | LogoMarqueeBlockSelect<T>;
+        workBento?: T | WorkBentoBlockSelect<T>;
+        contentFeature?: T | ContentFeatureBlockSelect<T>;
+        shopFeature?: T | ShopFeatureBlockSelect<T>;
+        audienceRoutes?: T | AudienceRoutesBlockSelect<T>;
       };
   meta?:
     | T
@@ -1427,6 +1664,64 @@ export interface FeaturedPostsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HomeHeroBlock_select".
+ */
+export interface HomeHeroBlockSelect<T extends boolean = true> {
+  videoLabel?: T;
+  workLabel?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoMarqueeBlock_select".
+ */
+export interface LogoMarqueeBlockSelect<T extends boolean = true> {
+  label?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkBentoBlock_select".
+ */
+export interface WorkBentoBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentFeatureBlock_select".
+ */
+export interface ContentFeatureBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ShopFeatureBlock_select".
+ */
+export interface ShopFeatureBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AudienceRoutesBlock_select".
+ */
+export interface AudienceRoutesBlockSelect<T extends boolean = true> {
+  title?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1451,6 +1746,10 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  kind?: T;
+  videoUrl?: T;
+  duration?: T;
+  excerpt?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
@@ -1622,6 +1921,51 @@ export interface ProjectsSelect<T extends boolean = true> {
         label?: T;
         url?: T;
       };
+  stage?: T;
+  statusLabel?: T;
+  tint?: T;
+  tileSpan?: T;
+  homeOrder?: T;
+  tileImage?: T;
+  logo?: T;
+  badge?: T;
+  sampleNote?: T;
+  sampleRows?:
+    | T
+    | {
+        text?: T;
+        on?: T;
+        id?: T;
+      };
+  role?: T;
+  year?: T;
+  platforms?: T;
+  headline?: T;
+  sections?:
+    | T
+    | {
+        heading?: T;
+        lead?: T;
+        body?: T;
+        cards?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  takeaway?: T;
+  facts?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
   slug?: T;
   slugLock?: T;
   meta?:
@@ -1666,8 +2010,43 @@ export interface ProductsSelect<T extends boolean = true> {
   price?: T;
   comingSoon?: T;
   image?: T;
+  kind?: T;
+  term?: T;
+  priceLabel?: T;
+  ctaLabel?: T;
   summary?: T;
   externalUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience_select".
+ */
+export interface ExperienceSelect<T extends boolean = true> {
+  role?: T;
+  company?: T;
+  companyNote?: T;
+  logo?: T;
+  startDate?: T;
+  endDate?: T;
+  current?: T;
+  period?: T;
+  location?: T;
+  summary?: T;
+  outcomes?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  link?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2001,7 +2380,99 @@ export interface Footer {
  */
 export interface SiteSetting {
   id: number;
-  logo: number | Media;
+  logo?: (number | null) | Media;
+  hero?: {
+    eyebrow?: string | null;
+    /**
+     * Two lines. The last word is set in cobalt.
+     */
+    headline?: string | null;
+    intro?: string | null;
+    portrait?: (number | null) | Media;
+  };
+  videoResume?: {
+    /**
+     * YouTube, Vimeo or a video file link. Leave empty until the video is ready.
+     */
+    url?: string | null;
+    /**
+     * For example "1:30".
+     */
+    duration?: string | null;
+  };
+  contactEmail?: string | null;
+  resumeUrl?: string | null;
+  /**
+   * Link for "Book a call" buttons.
+   */
+  bookingUrl?: string | null;
+  social?:
+    | {
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Employers first, then products.
+   */
+  logoStrip?:
+    | {
+        name: string;
+        logo?: (number | null) | Media;
+        /**
+         * Show the name beside a mark that has no wordmark.
+         */
+        showName?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  about?: {
+    headline?: string | null;
+    intro?: string | null;
+    portrait?: (number | null) | Media;
+    signature?: (number | null) | Media;
+    facts?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    story?:
+      | {
+          place?: string | null;
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  experiencePage?: {
+    headline?: string | null;
+    intro?: string | null;
+    habits?:
+      | {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+    certifications?:
+      | {
+          name: string;
+          year?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    also?:
+      | {
+          name: string;
+          year?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   /**
    * Add script tags that will be included in your site. Supports multiple formats:
    * - Multiple script tags: <script>...</script><script src="..."></script>
@@ -2067,6 +2538,88 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        headline?: T;
+        intro?: T;
+        portrait?: T;
+      };
+  videoResume?:
+    | T
+    | {
+        url?: T;
+        duration?: T;
+      };
+  contactEmail?: T;
+  resumeUrl?: T;
+  bookingUrl?: T;
+  social?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  logoStrip?:
+    | T
+    | {
+        name?: T;
+        logo?: T;
+        showName?: T;
+        id?: T;
+      };
+  about?:
+    | T
+    | {
+        headline?: T;
+        intro?: T;
+        portrait?: T;
+        signature?: T;
+        facts?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        story?:
+          | T
+          | {
+              place?: T;
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  experiencePage?:
+    | T
+    | {
+        headline?: T;
+        intro?: T;
+        habits?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+        certifications?:
+          | T
+          | {
+              name?: T;
+              year?: T;
+              id?: T;
+            };
+        also?:
+          | T
+          | {
+              name?: T;
+              year?: T;
+              id?: T;
+            };
+      };
   headScript?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -2,7 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Design tokens. Source: the "Design system" page of the Paper file.
+  Colours are also registered in tailwind.config.mjs under the same names.
+*/
 @layer base {
+  :root {
+    --color-paper: #ffffff;
+    --color-ink: #0a0a0a;
+    --color-body: #3a3a3a;
+    --color-muted: #5c5c5c;
+    --color-rule: #e4e4e4;
+    --color-mist: #f3f4f8;
+    --color-cobalt: #1f3bff;
+    --color-cobalt-soft: #e9ecff;
+    --color-on-cobalt: #e1e6ff;
+    --color-gold: #f5b700;
+    --color-gold-soft: #fff6d6;
+    --color-mint: #e4f0eb;
+    --color-rose: #fde9ea;
+    --color-peach: #ffe9c7;
+    --color-sky: #e6f0ff;
+
+    --gutter: 16px;
+    --section: 72px;
+
+    /* shadcn/ui variables, mapped onto the palette above (HSL triplets). */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+    --card: 228 26% 96%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 0 0% 4%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 228 26% 96%;
+    --secondary-foreground: 0 0% 4%;
+    --muted: 228 26% 96%;
+    --muted-foreground: 0 0% 36%;
+    --accent: 232 100% 96%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 233 100% 56%;
+    --radius: 0.75rem;
+    --success: 153 29% 92%;
+    --warning: 47 100% 92%;
+    --error: 357 83% 95%;
+  }
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    :root {
+      --gutter: 40px;
+      --section: 96px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --gutter: 64px;
+      --section: 128px;
+    }
+  }
+
   h1,
   h2,
   h3,
@@ -13,97 +78,209 @@
     font-weight: unset;
   }
 
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 240 5% 96%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 240 6% 80%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.2rem;
-
-    --success: 196 52% 74%;
-    --warning: 34 89% 85%;
-    --error: 10 100% 86%;
-  }
-
-  [data-theme='dark'] {
-    --background: 0 0% 0%;
-    --foreground: 210 40% 98%;
-
-    --card: 0 0% 4%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 0, 0%, 15%, 0.8;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
-    --success: 196 100% 14%;
-    --warning: 34 51% 25%;
-    --error: 10 39% 43%;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-paper text-body font-sans min-h-[100vh] flex flex-col antialiased;
+    font-synthesis: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt);
+    outline-offset: 3px;
   }
 }
 
-html {
-  opacity: 0;
+@layer components {
+  /* Page container: 1312 wide content, 16px gutters on phones and 64px on desktop. */
+  .site-container {
+    width: 100%;
+    max-width: calc(1312px + 2 * var(--gutter));
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Type scale. Phone sizes first, desktop sizes from 1024px. */
+  .type-h1,
+  .type-h1-page,
+  .type-h2,
+  .type-h3,
+  .type-h4 {
+    @apply font-display text-ink;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+  .type-h1 {
+    font-size: 48px;
+    line-height: 50px;
+    letter-spacing: -0.035em;
+  }
+  .type-h1-page {
+    font-size: 44px;
+    line-height: 46px;
+    letter-spacing: -0.035em;
+  }
+  .type-h2 {
+    font-size: 34px;
+    line-height: 38px;
+    letter-spacing: -0.025em;
+  }
+  .type-h3 {
+    font-size: 26px;
+    line-height: 30px;
+    letter-spacing: -0.025em;
+  }
+  .type-h4 {
+    font-size: 22px;
+    line-height: 26px;
+    letter-spacing: -0.025em;
+  }
+  .type-lead {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .type-body {
+    font-size: 17px;
+    line-height: 26px;
+  }
+  .type-label {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 1024px) {
+    .type-h1 {
+      font-size: 84px;
+      line-height: 84px;
+    }
+    .type-h1-page {
+      font-size: 64px;
+      line-height: 64px;
+    }
+    .type-h2 {
+      font-size: 48px;
+      line-height: 52px;
+    }
+    .type-h3 {
+      font-size: 32px;
+      line-height: 36px;
+    }
+    .type-h4 {
+      font-size: 24px;
+      line-height: 28px;
+    }
+    .type-lead {
+      font-size: 20px;
+      line-height: 32px;
+    }
+  }
+
+  /* Logo strip. Two copies of the list sit side by side and slide left by one copy. */
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
 }
 
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
-/* Added for SkillBlock Carousel */
+/* Used by the legacy SkillBlock carousel. */
 .mask-gradient {
-  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
-  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 1) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 1) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* Long-form article text. Applied on top of the typography plugin's prose. */
+.article-body {
+  max-width: none;
+  color: var(--color-body);
+  font-size: 18px;
+  line-height: 30px;
+}
+.article-body :is(h1, h2, h3, h4) {
+  font-family: var(--font-display), 'Inter Tight', system-ui, sans-serif;
+  font-weight: 800;
+  color: var(--color-ink);
+  letter-spacing: -0.025em;
+}
+.article-body :is(h1, h2) {
+  font-size: 34px;
+  line-height: 38px;
+  margin-top: 48px;
+  margin-bottom: 16px;
+}
+.article-body h3 {
+  font-size: 26px;
+  line-height: 30px;
+}
+.article-body a {
+  color: var(--color-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.article-body a:hover {
+  color: var(--color-cobalt);
+}
+.article-body blockquote {
+  border: 0;
+  border-radius: 24px;
+  background: var(--color-cobalt-soft);
+  padding: 32px;
+  font-family: var(--font-display), 'Inter Tight', system-ui, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 34px;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+.article-body blockquote p::before,
+.article-body blockquote p::after {
+  content: none;
+}
+.article-body pre {
+  border-radius: 12px;
+  background: var(--color-ink);
+  padding: 24px;
+  font-size: 15px;
+  line-height: 24px;
+}
+@media (min-width: 1024px) {
+  .article-body :is(h1, h2) {
+    font-size: 48px;
+    line-height: 52px;
+  }
+  .article-body h3 {
+    font-size: 32px;
+    line-height: 36px;
+  }
 }
