@@ -1,13 +1,15 @@
 # Local Postgres for development. Start with: docker compose up -d
-# Then set DATABASE_URI=postgres://postgres:postgres@127.0.0.1:5432/theodenanyoh_web_dev
+# Set POSTGRES_PASSWORD in .env first, then use the same password in
+# DATABASE_URI=postgres://postgres:<password>@127.0.0.1:5432/theodenanyoh_web_dev
 services:
   postgres:
     image: postgres:16
     ports:
-      - '5432:5432'
+      # Loopback only, so the database is not reachable from the network.
+      - '127.0.0.1:5432:5432'
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: theodenanyoh_web_dev
     volumes:
       - pgdata:/var/lib/postgresql/data

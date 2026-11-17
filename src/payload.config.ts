@@ -134,36 +134,31 @@ export default buildConfig({
       },
     }),
     ...plugins,
-    // Without S3 credentials (local development) uploads go to local disk.
-    ...(process.env.S3_BUCKET
-      ? [
-          s3Storage({
-            collections: {
-              media: {
-                prefix: 'media',
-                disablePayloadAccessControl: true,
-                generateFileURL: (args: {
-                  filename: string
-                  prefix?: string
-                  fileURL?: string
-                }) => {
-                  if (args.fileURL) return args.fileURL
-                  const urlPrefix = args.prefix ? `${args.prefix}/` : ''
-                  return `https://${process.env.S3_BUCKET}.s3.${process.env.S3_REGION}.amazonaws.com/${urlPrefix}${args.filename}`
-                },
-              },
-            },
-            bucket: process.env.S3_BUCKET || '',
-            config: {
-              credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
-              },
-              region: process.env.S3_REGION,
-            },
-          }),
-        ]
-      : []),
+    s3Storage({
+      // Without S3_BUCKET (local development) uploads go to local disk.
+      // The plugin stays registered so the Media schema matches production.
+      enabled: Boolean(process.env.S3_BUCKET),
+      alwaysInsertFields: true,
+      collections: {
+        media: {
+          prefix: 'media',
+          disablePayloadAccessControl: true,
+          generateFileURL: (args: { filename: string; prefix?: string; fileURL?: string }) => {
+            if (args.fileURL) return args.fileURL
+            const urlPrefix = args.prefix ? `${args.prefix}/` : ''
+            return `https://${process.env.S3_BUCKET}.s3.${process.env.S3_REGION}.amazonaws.com/${urlPrefix}${args.filename}`
+          },
+        },
+      },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+        },
+        region: process.env.S3_REGION,
+      },
+    }),
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
