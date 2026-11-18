@@ -532,7 +532,7 @@ export const products = [
   },
 ]
 
-// PLACEHOLDER: local sample posts. Production already has Theo's real posts.
+// Local sample posts. Only created when the seed runs with SEED_SAMPLE_POSTS=1.
 export const posts = [
   {
     slug: 'web-vitals-explained-in-six-minutes',
