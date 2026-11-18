@@ -165,8 +165,9 @@ async function run() {
   }
   payload.logger.info(`products: ${products.length}`)
 
-  // Sample posts are for local development only. They are created only when
-  // SEED_SAMPLE_POSTS=1, so a production run never publishes them.
+  // Sample posts are for local development. They are created only when
+  // SEED_SAMPLE_POSTS=1, so a run without that flag never publishes them.
+  // Do not set the flag for a production run.
   for (const post of process.env.SEED_SAMPLE_POSTS === '1' ? posts : []) {
     const { category, ...rest } = post
     const categoryId = await upsert(
