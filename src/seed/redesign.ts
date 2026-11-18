@@ -3,8 +3,8 @@
 //
 //   pnpm seed:redesign
 //
-// It never deletes anything. Posts are only created when missing, so real
-// posts in production are left alone.
+// It never deletes anything, and it never touches posts unless
+// SEED_SAMPLE_POSTS=1, which creates four sample posts for local development.
 import config from '@payload-config'
 import path from 'path'
 import { getPayload, type CollectionSlug, type Payload } from 'payload'
@@ -165,7 +165,9 @@ async function run() {
   }
   payload.logger.info(`products: ${products.length}`)
 
-  for (const post of posts) {
+  // Sample posts are for local development only. They are created only when
+  // SEED_SAMPLE_POSTS=1, so a production run never publishes them.
+  for (const post of process.env.SEED_SAMPLE_POSTS === '1' ? posts : []) {
     const { category, ...rest } = post
     const categoryId = await upsert(
       payload,
@@ -191,7 +193,9 @@ async function run() {
       { createOnly: true },
     )
   }
-  payload.logger.info(`posts: ${posts.length}`)
+  payload.logger.info(
+    `sample posts: ${process.env.SEED_SAMPLE_POSTS === '1' ? posts.length : 'skipped (set SEED_SAMPLE_POSTS=1 to create them)'}`,
+  )
 
   await payload.updateGlobal({
     slug: 'site-settings',
