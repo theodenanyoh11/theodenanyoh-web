@@ -1203,6 +1203,8 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
+  turnstileToken?: string | null;
+  honeypot?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2196,6 +2198,8 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  turnstileToken?: T;
+  honeypot?: T;
   updatedAt?: T;
   createdAt?: T;
 }
