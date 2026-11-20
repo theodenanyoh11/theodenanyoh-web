@@ -6,6 +6,7 @@ import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { lexicalEditor, FixedToolbarFeature, HeadingFeature } from '@payloadcms/richtext-lexical'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
+import { acknowledgeHoneypot, protectFormSubmission } from '@/hooks/protectFormSubmission'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -87,6 +88,17 @@ export default buildConfig({
   globals: [Header, Footer, SiteSettings],
   plugins: [
     formBuilderPlugin({
+      formSubmissionOverrides: {
+        fields: ({ defaultFields }) => [
+          ...defaultFields,
+          { name: 'turnstileToken', type: 'text', virtual: true, admin: { hidden: true } },
+          { name: 'honeypot', type: 'text', virtual: true, admin: { hidden: true } },
+        ],
+        hooks: {
+          beforeValidate: [protectFormSubmission],
+          afterError: [acknowledgeHoneypot],
+        },
+      },
       fields: {
         payment: false,
       },
